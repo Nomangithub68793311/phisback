@@ -216,6 +216,8 @@ module.exports.change_password = async (req, res) => {
                 new: true,
                 upsert: true
             });
+            res.status(200).json({ success: "password change successfully" })
+
         }
 
     }
