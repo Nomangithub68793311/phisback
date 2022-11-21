@@ -153,6 +153,10 @@ module.exports.poster_add = async (req, res) => {
             return res.status(400).json({ error: "username exists" })
 
         }
+        if (user.numOfPosters > 10 && user.permission == false) {
+            return res.status(400).json({ error: "Can not create more than 10 users" })
+
+        }
 
         const poster = await Poster.create({
             username, password, links,
