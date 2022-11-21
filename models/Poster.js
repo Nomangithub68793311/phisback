@@ -25,12 +25,14 @@ const posterSchema = new Schema({
 
 
 }, { timestamps: true })
-// posterSchema.path('links').validate(function (value) {
-//     console.log(value.length)
-//     if (value.length > 5) {
-//         throw new Error("One cannot have more than five accounts");
-//     }
-// })
+posterSchema.path('links').validate(function (value) {
+
+    const tofindDuplicates = value => value.filter((item, index) => value.indexOf(item) !== index)
+    const duplicateElementa = tofindDuplicates(value);
+    if (duplicateElementa.length > 0) {
+        throw new Error("Can not create Duplicate link");
+    }
+})
 // userSchema.pre('save', async function(next){
 //   const salt=await bcrypt.genSalt();
 //   this.password=await bcrypt.hash(this.password,salt);
