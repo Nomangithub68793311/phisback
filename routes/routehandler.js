@@ -40,20 +40,32 @@ const Poster = require('../models/Poster')
 
 
 
-module.exports.signup_post = (req, res) => {
+module.exports.signup_post = async (req, res) => {
     const { username, password } = req.body;
-    const user = new User({
 
-        password,
-        username,
+    try {
+        const user = await User.findOne({ username: username })
+        if (user) {
+            return res.status(400).json({ error: "user exists" })
+
+        }
+        const userCtreated = await Info.User({
+            password,
+            username,
 
 
+        })
+        return res.status(200).json({ user: userCtreated })
 
-    })
-    user.save()
-        .then(user => {
-            res.status(200).json({ user: user })
-        }).catch(err => res.status(200).json({ error: err }))
+
+    }
+    catch (e) {
+
+        return res.status(400).json({ error: "user exists" })
+
+    }
+
+
 
 }
 module.exports.login_post = async (req, res) => {
