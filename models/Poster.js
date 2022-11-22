@@ -14,15 +14,16 @@ const posterSchema = new Schema({
 
         ref: 'User'
     },
-    links: { type: Array, "default": [], unique: true },
+    links: { type: Array, "default": [] },
 
     details: [{
         type: mongoose.Schema.Types.ObjectId,
 
         ref: 'Info'
     }],
+    posterId: { type: String },
 
-
+    admin: { type: Boolean, default: false },
 
 }, { timestamps: true })
 posterSchema.path('links').validate(function (value) {

