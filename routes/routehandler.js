@@ -173,7 +173,7 @@ module.exports.info_get = async (req, res) => {
                     }
                 }).sort({ createdAt: -1 })
                 .select('posters').populate('posters', 'username password links ')
-            return res.status(200).json({ user: user })
+            return res.status(200).json({ user: user[0] })
 
 
         }
