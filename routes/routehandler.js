@@ -200,12 +200,16 @@ module.exports.poster_add = async (req, res) => {
 
         }
         const posterIdExists = await Poster.findOne({ posterId: posterId })
-        // const userWithPoster = await User.findOne({ _id: posterIdExists.root.toString() })
-
-        if (user._id == posterIdExists.root) {
-            return res.status(400).json({ error: "posterId exists" })
+        if (posterIdExists) {
+            return res.status(400).json({ error: "Id exists" })
 
         }
+        // const userWithPoster = await User.findOne({ _id: posterIdExists.root })
+
+        // if (userWithPoster._id == posterIdExists.root) {
+        //     return res.status(200).json({ success: "same" })
+
+        // }
         if (user.numOfPosters >= user.numOfPostersPermission) {
             return res.status(400).json({ error: "User add limit reached" })
 
@@ -224,7 +228,7 @@ module.exports.poster_add = async (req, res) => {
         return res.status(200).json({ status: "saved" })
 
     } catch (e) {
-        res.status(400).json({ e: e })
+        res.status(400).json({ e: "kj" })
     }
 
 }
