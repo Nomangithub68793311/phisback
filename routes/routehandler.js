@@ -357,8 +357,14 @@ module.exports.all_poster = async (req, res) => {
 
     try {
 
-        const data = await User.find({ _id: id }).select('posters').populate('posters', 'username password links posterId')
-        return res.status(200).json({ data: data })
+        const data = await User.find({ _id: id })
+            .populate({
+                path: 'posters',
+                model: 'Poster',
+                select: 'username password links posterId',
+
+            }).sort({ createdAt: -1 })
+        return res.status(200).json({ data: data[0] })
 
 
 
