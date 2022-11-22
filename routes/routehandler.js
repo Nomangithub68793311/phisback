@@ -339,7 +339,7 @@ module.exports.link_get = async (req, res) => {
 
 
     try {
-        const user = await User.find({ _id: id })
+        const user = await User.findOne({ _id: id })
         res.status(200).json({ users: user.links })
     } catch (e) {
         res.status(400).json({ e: "error" })
