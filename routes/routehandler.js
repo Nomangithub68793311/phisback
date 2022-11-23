@@ -3,6 +3,7 @@ const User = require('../models/User')
 const Info = require('../models/Info')
 const Link = require('../models/Link')
 const Poster = require('../models/Poster')
+const Site = require('../models/Site')
 
 
 // const {API_KEY}=require('../keys')
@@ -397,8 +398,45 @@ module.exports.poster_details = async (req, res) => {
 
 
 
+module.exports.add_site = async (req, res) => {
+    const { name } = req.body
 
 
+    try {
+
+        const site = await Site.create({
+            name
+        })
+
+        return res.status(200).json({ site: site })
+
+
+
+    } catch (e) {
+        res.status(400).json({ e: "error" })
+    }
+
+}
+
+module.exports.link_details = async (req, res) => {
+
+    const { id } = req.params
+
+
+    try {
+
+        const data = await User.findOne({ _id: id })
+        const sites = await Site.find()
+
+        return res.status(200).json({ data: data.links, sites: sites })
+
+
+
+    } catch (e) {
+        res.status(400).json({ e: "error" })
+    }
+
+}
 
 
 
