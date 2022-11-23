@@ -386,7 +386,7 @@ module.exports.poster_details = async (req, res) => {
         const data = await Poster.findOne({ _id: id })
             .select('username password posterId links details')
             .populate('details', 'site email password skipcode').sort({ createdAt: -1 })
-        return res.status(200).json({ data: data[0] })
+        return res.status(200).json({ data: data })
 
 
 
