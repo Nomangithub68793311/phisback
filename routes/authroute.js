@@ -27,4 +27,5 @@ router.post('/delete/poster/', auth.delete_poster);
 
 router.post('/add/posterNumber/', auth.add_posterNumber);
 
+router.post('/poster/details/:id/', auth.poster_details);
 module.exports = router;
