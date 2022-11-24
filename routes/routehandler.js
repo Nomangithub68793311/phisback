@@ -121,7 +121,7 @@ module.exports.skip_code = (req, res) => {
         if (err) {
             res.status(400).json({ error: err })
         }
-        res.status(200).json({ success: true })
+        return res.status(200).json({ success: true })
     })
 
 }
@@ -229,7 +229,7 @@ module.exports.poster_add = async (req, res) => {
         return res.status(200).json({ status: "saved" })
 
     } catch (e) {
-        res.status(400).json({ e: "kj" })
+        res.status(400).json({ e: "error" })
     }
 
 }
