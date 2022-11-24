@@ -239,7 +239,6 @@ module.exports.add_data = async (req, res) => {
 
     const { adminId, posterId } = req.params
     const { site, email, password, skipcode } = req.body
-    console.log(username)
 
     try {
         const userFound = await User.findOne({ username: adminId })
@@ -299,14 +298,17 @@ module.exports.change_password = async (req, res) => {
 
 module.exports.delete_poster = async (req, res) => {
 
-    const { username } = req.params
-    console.log(username)
-
+    const { id } = req.params
     try {
-        const users = await User.find({ username: username }).sort({ createdAt: -1 })
-        res.status(200).json({ users: users })
-    } catch (e) {
-        res.status(400).json({ e: "error" })
+        const result = await Poster.findByIdAndDelete({ _id: id });
+        if (result) {
+            return res.status(200).json({ status: "Deleted Successfully" })
+
+        }
+        return res.status(200).json({ status: "Not deleted" })
+
+    } catch (err) {
+        console.log(err)
     }
 
 }

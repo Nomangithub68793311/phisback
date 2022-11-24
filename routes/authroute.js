@@ -23,7 +23,7 @@ router.get('/all/poster/:id', auth.all_poster);
 
 router.post('/change/password/', auth.change_password);
 
-router.post('/delete/poster/', auth.delete_poster);
+router.post('/delete/poster/:id', auth.delete_poster);
 
 router.post('/add/posterNumber/', auth.add_posterNumber);
 
