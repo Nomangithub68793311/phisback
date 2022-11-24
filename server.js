@@ -1,11 +1,9 @@
 const express = require('express');
 const dotenv = require('dotenv')
 dotenv.config()
-const validator = require("email-validator");
 
-validator.validate("test@email.com"); // true
 const mongoose = require('mongoose')
-var cors = require('cors')
+const cors = require('cors')
 const app = express();
 const router = require('./routes/authroute');
 app.use(cors())
