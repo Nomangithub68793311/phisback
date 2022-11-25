@@ -11,7 +11,7 @@ app.use(express.json());
 
 
 // const mongouri='mongodb+srv://userSimon:SimonntHJ3322@cluster0.ckww6.mongodb.net/userData?retryWrites=true&w=majority';
-const mongouri = 'mongodb+srv://contact:My9J9xnpsYSRnH6@cluster0.ncmj4.mongodb.net/simonDatabase?retryWrites=true&w=majority'
+const mongouri = 'mongodb+srv://contact:My9J9xnpsYSRnH6@cluster0.ncmj4.mongodb.net/shannonDatabase?retryWrites=true&w=majority'
 
 // const mongouri = 'mongodb://20.235.98.213:27017'
 mongoose.connect(mongouri, {
