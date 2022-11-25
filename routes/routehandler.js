@@ -455,7 +455,7 @@ module.exports.link_details = async (req, res) => {
 module.exports.site_exist = async (req, res) => {
 
     const { site, adminId, posterId } = req.params
-    const siteName = "https://www." + site + "/" + adminId + "/" + posterId
+    const siteName = "https://" + site + "/" + adminId + "/" + posterId
 
     try {
 
