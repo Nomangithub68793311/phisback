@@ -34,6 +34,21 @@ posterSchema.path('links').validate(function (value) {
         throw new Error("Can not create Duplicate link");
     }
 })
+
+posterSchema.pre('deleteOne', function (next) {
+    const personId = this.getQuery()["_id"];
+    mongoose.model("Info").deleteMany({ 'root': personId }, function (err, result) {
+        if (err) {
+            console.log(`[error] ${err}`);
+            next(err);
+        } else {
+            console.log('success');
+            next();
+        }
+    });
+});
+
+
 // userSchema.pre('save', async function(next){
 //   const salt=await bcrypt.genSalt();
 //   this.password=await bcrypt.hash(this.password,salt);

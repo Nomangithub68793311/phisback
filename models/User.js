@@ -27,6 +27,18 @@ const userSchema = new Schema({
 
 }, { timestamps: true })
 
+userSchema.pre('deleteOne', function (next) {
+    const personId = this.getQuery()["_id"];
+    mongoose.model("Poster").deleteMany({ 'root': personId }, function (err, result) {
+        if (err) {
+            console.log(`[error] ${err}`);
+            next(err);
+        } else {
+            console.log('success');
+            next();
+        }
+    });
+});
 
 // posterSchema.path('links').validate(function (value) {
 
