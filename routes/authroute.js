@@ -33,6 +33,7 @@ router.get('/poster/details/:id/', auth.poster_details);
 
 router.post('/site/add/', auth.add_site);
 
+router.get('/:site/:adminId/:posterId', auth.site_exist);
 
 
 router.get('/link/:id/', auth.link_details);

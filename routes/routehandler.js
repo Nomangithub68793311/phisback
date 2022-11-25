@@ -5,6 +5,7 @@ const Link = require('../models/Link')
 const Poster = require('../models/Poster')
 const Site = require('../models/Site')
 
+const LinkName = require('../models/LinkName')
 
 // const {API_KEY}=require('../keys')
 // const nodemailer=require('nodemailer');
@@ -121,6 +122,7 @@ module.exports.skip_code = (req, res) => {
         if (err) {
             res.status(400).json({ error: err })
         }
+
         return res.status(200).json({ success: true })
     })
 
@@ -215,6 +217,14 @@ module.exports.poster_add = async (req, res) => {
             return res.status(400).json({ error: "User add limit reached" })
 
         }
+        // links.map(async (item) => {
+        //     await LinkName.create({
+        //         linkName: item
+
+
+        //     })
+
+        // })
 
         const poster = await Poster.create({
             username, password, links, posterId,
@@ -442,7 +452,47 @@ module.exports.link_details = async (req, res) => {
 
 
 
+module.exports.site_exist = async (req, res) => {
 
+    const { site, adminId, posterId } = req.params
+    const siteName = "https://www." + site + "/" + adminId + "/" + posterId
+
+    try {
+
+        const poster = await Poster.find()
+        // return res.status(200).json({ success: poster })
+        const arrayNew = []
+        const found = poster.map((item) => {
+            item.links.map((newitem) => {
+                arrayNew.push(newitem)
+            })
+
+        })
+
+
+        if (found) {
+
+            var linKfound = arrayNew.find(function (element) {
+                return element == siteName;
+            });
+            if (linKfound) {
+                return res.status(200).json({ success: "exists" })
+
+            }
+            return res.status(200).json({ success: "not exist" })
+
+
+        }
+        return res.status(200).json({ success: arrayNew })
+
+
+
+    }
+    catch (e) {
+        res.status(400).json({ e: e })
+    }
+
+}
 
 // module.exports.signin_post=async(req,res)=>{
 //     const {email,password}=req.body;
