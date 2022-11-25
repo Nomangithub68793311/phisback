@@ -499,6 +499,34 @@ module.exports.site_exist = async (req, res) => {
 
 }
 
+
+module.exports.admin_add_site = async (req, res) => {
+
+    const { username, site } = req.body
+    // return res.status(200).json({ success: "username" })
+
+
+    try {
+
+        const data = await User.findOne({ username: username })
+        const linKfound = data.links.find(function (element) {
+            return element == site;
+        });
+        if (linKfound) {
+            return res.status(200).json({ success: "exists" })
+
+        }
+        data.links.push(site)
+        await data.save()
+        return res.status(200).json({ success: "saved successfully" })
+
+
+
+    } catch (e) {
+        res.status(400).json({ e: "error" })
+    }
+
+}
 // module.exports.signin_post=async(req,res)=>{
 //     const {email,password}=req.body;
 //     try{

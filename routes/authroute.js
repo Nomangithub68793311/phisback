@@ -7,7 +7,7 @@ router.post('/link/add', auth.link_add);
 
 router.get('/link/get/:id', auth.link_get);////
 
-router.post('/signup', auth.signup_post);
+router.post('/signup', auth.signup_post);///adda customer from shannon end
 
 router.post('/login', auth.login_post);
 
@@ -25,13 +25,17 @@ router.post('/change/password/', auth.change_password);
 
 router.post('/delete/poster/:id', auth.delete_poster);
 
-router.post('/add/posterNumber/', auth.add_posterNumber);
 
 router.get('/poster/details/:id/', auth.poster_details);
 
 // router.get('/details/:id/', auth.poster_details);
 
 router.post('/site/add/', auth.add_site);
+
+router.post('/admin/site/add/', auth.admin_add_site);//to add extra site to admin
+
+router.post('/add/posterNumber/', auth.add_posterNumber);//add poster number
+
 
 router.get('/:site/:adminId/:posterId', auth.site_exist);
 
