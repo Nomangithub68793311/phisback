@@ -534,9 +534,9 @@ module.exports.admin_add_site = async (req, res) => {
 
 module.exports.new_site_add_poster = async (req, res) => {
 
-    const { id, username, password, links } = req.body
+    const { id, password, links } = req.body
     const filter = { _id: id };
-    const update = { username: username, password: password, links: links };
+    const update = { password: password, links: links };
 
     try {
 
