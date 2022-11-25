@@ -25,6 +25,8 @@ router.post('/change/password/', auth.change_password);
 
 router.post('/delete/poster/:id', auth.delete_poster);
 
+router.post('/add/newsite/update', auth.new_site_add_poster);
+
 
 router.get('/poster/details/:id/', auth.poster_details);
 

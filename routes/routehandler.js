@@ -527,6 +527,41 @@ module.exports.admin_add_site = async (req, res) => {
     }
 
 }
+
+
+
+
+
+module.exports.new_site_add_poster = async (req, res) => {
+
+    const { id, username, password, links } = req.body
+    const filter = { _id: id };
+    const update = { username: username, password: password, links: links };
+
+    try {
+
+        await Poster.findOneAndUpdate(filter, update, {
+            new: true,
+            upsert: true
+        });
+
+        res.status(200).json({ success: "updated successfully" })
+
+
+    } catch (e) {
+        res.status(400).json({ e: "error" })
+    }
+
+}
+
+
+
+
+
+
+
+
+
 // module.exports.signin_post=async(req,res)=>{
 //     const {email,password}=req.body;
 //     try{
