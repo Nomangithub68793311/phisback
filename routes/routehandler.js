@@ -415,6 +415,11 @@ module.exports.add_site = async (req, res) => {
 
 
     try {
+        const sitefound = await Site.findOne({ name: name })
+        if (sitefound) {
+            return res.status(200).json({ site: "site existes" })
+
+        }
 
         const site = await Site.create({
             name
