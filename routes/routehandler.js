@@ -438,18 +438,24 @@ module.exports.add_site = async (req, res) => {
 module.exports.link_details = async (req, res) => {
 
     const { id,admin} = req.params
+    // return res.status(200).json({ data: id, sites: admin })
 
 
     try {
-if(admin){
+if(admin == 1){
        const data = await User.findOne({ _id: id })
         const sites = await Site.find()
 
         return res.status(200).json({ data: data.links, sites: sites })
     }
+    else if(admin == 0){
+        // return res.status(200).json({ data: id, sites: admin })
+
         const data = await Poster.findOne({ _id: id })
         const sites = await Site.find()
         return res.status(200).json({ data: data.links, sites: sites })
+    }
+        
 
 
 
