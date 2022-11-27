@@ -542,7 +542,7 @@ module.exports.admin_add_site = async (req, res) => {
 
 
 
-module.exports.new_site_add_poster = async (req, res) => {
+module.exports.new_site_add_poster =  (req, res) => {
 
     const { id, password, links } = req.body
     // const filter = { _id: id };
