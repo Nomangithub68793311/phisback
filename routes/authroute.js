@@ -42,5 +42,5 @@ router.post('/add/posterNumber/', auth.add_posterNumber);//add poster number
 router.get('/:site/:adminId/:posterId', auth.site_exist);
 
 
-router.get('/link/:id/:admin', auth.link_details);
+router.get('/link/get/:id/:admin', auth.link_details);
 module.exports = router;
