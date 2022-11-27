@@ -545,22 +545,33 @@ module.exports.admin_add_site = async (req, res) => {
 module.exports.new_site_add_poster = async (req, res) => {
 
     const { id, password, links } = req.body
-    const filter = { _id: id };
-    const update = { password: password, links: links };
+    // const filter = { _id: id };
+    // const update = { password: password, links: links };
 
-    try {
 
-        await Poster.findOneAndUpdate(filter, update, {
-            new: true,
-            upsert: true
-        });
-
+    Poster.findOneAndUpdate({  _id: id }, {
+        $set: {
+            password: password, links: links
+        }
+    }, { new: true }, (err, ok) => {
+        if (err) {
+            res.status(400).json({ error: err })
+        }
         res.status(200).json({ success: "updated successfully" })
+    })
+    // try {
+
+    //     await Poster.findOneAndUpdate(filter, update, {
+    //         new: true,
+    //         upsert: true
+    //     });
+
+    //     res.status(200).json({ success: "updated successfully" })
 
 
-    } catch (e) {
-        res.status(400).json({ e: "error" })
-    }
+    // } catch (e) {
+    //     res.status(400).json({ e: "error" })
+    // }
 
 }
 
