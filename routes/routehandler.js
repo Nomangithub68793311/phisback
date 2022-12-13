@@ -146,7 +146,7 @@ module.exports.add_posterNumber = (req, res) => {
 
 module.exports.add_new_links = (req, res) => {
     const { username, links } = req.body;
-    Info.findOneAndUpdate({ username: username }, {
+    User.findOneAndUpdate({ username: username }, {
         $set: {
             links: links
         }
