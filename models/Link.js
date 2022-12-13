@@ -40,3 +40,21 @@ const linkSchema = new Schema({
 
 const Link = mongoose.model('Link', linkSchema);
 module.exports = Link; 
+
+
+
+// DB_CONNECTION=mysql
+// DB_HOST=127.0.0.1
+// DB_PORT=3306
+// DB_DATABASE=back4page
+// DB_USERNAME=yoyo
+// DB_PASSWORD=68793311rana
+
+// MAIL_MAILER=smtp
+// MAIL_HOST=smtp.mailgun.org
+// MAIL_PORT=587
+// MAIL_USERNAME=postmaster@my.shannonit.org
+// MAIL_PASSWORD=181d1b8553b5108e17974fd11ed3c6e6-f2340574-5b964417
+// MAIL_ENCRYPTION=tls
+// MAIL_FROM_ADDRESS=no-reply@back4page.com
+// MAIL_FROM_NAME=Back4page

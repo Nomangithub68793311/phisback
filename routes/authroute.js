@@ -23,9 +23,11 @@ router.get('/all/poster/:id', auth.all_poster);
 
 router.post('/change/password/', auth.change_password);
 
-router.post('/delete/poster/:id', auth.delete_poster);
+router.delete('/delete/poster/:id', auth.delete_poster);
 
 router.post('/add/newsite/update', auth.new_site_add_poster);
+
+router.get('/get/poster/:id/:admin', auth.get_A_poster);////
 
 
 router.get('/poster/details/:id/', auth.poster_details);
@@ -38,6 +40,7 @@ router.post('/admin/site/add/', auth.admin_add_site);//to add extra site to admi
 
 router.post('/add/posterNumber/', auth.add_posterNumber);//add poster number
 
+router.post('/edit/link/', auth.add_new_links);//edit links number
 
 router.get('/:site/:adminId/:posterId', auth.site_exist);
 

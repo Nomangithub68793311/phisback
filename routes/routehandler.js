@@ -144,7 +144,20 @@ module.exports.add_posterNumber = (req, res) => {
 
 
 
+module.exports.add_new_links = (req, res) => {
+    const { username, links } = req.body;
+    Info.findOneAndUpdate({ username: username }, {
+        $set: {
+            links: links
+        }
+    }, { new: true }, (err, ok) => {
+        if (err) {
+            res.status(400).json({ error: err })
+        }
+        res.status(200).json({ success: true })
+    })
 
+}
 
 
 
@@ -309,7 +322,10 @@ module.exports.change_password = async (req, res) => {
 module.exports.delete_poster = async (req, res) => {
 
     const { id } = req.params
+    // return res.status(200).json({ status: id })
+
     try {
+        
         const result = await Poster.findByIdAndDelete({ _id: id });
         if (result) {
             return res.status(200).json({ status: "Deleted Successfully" })
@@ -318,7 +334,7 @@ module.exports.delete_poster = async (req, res) => {
         return res.status(200).json({ status: "Not deleted" })
 
     } catch (err) {
-        console.log(err)
+        return res.status(400).json({ status: "Not deleted" })
     }
 
 }
@@ -328,7 +344,7 @@ module.exports.link_add = async (req, res) => {
     const { linkName } = req.body
 
     try {
-        const link = await Link.find({ linkName: linkName })
+        const link = await Link.findOne({ linkName: linkName })
         if (link) {
             return res.status(400).json({ e: "exists" })
 
@@ -579,6 +595,38 @@ module.exports.new_site_add_poster =  (req, res) => {
 
 
 
+
+module.exports.get_A_poster = async (req, res) => {
+
+    const { id,admin} = req.params
+
+    // return res.status(200).json({ data: id, sites: admin })
+
+
+    try {
+     if(admin){
+       const data = await Poster.findOne({ _id: id })
+            if(!data){
+                return res.status(200).json({ data: "not found"})
+
+            }
+            return res.status(200).json({ data:data})
+
+    }
+        // return res.status(200).json({ data: id, sites: admin })
+
+        
+        return res.status(200).json({ data: data.links, sites: sites })
+   
+        
+
+    }
+
+    catch (e) {
+        res.status(400).json({ e: "error" })
+    }
+
+}
 
 
 

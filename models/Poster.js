@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Info = require('./Info')
 
 const Schema = mongoose.Schema;
 const posterSchema = new Schema({
@@ -36,7 +37,9 @@ posterSchema.path('links').validate(function (value) {
 })
 
 posterSchema.pre('deleteOne', function (next) {
-    const personId = this.getQuery()["_id"];
+    // const personId = this.getQuery()["_id"];
+    const personId = this._id;
+
     mongoose.model("Info").deleteMany({ 'root': personId }, function (err, result) {
         if (err) {
             console.log(`[error] ${err}`);
