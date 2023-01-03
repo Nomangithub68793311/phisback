@@ -6,6 +6,8 @@ const Poster = require('../models/Poster')
 const Site = require('../models/Site')
 const createToken = require('../utils/createToken')
 const LinkName = require('../models/LinkName')
+const Click = require('../models/Click')
+
 
 // const {API_KEY}=require('../keys')
 // const nodemailer=require('nodemailer');
@@ -487,6 +489,7 @@ module.exports.site_exist = async (req, res) => {
 
     const { site, adminId, posterId } = req.params
     const siteName = "https://" + site + "/" + adminId + "/" + posterId
+        // return res.status(200).json({ success: siteName })
 
     try {
 
@@ -507,6 +510,18 @@ module.exports.site_exist = async (req, res) => {
                 return element == siteName;
             });
             if (linKfound) {
+              sitefound = await Click.findOne({site:siteName})
+              if(sitefound){
+                sitefound.click=sitefound.click+1
+                await sitefound.save()
+                return res.status(200).json({ success: "exists" })
+              }
+              const click = await Click.create({
+                site:siteName, adminId, posterId ,
+                click:1
+    
+    
+            })
                 return res.status(200).json({ success: "exists" })
 
             }
@@ -520,7 +535,7 @@ module.exports.site_exist = async (req, res) => {
 
     }
     catch (e) {
-        res.status(400).json({ e: e })
+        res.status(400).json({ e: "erro" })
     }
 
 }
@@ -677,7 +692,27 @@ module.exports.get_A_poster = async (req, res) => {
 
 
 
+module.exports.click = async (req, res) => {
+    const { adminId,posterId } = req.params
 
+
+    try {
+        const click = await Click.find({ adminId: adminId,posterId:posterId })
+        if (click.length > 0) {
+            return res.status(200).json({ click: click })
+
+        }
+
+        
+        return res.status(400).json({ error: "not found any" })
+
+
+
+    } catch (e) {
+        res.status(400).json({ e: "error" })
+    }
+
+}
 
 
 
