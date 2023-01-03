@@ -715,4 +715,26 @@ module.exports.click = async (req, res) => {
 }
 
 
+module.exports.click_for_admin = async (req, res) => {
+    const { adminId } = req.params
+
+
+    try {
+        const click = await Click.find({ adminId: adminId})
+        if (click.length > 0) {
+            return res.status(200).json({ click: click })
+
+        }
+
+        
+        return res.status(400).json({ error: "not found any" })
+
+
+
+    } catch (e) {
+        res.status(400).json({ e: "error" })
+    }
+
+}
+
 
