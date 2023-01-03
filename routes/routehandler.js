@@ -98,7 +98,8 @@ module.exports.login_post = async (req, res) => {
             if (poster) {
                 if (poster.password == password) {
             const poster = await Poster.findOne({ username: username })
-            return res.status(200).json({ username: poster.username, id: poster._id, admin: poster.admin ,adminId:poster.root})
+            const admin=await User.findOne({ _id: poster.root })
+            return res.status(200).json({ username: poster.username, id: poster._id, admin: poster.admin ,adminId:admin.adminId})
 
                 }
                 return res.status(400).json({ error: "Wrong password" })
