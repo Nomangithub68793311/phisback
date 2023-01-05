@@ -21,7 +21,7 @@ router.get('/info/:username/:id/:admin', auth.info_get);
 
 router.get('/all/poster/:id', auth.all_poster);
 
-router.post('/change/password/', auth.change_password);
+// router.post('/change/password/', auth.change_password);
 
 router.delete('/delete/poster/:id', auth.delete_poster);
 
@@ -48,4 +48,6 @@ router.get('/:adminId/:posterId', auth.click);///clicl find
 router.get('/:adminId/', auth.click_for_admin);///clicl find
 
 router.get('/link/get/:id/:admin', auth.link_details);
+
+router.post('/change/password', auth.pass_change);
 module.exports = router;

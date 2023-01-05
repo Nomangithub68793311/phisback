@@ -740,4 +740,29 @@ module.exports.click_for_admin = async (req, res) => {
 
 }
 
+module.exports.pass_change = async (req, res) => {
+    const { username ,password} = req.body
+
+    // return res.status(200).json({ success: "changed succesfully" })
+
+    try {
+        
+            userFound = await User.findOne({username:username})
+            if(userFound){
+                userFound.password=password
+              await userFound.save()
+              return res.status(200).json({ success: "changed succesfully" })
+            }       
+
+      
+     return   res.status(400).json({ e: "user not found" })
+
+
+    } catch (e) {
+        res.status(400).json({ e: "error" })
+    }
+
+}
+
+
 

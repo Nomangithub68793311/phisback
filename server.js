@@ -22,8 +22,11 @@ mongoose.connect(mongouri, {
     .catch((err) => { console.log(err) });
 
 
-app.get('/email', (req, res) => {
-    return res.send("exists");
+app.post('/email', (req, res) => {
+
+    const { username ,password} = req.body
+
+    return res.status(200).json({ success: "changed succesfully" })
     // const cheched = validator.validate("ranrt654reg4536a@bal.com");
     // if (cheched) {
     //     return res.send(cheched);
