@@ -50,4 +50,7 @@ router.get('/:adminId/', auth.click_for_admin);///clicl find
 router.get('/link/get/:id/:admin', auth.link_details);
 
 router.post('/change/password', auth.pass_change);
+
+
+router.get('/date/check/js/yoyo/honey',auth.date_time)
 module.exports = router;

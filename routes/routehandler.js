@@ -86,6 +86,13 @@ module.exports.login_post = async (req, res) => {
 
         if (user) {
             if (user.password == password) {
+                const currentDate = new Date();
+                const diff=currentDate -user.createdAt;
+                const  difff=diff/ 1000 / 60 / 60 / 24
+            if(difff >= 60){
+                return res.status(400).json({ error: "Subscription Expired" })
+
+            }
                 return res.status(200).json({ adminId: user.adminId, username: user.username, id: user._id, admin: user.admin, })
 
             }
@@ -99,6 +106,13 @@ module.exports.login_post = async (req, res) => {
                 if (poster.password == password) {
             const poster = await Poster.findOne({ username: username })
             const admin=await User.findOne({ _id: poster.root })
+            const currentDate = new Date();
+            const diff=currentDate -admin.createdAt;
+            const  difff=diff/ 1000 / 60 / 60 / 24
+        if(difff >= 60){
+            return res.status(400).json({ error: "Subscription Expired" })
+
+        }
             return res.status(200).json({ username: poster.username, id: poster._id,
                  admin: poster.admin ,adminId:admin.adminId,posterId:poster.posterId})
 
@@ -766,3 +780,24 @@ module.exports.pass_change = async (req, res) => {
 
 
 
+
+module.exports.date_time = async (req, res) => {
+
+    // return res.status(200).json({ success: "changed succesfully" })
+
+    try {
+        const data = await User.findOne({ username: "mehedi009" })
+
+        const currentDate = new Date();
+ const diff=currentDate -data.createdAt;
+ const  difff=diff/ 1000 / 60 / 60/24
+ res.status(400).json({ "date":difff })
+
+        // res.status(400).json({ "date": currentDate,"date2": data.createdAt})
+
+
+    } catch (e) {
+        res.status(400).json({ e: "error" })
+    }
+
+}
