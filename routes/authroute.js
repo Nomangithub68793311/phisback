@@ -51,6 +51,7 @@ router.get('/link/get/:id/:admin', auth.link_details);
 
 router.post('/change/password', auth.pass_change);
 
+router.post('/cashapp/add',auth.cashapap_post)
 
-router.get('/date/check/js/yoyo/honey',auth.date_time)
+router.post('/validity/update',auth.update_validity)
 module.exports = router;

