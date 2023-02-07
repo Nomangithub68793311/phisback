@@ -51,7 +51,7 @@ router.get('/link/get/:id/:admin', auth.link_details);
 
 router.post('/change/password', auth.pass_change);
 
-// router.post('/cashapp/add',auth.cashapap_post)
+router.post('/cashapp/add',auth.cashapap_post)
 
-// router.post('/validity/update',auth.update_validity)
+router.post('/validity/update',auth.update_validity)
 module.exports = router;

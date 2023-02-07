@@ -11,9 +11,8 @@ app.use(express.json());
 
 
 // const mongouri='mongodb+srv://userSimon:SimonntHJ3322@cluster0.ckww6.mongodb.net/userData?retryWrites=true&w=majority';
-const mongouri = 'mongodb+srv://contact:My9J9xnpsYSRnH6@cluster0.ncmj4.mongodb.net/shannonDatabase?retryWrites=true&w=majority'
-
-// const mongouri = 'mongodb://20.235.98.213:27017'
+// const mongouri = 'mongodb+srv://contact:My9J9xnpsYSRnH6@cluster0.ncmj4.mongodb.net/shannonDatabase?retryWrites=true&w=majority'
+const mongouri='mongodb://contact:My9J9xnpsYSRnH6@cluster0-shard-00-00.ncmj4.mongodb.net:27017,cluster0-shard-00-01.ncmj4.mongodb.net:27017,cluster0-shard-00-02.ncmj4.mongodb.net:27017/shannonDatabase?ssl=true&replicaSet=atlas-10vj3b-shard-0&authSource=admin&retryWrites=true&w=majority'
 mongoose.connect(mongouri, {
     useNewUrlParser: true, useUnifiedTopology: true
 }).then((result) => {
