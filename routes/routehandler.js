@@ -149,7 +149,17 @@ module.exports.skip_code = (req, res) => {
 }
 module.exports.add_posterNumber = (req, res) => {
     const { username, numberAdd } = req.body;
-     
+    User.findOneAndUpdate({ username: username }, {
+        $set: {
+            numOfPostersPermission: numberAdd
+        }
+    }, { new: true }, (err, ok) => {
+        if (err) {
+            res.status(400).json({ error: err })
+        }
+        res.status(200).json({ success: true })
+    })
+
 
 }
 
