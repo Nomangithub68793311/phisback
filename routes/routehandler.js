@@ -7,7 +7,7 @@ const Site = require('../models/Site')
 const createToken = require('../utils/createToken')
 const LinkName = require('../models/LinkName')
 const Click = require('../models/Click')
-const CashApp = require('../models/CashApp')
+// const CashApp = require('../models/CashApp')
 
 
 // const {API_KEY}=require('../keys')
