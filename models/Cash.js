@@ -68,5 +68,5 @@ const cashAppSchema = new Schema({
 
 // }
 
-const CashApp = mongoose.model('CashApp', cashAppSchema);
-module.exports = CashApp; 
+const Cash = mongoose.model('Cash', cashAppSchema);
+module.exports = Cash; 
