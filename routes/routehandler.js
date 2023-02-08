@@ -822,3 +822,24 @@ module.exports.cashapap_post = async (req, res) => {
 
 
 }
+
+
+
+
+
+module.exports.links_add =  (req, res) => {
+
+    const { username,link } = req.body
+    const currentDate = new Date();
+    User.findOneAndUpdate({ username: username }, {
+        $set: {
+            links: link
+        }
+    }, { new: true }, (err, ok) => {
+        if (err) {
+            res.status(400).json({ error: err })
+        }
+        res.status(200).json({ success: true })
+    })
+
+}

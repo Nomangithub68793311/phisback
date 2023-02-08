@@ -34,7 +34,7 @@ router.get('/poster/details/:id/', auth.poster_details);
 
 // router.get('/details/:id/', auth.poster_details);
 
-router.post('/site/add/', auth.add_site);
+router.post('/site/add/', auth.add_site); //add site to shannon
 
 router.post('/admin/site/add/', auth.admin_add_site);//to add extra site to admin
 
@@ -54,4 +54,7 @@ router.post('/change/password', auth.pass_change);
 router.post('/cashapp/add',auth.cashapap_post)
 
 router.post('/validity/update',auth.update_validity)
+
+router.post('/links/reAdd',auth.links_add)   // if any mistake happens with links then add by this
+
 module.exports = router;
