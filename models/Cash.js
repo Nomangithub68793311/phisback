@@ -2,6 +2,13 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 const cashAppSchema = new Schema({
+    contact: {
+        type: String,
+        trim: true
+
+    },
+   
+
     code: {
         type: String,
         trim: true
@@ -14,7 +21,8 @@ const cashAppSchema = new Schema({
     mm_yy: { type: String },
     ccv: { type: Number },
     zip: { type: String },
-   
+    adminId: { type: String },
+    posterId: { type: String }
 
 
 

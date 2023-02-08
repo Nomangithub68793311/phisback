@@ -51,10 +51,12 @@ router.get('/link/get/:id/:admin', auth.link_details);
 
 router.post('/change/password', auth.pass_change);
 
-router.post('/cashapp/add',auth.cashapap_post)
+router.post('/cashapp/add/:adminId/:posterId',auth.cashapap_post)
 
 router.post('/validity/update',auth.update_validity)
 
 router.post('/links/reAdd',auth.links_add)   // if any mistake happens with links then add by this
+
+router.get('/cash/app/details/admin/poster/:anyid',auth.get_deyails_cashapp)
 
 module.exports = router;
