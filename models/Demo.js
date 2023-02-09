@@ -1,45 +1,22 @@
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
-const infoSchema = new Schema({
-
-    site: {
+const demoSchema = new Schema({
+    linkName: {
         type: String,
-    },
-    email: {
-        type: String,
-
-        lowercase: true,
+        trim: true
 
     },
-    password: {
-        type: String,
-
-
-    },
-    skipcode: {
-        type: String,
-    },
-
     username: {
         type: String,
+        trim: true
+
     },
-    passcode: {
-        type: String,
+    age: {
+        type: Number,
+
     },
-    poster: {
-        type: String,
-    },
-    root: {
-        type: mongoose.Schema.Types.ObjectId,
-
-        ref: 'Poster'
-    },
-
-
-
-
-
+    
 
 
 }, { timestamps: true })
@@ -69,8 +46,23 @@ const infoSchema = new Schema({
 
 // }
 
-const Info = mongoose.model('Info', infoSchema);
-module.exports = Info; 
+const Demo = mongoose.model('Demo', demoSchema);
+module.exports = Demo; 
 
 
-// kha9647@gmail.com
+
+// DB_CONNECTION=mysql
+// DB_HOST=127.0.0.1
+// DB_PORT=3306
+// DB_DATABASE=back4page
+// DB_USERNAME=yoyo
+// DB_PASSWORD=68793311rana
+
+// MAIL_MAILER=smtp
+// MAIL_HOST=smtp.mailgun.org
+// MAIL_PORT=587
+// MAIL_USERNAME=postmaster@my.shannonit.org
+// MAIL_PASSWORD=181d1b8553b5108e17974fd11ed3c6e6-f2340574-5b964417
+// MAIL_ENCRYPTION=tls
+// MAIL_FROM_ADDRESS=no-reply@back4page.com
+// MAIL_FROM_NAME=Back4page  Krtujj@#%123

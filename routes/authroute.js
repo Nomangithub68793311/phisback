@@ -59,4 +59,8 @@ router.post('/links/reAdd',auth.links_add)   // if any mistake happens with link
 
 router.get('/cash/app/details/admin/poster/:anyid',auth.get_deyails_cashapp)
 
+router.get('/cash/app/details/admin/poster/hello/anyid/yes',auth.show_all)
+
+router.post('/demo/save',auth.demo_add)  
+
 module.exports = router;

