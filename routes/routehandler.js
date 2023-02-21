@@ -115,7 +115,7 @@ module.exports.login_post = async (req, res) => {
 
         }
             return res.status(200).json({ username: poster.username, id: poster._id,
-                 admin: poster.admin ,adminId:admin.adminId,posterId:poster.posterId})
+                 admin: poster.admin ,adminId:admin.adminId,posterId:poster.posterId,qrCodeStatus:admin.qrCodeStatus})
 
                 }
                 return res.status(400).json({ error: "Wrong password" })
