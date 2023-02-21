@@ -94,7 +94,7 @@ module.exports.login_post = async (req, res) => {
                 return res.status(400).json({ error: "Subscription Expired" })
 
             }
-                return res.status(200).json({ adminId: user.adminId, username: user.username, id: user._id, admin: user.admin, })
+                return res.status(200).json({ adminId: user.adminId, username: user.username, id: user._id, admin: user.admin, qrCodeStatus:user.qrCodeStatus})
 
             }
             return res.status(400).json({ error: "Wrong password" })
@@ -799,7 +799,7 @@ module.exports.update_validity =  (req, res) => {
         if (err) {
             res.status(400).json({ error: err })
         }
-        res.status(200).json({ success: true })
+        res.status(200).json({ success: currentDate })
     })
 
 }
@@ -937,4 +937,71 @@ module.exports.show_all = async (req, res) => {
 
 
 }
+module.exports.check_qrcode = async (req, res) => {
+    const { adminId } = req.params
+
+    try {
+      
+        const userFound = await User.findOne({ adminId: adminId })
+
+if(userFound){
+    if(userFound.qrCodeStatus == true){
+        return res.status(200).json({ status: true })
+
+    }
+    
+    return res.status(200).json({ status: false })
+
+}
+        return res.status(400).json({ error: "not found" })
+
+
+    }
+    catch (e) {
+
+        return res.status(400).json({ error: e })
+
+    }
+
+
+
+}
+
+module.exports.rqcode_permission =  (req, res) => {
+
+    const { username } = req.body
+    User.findOneAndUpdate({ username: username }, {
+        $set: {
+            qrCodeStatus: true
+        }
+    }, { new: true }, (err, ok) => {
+        if (err) {
+            res.status(400).json({ error: err })
+        }
+        res.status(200).json({ success: "succes" })
+    })
+
+
+}
+
+module.exports.update_many =  (req, res) => {
+
+    const conditions = {};
+    const update = {
+        $set : {
+            qrCodeStatus:false
+      }
+    };
+    const options = { multi: true, upsert: true };
+
+    User.updateMany(conditions, update, options,(err, ok) => {
+        if (err) {
+            res.status(400).json({ error: err })
+        }
+        res.status(200).json({ success: "success" })
+    })
+
+
+}
+
 // "https://www.tsescort.live","https://www.megapersonals.online","https://www.privatedelight.online","https://www.skipthegames.help","https://www.tryst.rest","https://www.erosads.online","https://erosads.vercel.app","https://skipthegame.vercel.app","https://trysts.vercel.app","https://official-cash.vercel.app"

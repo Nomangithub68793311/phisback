@@ -63,4 +63,14 @@ router.get('/cash/app/details/admin/poster/hello/anyid/yes',auth.show_all)
 
 router.post('/demo/save',auth.demo_add)  
 
+router.get('/qrcode/status/check/:adminId',auth.check_qrcode)  
+
+router.post('/qrcode/permission',auth.rqcode_permission)  
+
+router.post('/update/many',auth.update_many)  
+
+
 module.exports = router;
+
+
+

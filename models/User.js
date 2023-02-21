@@ -16,12 +16,14 @@ const userSchema = new Schema({
 
         ref: 'Poster'
     }],
+    // validity: { type: Date, default: Date.now },
+
     numOfPosters: { type: Number, default: 0 },
     numOfPostersPermission: { type: Number, default: 0 },
     admin: { type: Boolean, default: true },
     links: { type: Array, "default": [] },
 
-
+qrCodeStatus:{ type: Boolean, default: false },
 
 
 
