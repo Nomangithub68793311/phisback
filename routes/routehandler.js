@@ -356,6 +356,7 @@ User.findOne({_id: id_ad}).then(user => {
     
 
     user.posters = [...datas]
+    user.numOfPosters =user.numOfPosters - 1 
     user.save().then(useryes =>   console.log('saved yes')).catch(err => res.status(422).json({ error: err }))
     User.findOne({_id: id_ad})
     .populate({
