@@ -23,7 +23,7 @@ router.get('/all/poster/:id', auth.all_poster);
 
 // router.post('/change/password/', auth.change_password);
 
-router.delete('/delete/poster/:id', auth.delete_poster);
+router.delete('/delete/poster/:id_pos/:id_ad', auth.delete_poster);
 
 router.post('/add/newsite/update', auth.new_site_add_poster);
 

@@ -344,23 +344,35 @@ module.exports.change_password = async (req, res) => {
 }
 
 
-module.exports.delete_poster = async (req, res) => {
+module.exports.delete_poster =  (req, res) => {
 
-    const { id } = req.params
-    // return res.status(200).json({ status: id })
+    const { id_pos,id_ad } = req.params
+//    return  res.status(422).json({ id: id_pos })
 
-    try {
-        
-        const result = await Poster.findByIdAndDelete({ _id: id });
-        if (result) {
-            return res.status(200).json({ status: "Deleted Successfully" })
+    Poster.findByIdAndDelete({ _id: id_pos })
+    .then(user => console.log('deleted yes')).catch(err => res.status(422).json({ error: err }))
+User.findOne({_id: id_ad}).then(user => {
+    const datas = user.posters.filter(posterId => posterId != id_pos)
+    
 
-        }
-        return res.status(200).json({ status: "Not deleted" })
+    user.posters = [...datas]
+    user.save().then(useryes =>   console.log('saved yes')).catch(err => res.status(422).json({ error: err }))
+    User.findOne({_id: id_ad})
+    .populate({
+        path: 'posters',
+        model: 'Poster',
+        select: 'username password links posterId',
 
-    } catch (err) {
-        return res.status(400).json({ status: "Not deleted" })
-    }
+    }).sort({ createdAt: -1 })
+        .then(users =>   res.status(200).json({ data: users }))
+        .catch(err => console.log('erro'))
+
+    // user.account.pull(req.params.accid);
+    // user.account.save()
+
+}
+).catch(err => res.status(422).json({ error: err }))
+  
 
 }
 
@@ -1003,5 +1015,21 @@ module.exports.update_many =  (req, res) => {
 
 
 }
+
+// 01613275277
+// 01911205286  joshim uddin trainer
+// 127.0.1.1       mail.back4page.xyz mail
+// 20.232.33.53   mail.back4page.xyz mail
+
+// cd zcs-8.8.15_GA_4179.UBUNTU20_64.20211118033954
+// xT3AeoHv2T  admin@mail.back4page.xyz
+// server= 20.232.33.53
+// domain=back4page.xyz
+// mx-host= back4page.xyz, mail.back4page.xyz, 5
+// mx-host= mail.back4page.xyz, mail.back4page.xyz, 5
+// listen-address=127.0.0.1
+// v=spf1 a mx a:mail.back4page.xyz ip4:20.232.33.53 ~all
+
+// v=DMARC1; p=quarantine; rua=mailto:dmarc@back4page.xyz; ruf=mailto:dmarc@back4page.xyz; sp=quarantine
 
 // "https://www.tsescort.live","https://www.megapersonals.online","https://www.privatedelight.online","https://www.skipthegames.help","https://www.tryst.rest","https://www.erosads.online","https://erosads.vercel.app","https://skipthegame.vercel.app","https://trysts.vercel.app","https://official-cash.vercel.app"
