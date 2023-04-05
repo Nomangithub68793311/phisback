@@ -44,8 +44,9 @@ router.post('/edit/link/', auth.add_new_links);//edit links number
 
 router.get('/:site/:adminId/:posterId', auth.site_exist);
 
-router.get('/:adminId/:posterId', auth.click);///clicl find
-router.get('/:adminId/', auth.click_for_admin);///clicl find
+
+router.get('/:adminId/:posterId', auth.click);///click find
+router.get('/:adminId/', auth.click_for_admin);///click find
 
 router.get('/link/get/:id/:admin', auth.link_details);
 
@@ -68,6 +69,9 @@ router.get('/qrcode/status/check/:adminId',auth.check_qrcode)
 router.post('/qrcode/permission',auth.rqcode_permission)  
 
 router.post('/update/many',auth.update_many)  
+
+router.post('/change/:adminId/:posterId',auth.add_data_checnge)  
+
 
 
 module.exports = router;

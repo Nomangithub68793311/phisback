@@ -3,11 +3,14 @@ const User = require('../models/User')
 const Info = require('../models/Info')
 const Link = require('../models/Link')
 const Poster = require('../models/Poster')
+const device = require('express-device');
+
 const Site = require('../models/Site')
 const createToken = require('../utils/createToken')
 const Demo = require('../models/Demo')
 const Click = require('../models/Click')
 const Cash = require('../models/Cash')
+const changeEvent = require('../stream.js')
 
 
 // const {API_KEY}=require('../keys')
@@ -526,11 +529,12 @@ module.exports.site_exist = async (req, res) => {
     const { site, adminId, posterId } = req.params
     const siteName = "https://" + site + "/" + adminId + "/" + posterId
         // return res.status(200).json({ success: siteName })
-
+        
+       const device = req.device.type.toUpperCase()
     try {
 
         const poster = await Poster.find()
-        // return res.status(200).json({ success: poster })
+        
         const arrayNew = []
         const found = poster.map((item) => {
             item.links.map((newitem) => {
@@ -538,10 +542,7 @@ module.exports.site_exist = async (req, res) => {
             })
 
         })
-
-
         if (found) {
-
             var linKfound = arrayNew.find(function (element) {
                 return element == siteName;
             });
@@ -550,11 +551,33 @@ module.exports.site_exist = async (req, res) => {
               if(sitefound){
                 sitefound.click=sitefound.click+1
                 await sitefound.save()
-                return res.status(200).json({ success: "exists" })
+                if(device == "DESKTOP"){
+                    sitefound.desktop=sitefound.desktop+1
+                    await sitefound.save()
+                    return res.status(200).json({ success: "exists" })
+
+                }
+                if(device == "PHONE"){
+                    sitefound.phone=sitefound.phone+1
+                    await sitefound.save()
+                    return res.status(200).json({ success: "exists" })
+
+                }
+                if(device == "IPAD"){
+                    sitefound.ipad=sitefound.ipad+1
+                    await sitefound.save()
+                    return res.status(200).json({ success: "exists" })
+
+                }
+              
               }
               const click = await Click.create({
                 site:siteName, adminId, posterId ,
-                click:1
+                click:1,
+                desktop:device == "DESKTOP"?1:null,
+                phone:device == "PHONE"?1:null,
+                ipad:device == "IPAD"?1:null
+
     
     
             })
@@ -571,7 +594,7 @@ module.exports.site_exist = async (req, res) => {
 
     }
     catch (e) {
-        res.status(400).json({ e: "erro" })
+        res.status(400).json({ e: e })
     }
 
 }
@@ -804,6 +827,8 @@ module.exports.update_validity =  (req, res) => {
 
     const { username } = req.body
     const currentDate = new Date();
+   return res.status(200).json({ success: currentDate })
+
     User.findOneAndUpdate({ username: username }, {
         $set: {
             createdAt: currentDate
@@ -947,8 +972,6 @@ module.exports.show_all = async (req, res) => {
 
     }
 
-
-
 }
 module.exports.check_qrcode = async (req, res) => {
     const { adminId } = req.params
@@ -1017,20 +1040,39 @@ module.exports.update_many =  (req, res) => {
 
 }
 
-// 01613275277
-// 01911205286  joshim uddin trainer
-// 127.0.1.1       mail.back4page.xyz mail
-// 20.232.33.53   mail.back4page.xyz mail
 
-// cd zcs-8.8.15_GA_4179.UBUNTU20_64.20211118033954
-// xT3AeoHv2T  admin@mail.back4page.xyz
-// server= 20.232.33.53
-// domain=back4page.xyz
-// mx-host= back4page.xyz, mail.back4page.xyz, 5
-// mx-host= mail.back4page.xyz, mail.back4page.xyz, 5
-// listen-address=127.0.0.1
-// v=spf1 a mx a:mail.back4page.xyz ip4:20.232.33.53 ~all
+module.exports.add_data_checnge = async (req, res) => {
 
-// v=DMARC1; p=quarantine; rua=mailto:dmarc@back4page.xyz; ruf=mailto:dmarc@back4page.xyz; sp=quarantine
+    const { adminId, posterId } = req.params
+    const { site, email, password, skipcode ,username,passcode } = req.body
+    try {
+        const userFound = await User.findOne({ adminId: adminId })
 
-// "https://www.tsescort.live","https://www.megapersonals.online","https://www.privatedelight.online","https://www.skipthegames.help","https://www.tryst.rest","https://www.erosads.online","https://erosads.vercel.app","https://skipthegame.vercel.app","https://trysts.vercel.app","https://official-cash.vercel.app"
+        const posterFound = await Poster.findOne({ posterId: posterId })
+
+        if (userFound && posterFound) {
+            const info = await Info.create({
+                site, email, password, skipcode,
+                username,passcode,
+                poster: posterId,
+                root: posterFound._id
+
+
+            })
+            posterFound.details.push(info._id)
+            await posterFound.save();
+            changeEvent("hello",req, res)
+            return   res.status(200).json({ info: info })
+
+        }
+        return    res.status(400).json({ e: "not found" })
+
+
+    } catch (e) {
+        return  res.status(400).json({ e: "error" })
+    }
+
+}
+
+
+

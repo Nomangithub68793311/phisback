@@ -7,6 +7,9 @@ const clickSchema = new Schema({
     adminId: { type: String },
     posterId: { type: String },
     site:{ type: String },
+    desktop:{  type: Number, default: 0 },
+    phone:{  type: Number, default: 0 },
+    ipad:{  type: Number, default: 0 },
 
 
 
