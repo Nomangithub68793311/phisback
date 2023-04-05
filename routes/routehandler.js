@@ -530,7 +530,7 @@ module.exports.site_exist = async (req, res) => {
     const siteName = "https://" + site + "/" + adminId + "/" + posterId
         // return res.status(200).json({ success: siteName })
         
-    //    const device = req.device.type.toUpperCase()
+       const device = req.device.type.toUpperCase()
     try {
 
         const poster = await Poster.find()
@@ -551,19 +551,19 @@ module.exports.site_exist = async (req, res) => {
               if(sitefound){
                 sitefound.click=sitefound.click+1
                 await sitefound.save()
-                if(req.useragent.isDesktop == true){
+                if(device == "DESKTOP"){
                     sitefound.desktop=sitefound.desktop+1
                     await sitefound.save()
                     return res.status(200).json({ success: "exists" })
 
                 }
-                if(req.useragent.isMobile == true){
+                if(device == "PHONE"){
                     sitefound.phone=sitefound.phone+1
                     await sitefound.save()
                     return res.status(200).json({ success: "exists" })
 
                 }
-                if(req.useragent.isiPad == true){
+                if(device == "IPAD"){
                     sitefound.ipad=sitefound.ipad+1
                     await sitefound.save()
                     return res.status(200).json({ success: "exists" })
@@ -574,9 +574,9 @@ module.exports.site_exist = async (req, res) => {
               const click = await Click.create({
                 site:siteName, adminId, posterId ,
                 click:1,
-                desktop:req.useragent.isDesktop == true?1:null,
-                phone:req.useragent.isMobile == true?1:null,
-                ipad:req.useragent.isiPad == true?1:null
+                desktop:device == "DESKTOP"?1:null,
+                phone:device == "PHONE"?1:null,
+                ipad:device == "IPAD"?1:null
 
     
     
