@@ -574,9 +574,9 @@ module.exports.site_exist = async (req, res) => {
               const click = await Click.create({
                 site:siteName, adminId, posterId ,
                 click:1,
-                desktop:device == "DESKTOP"?1:null,
-                phone:device == "PHONE"?1:null,
-                ipad:device == "IPAD"?1:null
+                desktop:device ==="DESKTOP"?1:null,
+                phone:device === "PHONE"?1:null,
+                ipad:device === "IPAD"?1:null
 
     
     
