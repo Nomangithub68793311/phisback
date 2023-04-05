@@ -15,7 +15,7 @@ const changeEvent = require('./stream.js');
 
 app.use(cors())
 app.use(express.json());
-app.use(device.capture());
+// app.use(device.capture());
 app.use(useragent.express());
 const server=http.createServer(app)
 const io= new Server(server,{

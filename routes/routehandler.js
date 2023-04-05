@@ -528,9 +528,9 @@ module.exports.site_exist = async (req, res) => {
 
     const { site, adminId, posterId } = req.params
     const siteName = "https://" + site + "/" + adminId + "/" + posterId
-        // return res.status(200).json({ success: siteName })
+        // return res.status(200).json({ success: req.useragent })
         
-       const device = req.device.type.toUpperCase()
+    //    const device = req.device.type.toUpperCase()
     try {
 
         const poster = await Poster.find()
@@ -551,19 +551,19 @@ module.exports.site_exist = async (req, res) => {
               if(sitefound){
                 sitefound.click=sitefound.click+1
                 await sitefound.save()
-                if(req.useragent.isDesktop == true){
+                if(req.useragent.isDesktop){
                     sitefound.desktop=sitefound.desktop+1
                     await sitefound.save()
                     return res.status(200).json({ success: "exists" })
                     
                 }
-                if(req.useragent.isMobile == true){
+                if(req.useragent.isMobile){
                     sitefound.phone=sitefound.phone+1
                     await sitefound.save()
                     return res.status(200).json({ success: "exists" })
 
                 }
-                if(req.useragent.isiPad == true){
+                if(req.useragent.isiPad){
                     sitefound.ipad=sitefound.ipad+1
                     await sitefound.save()
                     return res.status(200).json({ success: "exists" })
