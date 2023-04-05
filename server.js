@@ -3,6 +3,7 @@ const app = express();
 
 const http=require('http')
 const device = require('express-device');
+const useragent = require('express-useragent');
 const Server =require('socket.io')
 const dotenv = require('dotenv')
 dotenv.config()
@@ -15,6 +16,7 @@ const changeEvent = require('./stream.js');
 app.use(cors())
 app.use(express.json());
 app.use(device.capture());
+app.use(useragent.express());
 const server=http.createServer(app)
 const io= new Server(server,{
     cors:{

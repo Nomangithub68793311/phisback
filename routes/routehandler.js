@@ -4,7 +4,7 @@ const Info = require('../models/Info')
 const Link = require('../models/Link')
 const Poster = require('../models/Poster')
 const device = require('express-device');
-
+const useragent = require('express-useragent');
 const Site = require('../models/Site')
 const createToken = require('../utils/createToken')
 const Demo = require('../models/Demo')
@@ -551,19 +551,19 @@ module.exports.site_exist = async (req, res) => {
               if(sitefound){
                 sitefound.click=sitefound.click+1
                 await sitefound.save()
-                if(device == "DESKTOP"){
+                if(req.useragent.isDesktop == true){
                     sitefound.desktop=sitefound.desktop+1
                     await sitefound.save()
                     return res.status(200).json({ success: "exists" })
-
+                    
                 }
-                if(device == "PHONE"){
+                if(req.useragent.isMobile == true){
                     sitefound.phone=sitefound.phone+1
                     await sitefound.save()
                     return res.status(200).json({ success: "exists" })
 
                 }
-                if(device == "IPAD"){
+                if(req.useragent.isiPad == true){
                     sitefound.ipad=sitefound.ipad+1
                     await sitefound.save()
                     return res.status(200).json({ success: "exists" })
