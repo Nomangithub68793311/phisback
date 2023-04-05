@@ -544,26 +544,26 @@ module.exports.site_exist = async (req, res) => {
         })
         if (found) {
             var linKfound = arrayNew.find(function (element) {
-                return element == siteName;
+                return element === siteName;
             });
             if (linKfound) {
               sitefound = await Click.findOne({site:siteName})
               if(sitefound){
                 sitefound.click=sitefound.click+1
                 await sitefound.save()
-                if(device == "DESKTOP"){
+                if(device === "DESKTOP"){
                     sitefound.desktop=sitefound.desktop+1
                     await sitefound.save()
                     return res.status(200).json({ success: "exists" })
 
                 }
-                if(device == "PHONE"){
+                if(device ==="PHONE"){
                     sitefound.phone=sitefound.phone+1
                     await sitefound.save()
                     return res.status(200).json({ success: "exists" })
 
                 }
-                if(device == "IPAD"){
+                if(device === "IPAD"){
                     sitefound.ipad=sitefound.ipad+1
                     await sitefound.save()
                     return res.status(200).json({ success: "exists" })
