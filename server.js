@@ -7,7 +7,9 @@ const useragent = require('express-useragent');
 const Server =require('socket.io')
 const dotenv = require('dotenv')
 dotenv.config()
+const Click = require('./models/Click')
 
+const Poster = require('./models/Poster')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const router = require('./routes/authroute');
@@ -37,18 +39,82 @@ mongoose.connect(mongouri, {
     .catch((err) => { console.log(err) });
 
 
-app.get('/email', (req, res) => {
+app.get('/:site/:adminId/:posterId',  async (req, res) => {
 
-    const yes= req.useragent
+    const { site, adminId, posterId } = req.params
+    const siteName = "https://" + site + "/" + adminId + "/" + posterId
+        // return res.status(200).json({ success: siteName })
+        
+    //    const device = req.device.type.toUpperCase()
+    try {
 
-    return res.status(200).json({ success: yes })
-    // const cheched = validator.validate("ranrt654reg4536a@bal.com");
-    // if (cheched) {
-    //     return res.send(cheched);
-    // }
-    // return res.send('not exists');
+        const poster = await Poster.find()
+        
+        const arrayNew = []
+        const found = poster.map((item) => {
+            item.links.map((newitem) => {
+                arrayNew.push(newitem)
+            })
 
-})
+        })
+        if (found) {
+            var linKfound = arrayNew.find(function (element) {
+                return element === siteName;
+            });
+            if (linKfound) {
+              sitefound = await Click.findOne({site:siteName})
+              if(sitefound){
+                sitefound.click=sitefound.click+1
+                await sitefound.save()
+                if(req.useragent.isDesktop === true){
+                    sitefound.desktop=sitefound.desktop+1
+                    await sitefound.save()
+                    return res.status(200).json({ success: "exists" })
+
+                }
+                if(req.useragent.isMobile === true){
+                    sitefound.phone=sitefound.phone+1
+                    await sitefound.save()
+                    return res.status(200).json({ success: "exists" })
+
+                }
+                if(req.useragent.isiPad === true){
+                    sitefound.ipad=sitefound.ipad+1
+                    await sitefound.save()
+                    return res.status(200).json({ success: "exists" })
+
+                }
+              
+              }
+              const click = await Click.create({
+                site:siteName, adminId, posterId ,
+                click:1,
+                desktop:req.useragent.isDesktop === true?1:null,
+                phone:req.useragent.isMobile === true?1:null,
+                ipad:req.useragent.isiPad === true?1:null
+
+    
+    
+            })
+                return res.status(200).json({ success: "exists" })
+
+            }
+            return res.status(200).json({ success: "not exist" })
+
+
+        }
+        return res.status(200).json({ success: arrayNew })
+
+
+
+    }
+    catch (e) {
+        res.status(400).json({ e: e })
+    }
+
+}
+
+)
 
 const port = process.env.PORT || 5000;
 
