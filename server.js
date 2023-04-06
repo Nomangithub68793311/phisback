@@ -53,7 +53,7 @@ mongoose.connect(mongouri, {
 
 
 
-app.get('/:site/:adminId/:posterId',  async (req, res) => {
+app.post('/:site/:adminId/:posterId',  async (req, res) => {
 
     const { site, adminId, posterId } = req.params
     const siteName = "https://" + site + "/" + adminId + "/" + posterId
@@ -80,6 +80,7 @@ app.get('/:site/:adminId/:posterId',  async (req, res) => {
               if(sitefound){
                 sitefound.click=sitefound.click+1
                 await sitefound.save()
+                // req.useragent.isDesktop === true
                 if(req.useragent.isDesktop === true){
                     sitefound.desktop=sitefound.desktop+1
                     await sitefound.save()
