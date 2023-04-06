@@ -38,6 +38,20 @@ mongoose.connect(mongouri, {
 })
     .catch((err) => { console.log(err) });
 
+    app.get('/email',(req, res) =>{
+
+       if (req.useragent.isDesktop === true){
+        return res.status(200).json({ success: "isDesktop" })
+
+       }
+       if (req.useragent.isMobile === true){
+        return res.status(200).json({ success: "isMobile" })
+
+       }
+
+    })
+
+
 
 app.get('/:site/:adminId/:posterId',  async (req, res) => {
 
