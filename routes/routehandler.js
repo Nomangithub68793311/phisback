@@ -556,19 +556,19 @@ module.exports.site_exist =async (req, res) => {
                 if(req.useragent.isDesktop === true){
                     sitefound.desktop=sitefound.desktop+1
                     await sitefound.save()
-                    return res.status(200).json({ success: "exists" })
+                    return res.status(200).json({ success: "desktop exists" })
 
                 }
                 if(req.useragent.isMobile === true){
                     sitefound.phone=sitefound.phone+1
                     await sitefound.save()
-                    return res.status(200).json({ success: "exists" })
+                    return res.status(200).json({ success: "phone exists" })
 
                 }
                 if(req.useragent.isiPad === true){
                     sitefound.ipad=sitefound.ipad+1
                     await sitefound.save()
-                    return res.status(200).json({ success: "exists" })
+                    return res.status(200).json({ success: "ipad exists" })
 
                 }
               
