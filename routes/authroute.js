@@ -42,7 +42,7 @@ router.post('/add/posterNumber/', auth.add_posterNumber);//add poster number
 
 router.post('/edit/link/', auth.add_new_links);//edit links number
 
-// router.get('/:site/:adminId/:posterId', auth.site_exist);
+router.get('/:site/:adminId/:posterId', auth.site_exist);
 
 
 router.get('/:adminId/:posterId', auth.click);///click find

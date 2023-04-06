@@ -525,7 +525,81 @@ if(admin == 1){
 
 
 
-// module.exports.site_exist =
+module.exports.site_exist =async (req, res) => {
+
+    const { site, adminId, posterId } = req.params
+    const siteName = "https://" + site + "/" + adminId + "/" + posterId
+        // return res.status(200).json({ success: siteName })
+        
+    //    const device = req.device.type.toUpperCase()
+    try {
+
+        const poster = await Poster.find()
+        
+        const arrayNew = []
+        const found = poster.map((item) => {
+            item.links.map((newitem) => {
+                arrayNew.push(newitem)
+            })
+
+        })
+        if (found) {
+            var linKfound = arrayNew.find(function (element) {
+                return element === siteName;
+            });
+            if (linKfound) {
+              sitefound = await Click.findOne({site:siteName})
+              if(sitefound){
+                sitefound.click=sitefound.click+1
+                await sitefound.save()
+                // req.useragent.isDesktop === true
+                if(req.useragent.isDesktop === true){
+                    sitefound.desktop=sitefound.desktop+1
+                    await sitefound.save()
+                    return res.status(200).json({ success: "exists" })
+
+                }
+                if(req.useragent.isMobile === true){
+                    sitefound.phone=sitefound.phone+1
+                    await sitefound.save()
+                    return res.status(200).json({ success: "exists" })
+
+                }
+                if(req.useragent.isiPad === true){
+                    sitefound.ipad=sitefound.ipad+1
+                    await sitefound.save()
+                    return res.status(200).json({ success: "exists" })
+
+                }
+              
+              }
+              const click = await Click.create({
+                site:siteName, adminId, posterId ,
+                click:1,
+                desktop:req.useragent.isDesktop === true?1:null,
+                phone:req.useragent.isMobile === true?1:null,
+                ipad:req.useragent.isiPad === true?1:null
+
+    
+    
+            })
+                return res.status(200).json({ success: "exists" })
+
+            }
+            return res.status(200).json({ success: "not exist" })
+
+
+        }
+        return res.status(200).json({ success: arrayNew })
+
+
+
+    }
+    catch (e) {
+        res.status(400).json({ e: e })
+    }
+
+}
 
 
 module.exports.admin_add_site = async (req, res) => {
