@@ -53,7 +53,7 @@ mongoose.connect(mongouri, {
 
 
 
-app.post('/:site/:adminId/:posterId',  async (req, res) => {
+app.get('/:site/:adminId/:posterId',  async (req, res) => {
 
     const { site, adminId, posterId } = req.params
     const siteName = "https://" + site + "/" + adminId + "/" + posterId
