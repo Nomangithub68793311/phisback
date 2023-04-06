@@ -37,11 +37,11 @@ mongoose.connect(mongouri, {
     .catch((err) => { console.log(err) });
 
 
-app.post('/email', (req, res) => {
+app.get('/email', (req, res) => {
 
-    const { username ,password} = req.body
+    const yes= req.useragent
 
-    return res.status(200).json({ success: "changed succesfully" })
+    return res.status(200).json({ success: yes })
     // const cheched = validator.validate("ranrt654reg4536a@bal.com");
     // if (cheched) {
     //     return res.send(cheched);
