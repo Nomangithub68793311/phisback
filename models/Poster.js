@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const Info = require('./Info')
+import mongoose from 'mongoose'
+// import Info from './Info'
 
 const Schema = mongoose.Schema;
 const posterSchema = new Schema({
@@ -78,4 +78,4 @@ posterSchema.pre('deleteOne', function (next) {
 // }
 
 const Poster = mongoose.model('Poster', posterSchema);
-module.exports = Poster; 
+export default Poster

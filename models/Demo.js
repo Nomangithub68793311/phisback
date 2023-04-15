@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose'
 
 const Schema = mongoose.Schema;
 const demoSchema = new Schema({
@@ -47,8 +47,8 @@ const demoSchema = new Schema({
 // }
 
 const Demo = mongoose.model('Demo', demoSchema);
-module.exports = Demo; 
 
+export default Demo
 
 
 // DB_CONNECTION=mysql

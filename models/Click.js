@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose'
 
 const Schema = mongoose.Schema;
 const clickSchema = new Schema({
@@ -43,4 +43,4 @@ const clickSchema = new Schema({
 // }
 
 const Click = mongoose.model('Click', clickSchema);
-module.exports = Click; 
+export default Click

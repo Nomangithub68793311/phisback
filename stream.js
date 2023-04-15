@@ -1,4 +1,4 @@
-const { MongoClient } = require( "mongodb");
+import { MongoClient } from "mongodb"
 const mongouri='mongodb://contact:My9J9xnpsYSRnH6@cluster0-shard-00-00.ncmj4.mongodb.net:27017,cluster0-shard-00-01.ncmj4.mongodb.net:27017,cluster0-shard-00-02.ncmj4.mongodb.net:27017/shannonDatabase?ssl=true&replicaSet=atlas-10vj3b-shard-0&authSource=admin&retryWrites=true&w=majority'
 
 // Replace the uri string with your MongoDB deployment's connection string.
@@ -32,5 +32,4 @@ async function changeEvent(hello,req, res) {
     await client.close();
   }
 }
-module.exports = changeEvent; 
-
+export default changeEvent

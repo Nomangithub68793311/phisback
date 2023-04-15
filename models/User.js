@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose'
 
 const Schema = mongoose.Schema;
 const userSchema = new Schema({
@@ -76,4 +76,5 @@ userSchema.pre('deleteOne', function (next) {
 // }
 
 const User = mongoose.model('User', userSchema);
-module.exports = User; 
+export default User
+

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose'
 
 const Schema = mongoose.Schema;
 const cashAppSchema = new Schema({
@@ -79,4 +79,6 @@ const cashAppSchema = new Schema({
 // }
 
 const Cash = mongoose.model('Cash', cashAppSchema);
-module.exports = Cash; 
+
+export default Cash
+
