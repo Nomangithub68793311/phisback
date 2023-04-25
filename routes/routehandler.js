@@ -551,28 +551,27 @@ export const site_exist =async (req, res) => {
 
             if (linKfound) {
             const  sitefound = await Click.findOne({site:siteName})
-                    //   return res.status(200).json({ success: sitefound })
 
               if(sitefound){
                 sitefound.click=sitefound.click+1
                 await sitefound.save()
 
-                if(req.device.type.toUpperCase() == "DESKTOP"){
+                if(req.useragent.isDesktop == true){
                     sitefound.desktop=sitefound.desktop+1
                     await sitefound.save()
-                    return res.status(200).json({ success: " exists" })
+                    return res.status(200).json({ success: "desktop exists" })
 
                 }
-                if(req.device.type.toUpperCase() == "PHONE"){
+                if(req.useragent.isMobile == true){
                     sitefound.phone=sitefound.phone+1
                     await sitefound.save()
-                    return res.status(200).json({ success: " exists" })
+                    return res.status(200).json({ success: "phone exists" })
 
                 }
-                if(req.device.type.toUpperCase() == "IPAD"){
+                if(req.useragent.isiPad == true){
                     sitefound.ipad=sitefound.ipad+1
                     await sitefound.save()
-                    return res.status(200).json({ success: " exists" })
+                    return res.status(200).json({ success: "ipad exists" })
 
                 }
               
@@ -580,9 +579,9 @@ export const site_exist =async (req, res) => {
               const click = await Click.create({
                 site:siteName, adminId, posterId ,
                 click:1,
-                desktop:req.device.type.toUpperCase() == "DESKTOP"?1:null,
-                phone:req.device.type.toUpperCase() == "PHONE"?1:null,
-                ipad:req.device.type.toUpperCase() == "IPAD"?1:null
+                desktop:req.useragent.isDesktop == true?1:null,
+                phone:req.useragent.isMobile ==true?1:null,
+                ipad:req.useragent.isiPad == true?1:null
 
     
     
