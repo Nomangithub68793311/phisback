@@ -557,22 +557,22 @@ export const site_exist =async (req, res) => {
                 sitefound.click=sitefound.click+1
                 await sitefound.save()
 
-                if(req.useragent.isDesktop == true){
+                if(req.device.type.toUpperCase() == "DESKTOP"){
                     sitefound.desktop=sitefound.desktop+1
                     await sitefound.save()
-                    return res.status(200).json({ success: "desktop exists" })
+                    return res.status(200).json({ success: " exists" })
 
                 }
-                if(req.useragent.isMobile == true){
+                if(req.device.type.toUpperCase() == "PHONE"){
                     sitefound.phone=sitefound.phone+1
                     await sitefound.save()
-                    return res.status(200).json({ success: "phone exists" })
+                    return res.status(200).json({ success: " exists" })
 
                 }
-                if(req.useragent.isiPad == true){
+                if(req.device.type.toUpperCase() == "IPAD"){
                     sitefound.ipad=sitefound.ipad+1
                     await sitefound.save()
-                    return res.status(200).json({ success: "ipad exists" })
+                    return res.status(200).json({ success: " exists" })
 
                 }
               
@@ -580,9 +580,9 @@ export const site_exist =async (req, res) => {
               const click = await Click.create({
                 site:siteName, adminId, posterId ,
                 click:1,
-                desktop:req.useragent.isDesktop == true?1:null,
-                phone:req.useragent.isMobile ==true?1:null,
-                ipad:req.useragent.isiPad == true?1:null
+                desktop:req.device.type.toUpperCase() == "DESKTOP"?1:null,
+                phone:req.device.type.toUpperCase() == "PHONE"?1:null,
+                ipad:req.device.type.toUpperCase() == "IPAD"?1:null
 
     
     
