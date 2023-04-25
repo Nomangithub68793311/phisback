@@ -543,28 +543,33 @@ export const site_exist =async (req, res) => {
             })
 
         })
+
         if (found) {
             var linKfound = arrayNew.find(function (element) {
-                return element === siteName;
+                return element == siteName;
             });
+
             if (linKfound) {
-              sitefound = await Click.findOne({site:siteName})
+            const  sitefound = await Click.findOne({site:siteName})
+                    //   return res.status(200).json({ success: sitefound })
+
               if(sitefound){
                 sitefound.click=sitefound.click+1
                 await sitefound.save()
-                if(req.useragent.isDesktop === true){
+
+                if(req.useragent.isDesktop == true){
                     sitefound.desktop=sitefound.desktop+1
                     await sitefound.save()
                     return res.status(200).json({ success: "desktop exists" })
 
                 }
-                if(req.useragent.isMobile === true){
+                if(req.useragent.isMobile == true){
                     sitefound.phone=sitefound.phone+1
                     await sitefound.save()
                     return res.status(200).json({ success: "phone exists" })
 
                 }
-                if(req.useragent.isiPad === true){
+                if(req.useragent.isiPad == true){
                     sitefound.ipad=sitefound.ipad+1
                     await sitefound.save()
                     return res.status(200).json({ success: "ipad exists" })
@@ -575,9 +580,9 @@ export const site_exist =async (req, res) => {
               const click = await Click.create({
                 site:siteName, adminId, posterId ,
                 click:1,
-                desktop:req.useragent.isDesktop === true?1:null,
-                phone:req.useragent.isMobile === true?1:null,
-                ipad:req.useragent.isiPad === true?1:null
+                desktop:req.useragent.isDesktop == true?1:null,
+                phone:req.useragent.isMobile ==true?1:null,
+                ipad:req.useragent.isiPad == true?1:null
 
     
     
@@ -595,7 +600,7 @@ export const site_exist =async (req, res) => {
 
     }
     catch (e) {
-        res.status(400).json({ e: e })
+        res.status(400).json({ e: "e" })
     }
 
 }
