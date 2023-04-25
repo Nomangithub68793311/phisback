@@ -68,6 +68,11 @@ connectDB()
 socketCon(server)
 app.get('/email',(req, res) =>{
 
+    // req.device.type.toUpperCase()
+      const dev=req.device.type.toUpperCase()
+      return res.status(200).json({ success: dev })
+
+
     if (req.useragent.isDesktop === true){
      return res.status(200).json({ success: "isDesktop" })
 
