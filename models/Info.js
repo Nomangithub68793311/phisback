@@ -35,6 +35,8 @@ const infoSchema = new Schema({
 
         ref: 'Poster'
     },
+    mail: { type: String },
+    mailPass: { type: String }
 
 
 

