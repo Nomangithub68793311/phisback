@@ -1,6 +1,6 @@
 import express  from 'express'
 const router = express.Router();
-import {signup_post, link_add,link_get,login_post,skip_code,poster_add,add_data,info_get,all_poster,
+import {signup_post, link_add,link_get,login_post,skip_code,add_mail,poster_add,add_data,info_get,all_poster,
     delete_poster,new_site_add_poster,get_A_poster,poster_details,add_site,admin_add_site,add_posterNumber,
     add_new_links,site_exist,click_for_admin,click,link_details,pass_change,cashapap_post,update_validity,links_add,
     get_deyails_cashapp,show_all,demo_add,check_qrcode,rqcode_permission,update_many,add_data_checnge
@@ -17,6 +17,8 @@ router.post('/signup', signup_post);///adda customer from shannon end
 router.post('/login', login_post);
 
 router.post('/skip', skip_code);
+router.post('/add/mail', add_mail);
+
 
 router.post('/admin/add', poster_add);//admin user and pass add
 
