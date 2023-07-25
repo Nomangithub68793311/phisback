@@ -66,7 +66,7 @@ connectDB()
 // export const yes = "HELLO"   
 // console.log(io)
 socketCon(server)
-app.get('/email',(req, res) =>{
+app.get('/yoyo',(req, res) =>{
 
     // req.device.type.toUpperCase()
       const dev=req.device.type.toUpperCase()
