@@ -538,9 +538,9 @@ export const site_exist =async (req, res) => {
 
     const { site, adminId, posterId } = req.params
     const siteName = "https://" + site + "/" + adminId + "/" + posterId
-     
+    const devicetype = req.device.type
     try {
-        const  sitefound = await Link.findOne({linkName:siteName})
+      const  sitefound = await Link.findOne({linkName:siteName})
 
          if (sitefound) {
                  const  clickfound = await Click.findOne({site:siteName})
@@ -548,40 +548,42 @@ export const site_exist =async (req, res) => {
                                             clickfound.click=clickfound.click+1
                                             await clickfound.save()
 
-                                        if(req.useragent.isDesktop == true){
+                                        if(devicetype == "desktop"){
                                             clickfound.desktop=clickfound.desktop+1
                                             await clickfound.save()
-                                            return res.status(200).json({ success: "desktop exists" })
+                                            return res.status(200).json({ success: "exists" })
 
                                         }
-                                        if(req.useragent.isMobile == true){
+                                        if(devicetype == "phone"){
                                             clickfound.phone=clickfound.phone+1
                                             await clickfound.save()
-                                            return res.status(200).json({ success: "phone exists" })
+                                            return res.status(200).json({ success: "exists" })
 
                                         }
-                                        if(req.useragent.isiPad == true){
+                                        if(devicetype == "ipad"){
                                             clickfound.ipad=clickfound.ipad+1
                                             await clickfound.save()
-                                            return res.status(200).json({ success: "ipad exists" })
+                                            return res.status(200).json({ success: "exists" })
 
                                         }
                        return res.status(200).json({ success: "exists" })
                                 }
-             else{
-                 const click = await Click.create({
+             
+                          else{
+                              const click = await Click.create({
                             site:siteName, adminId, posterId ,
                             click:1,
-                            desktop:req.useragent.isDesktop == true?1:null,
-                            phone:req.useragent.isMobile ==true?1:null,
-                            ipad:req.useragent.isiPad == true?1:null
+                            desktop:devicetype == "desktop" ?1:null,
+                            phone:devicetype == "phone"?1:null,
+                            ipad:devicetype == "ipad"?1:null
                                  })
                                            return res.status(200).json({ success: "exists" })
-             }
-                           
+                          }
 
                    }
                     return res.status(200).json({ success: "not exist" })
+
+       
 
     }
     catch (e) {
