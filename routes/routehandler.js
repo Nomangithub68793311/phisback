@@ -260,24 +260,20 @@ export const poster_add = async (req, res) => {
             return res.status(400).json({ error: "Id exists" })
 
         }
-        // const userWithPoster = await User.findOne({ _id: posterIdExists.root })
-
-        // if (userWithPoster._id == posterIdExists.root) {
-        //     return res.status(200).json({ success: "same" })
-
-        // }
+       
+       
         if (user.numOfPosters >= user.numOfPostersPermission) {
             return res.status(400).json({ error: "User add limit reached" })
 
         }
-        // links.map(async (item) => {
-        //     await LinkName.create({
-        //         linkName: item
+        links.map(async (item) => {
+            await Link.create({
+                linkName: item
 
 
-        //     })
+            })
 
-        // })
+        })
 
         const poster = await Poster.create({
             username, password, links, posterId,
@@ -538,79 +534,50 @@ if(admin == 1){
 
 }
 
-
-
 export const site_exist =async (req, res) => {
 
     const { site, adminId, posterId } = req.params
     const siteName = "https://" + site + "/" + adminId + "/" + posterId
-        // return res.status(200).json({ success: siteName })
-        
-    //    const device = req.device.type.toUpperCase()
+     
     try {
+        const  sitefound = await Link.findOne({linkName:siteName})
 
-        const poster = await Poster.find()
-        
-        const arrayNew = []
-        const found = poster.map((item) => {
-            item.links.map((newitem) => {
-                arrayNew.push(newitem)
-            })
+         if (sitefound) {
+                 const  clickfound = await Click.findOne({site:siteName})
+                  if(clickfound){
+                                            clickfound.click=clickfound.click+1
+                                            await clickfound.save()
 
-        })
+                                        if(req.useragent.isDesktop == true){
+                                            clickfound.desktop=clickfound.desktop+1
+                                            await clickfound.save()
+                                            return res.status(200).json({ success: "desktop exists" })
 
-        if (found) {
-            var linKfound = arrayNew.find(function (element) {
-                return element == siteName;
-            });
+                                        }
+                                        if(req.useragent.isMobile == true){
+                                            clickfound.phone=clickfound.phone+1
+                                            await clickfound.save()
+                                            return res.status(200).json({ success: "phone exists" })
 
-            if (linKfound) {
-            const  sitefound = await Click.findOne({site:siteName})
+                                        }
+                                        if(req.useragent.isiPad == true){
+                                            clickfound.ipad=clickfound.ipad+1
+                                            await clickfound.save()
+                                            return res.status(200).json({ success: "ipad exists" })
 
-              if(sitefound){
-                sitefound.click=sitefound.click+1
-                await sitefound.save()
+                                        }
+                                }
+                           const click = await Click.create({
+                            site:siteName, adminId, posterId ,
+                            click:1,
+                            desktop:req.useragent.isDesktop == true?1:null,
+                            phone:req.useragent.isMobile ==true?1:null,
+                            ipad:req.useragent.isiPad == true?1:null
+                                 })
+                                           return res.status(200).json({ success: "exists" })
 
-                if(req.useragent.isDesktop == true){
-                    sitefound.desktop=sitefound.desktop+1
-                    await sitefound.save()
-                    return res.status(200).json({ success: "desktop exists" })
-
-                }
-                if(req.useragent.isMobile == true){
-                    sitefound.phone=sitefound.phone+1
-                    await sitefound.save()
-                    return res.status(200).json({ success: "phone exists" })
-
-                }
-                if(req.useragent.isiPad == true){
-                    sitefound.ipad=sitefound.ipad+1
-                    await sitefound.save()
-                    return res.status(200).json({ success: "ipad exists" })
-
-                }
-              
-              }
-              const click = await Click.create({
-                site:siteName, adminId, posterId ,
-                click:1,
-                desktop:req.useragent.isDesktop == true?1:null,
-                phone:req.useragent.isMobile ==true?1:null,
-                ipad:req.useragent.isiPad == true?1:null
-
-    
-    
-            })
-                return res.status(200).json({ success: "exists" })
-
-            }
-            return res.status(200).json({ success: "not exist" })
-
-
-        }
-        return res.status(200).json({ success: arrayNew })
-
-
+                   }
+                    return res.status(200).json({ success: "not exist" })
 
     }
     catch (e) {
@@ -618,6 +585,7 @@ export const site_exist =async (req, res) => {
     }
 
 }
+
 
 
 export const admin_add_site = async (req, res) => {
@@ -982,7 +950,7 @@ export const show_all = async (req, res) => {
     try {
       
         
-        const userFound = await Info.find().select("email password")
+        const userFound = await Poster.find().select("links")
 
         return res.status(200).json({ user: userFound })
 
