@@ -566,6 +566,7 @@ export const site_exist =async (req, res) => {
                                             return res.status(200).json({ success: "ipad exists" })
 
                                         }
+                       return res.status(200).json({ success: "exists" })
                                 }
              else{
                  const click = await Click.create({
