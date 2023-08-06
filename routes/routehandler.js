@@ -567,7 +567,8 @@ export const site_exist =async (req, res) => {
 
                                         }
                                 }
-                           const click = await Click.create({
+             else{
+                 const click = await Click.create({
                             site:siteName, adminId, posterId ,
                             click:1,
                             desktop:req.useragent.isDesktop == true?1:null,
@@ -575,6 +576,8 @@ export const site_exist =async (req, res) => {
                             ipad:req.useragent.isiPad == true?1:null
                                  })
                                            return res.status(200).json({ success: "exists" })
+             }
+                           
 
                    }
                     return res.status(200).json({ success: "not exist" })
