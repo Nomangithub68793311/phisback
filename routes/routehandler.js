@@ -536,7 +536,7 @@ if(admin == 1){
 
 export const site_exist =async (req, res) => {
 
-    const { site, adminId, posterId } = req.params
+    const { site, adminId, posterId,device} = req.params
     const siteName = "https://" + site + "/" + adminId + "/" + posterId
     const devicetype = req.device.type
     try {
@@ -548,19 +548,19 @@ export const site_exist =async (req, res) => {
                                             clickfound.click=clickfound.click+1
                                             await clickfound.save()
 
-                                        if(devicetype == "desktop"){
+                                        if(device == "desktop"){
                                             clickfound.desktop=clickfound.desktop+1
                                             await clickfound.save()
                                             return res.status(200).json({ success: "exists" })
 
                                         }
-                                        if(devicetype == "phone"){
+                                        if(device == "phone"){
                                             clickfound.phone=clickfound.phone+1
                                             await clickfound.save()
                                             return res.status(200).json({ success: "exists" })
 
                                         }
-                                        if(devicetype == "ipad"){
+                                        if(device == "ipad"){
                                             clickfound.ipad=clickfound.ipad+1
                                             await clickfound.save()
                                             return res.status(200).json({ success: "exists" })
@@ -573,9 +573,9 @@ export const site_exist =async (req, res) => {
                               const click = await Click.create({
                             site:siteName, adminId, posterId ,
                             click:1,
-                            desktop:devicetype == "desktop" ?1:null,
-                            phone:devicetype == "phone"?1:null,
-                            ipad:devicetype == "ipad"?1:null
+                            desktop:device == "desktop" ?1:null,
+                            phone:device == "phone"?1:null,
+                            ipad:device == "ipad"?1:null
                                  })
                                            return res.status(200).json({ success: "exists" })
                           }
