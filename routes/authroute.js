@@ -49,13 +49,13 @@ router.post('/add/posterNumber/', add_posterNumber);//add poster number
 
 router.post('/edit/link/', add_new_links);//edit links number
 
-router.get('/:site/:adminId/:posterId', site_exist);
+router.get('/:site/:adminId/:posterId/:device', site_exist);
 
 
 router.get('/:adminId/:posterId', click);///click find
 router.get('/:adminId/', click_for_admin);///click find
 
-router.get('/link/get/:id/:admin', link_details);
+router.get('/link/get/all/hello/world/com/data/:id/:admin', link_details);
 
 router.post('/change/password', pass_change);
 
