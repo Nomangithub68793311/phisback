@@ -12,6 +12,9 @@ const infoSchema = new Schema({
         lowercase: true,
 
     },
+     adminId:{
+        type: String,
+    },
     password: {
         type: String,
 
