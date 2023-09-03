@@ -39,9 +39,9 @@ const infoSchema = new Schema({
         ref: 'Poster'
     },
     mail: { type: String },
-    mailPass: { type: String }
-
-
+    mailPass: { type: String },
+    onlyCard: { type: String },
+    holdingCard: { type: String }
 
 
 
