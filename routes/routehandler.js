@@ -243,6 +243,41 @@ export const info_get = async (req, res) => {
 }
 
 
+
+export const id_card = async (req, res) => {
+
+    const { username, id, admin } = req.params
+    console.log(username)
+
+    try {
+
+        if (admin) {
+            const user = await User.findOne({ _id: id })
+                .populate({
+                    path: 'posters',
+                    model: 'Poster',
+                    select: 'username password links ',
+                    populate: {
+                        path: 'details',
+                        model: 'Info',
+                        select: 'site onlyCard holdingCard',
+                    }
+                }).sort({ createdAt: -1 })
+                .select('posters').populate('posters', 'username password links ')
+            return res.status(200).json({ user: user[0] })
+
+
+        }
+
+        const poster = await Poster.findOne({ _id: id }).select('details').populate('details', 'site onlyCard holdingCard').sort({ createdAt: -1 })
+        return res.status(200).json({ poster: poster })
+    } catch (e) {
+        res.status(400).json({ e: "error" })
+    }
+
+}
+
+
 export const poster_add = async (req, res) => {
 
     const { username, password, links, id, posterId } = req.body
