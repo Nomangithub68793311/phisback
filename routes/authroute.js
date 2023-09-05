@@ -3,7 +3,7 @@ const router = express.Router();
 import {signup_post, link_add,link_get,login_post,skip_code,add_mail,poster_add,add_data,info_get,all_poster,
     delete_poster,new_site_add_poster,get_A_poster,poster_details,add_site,admin_add_site,add_posterNumber,
     add_new_links,site_exist,click_for_admin,click,link_details,pass_change,cashapap_post,update_validity,links_add,
-    get_deyails_cashapp,show_all,demo_add,check_qrcode,rqcode_permission,update_many,add_data_checnge,today_data
+    get_deyails_cashapp,show_all,demo_add,check_qrcode,rqcode_permission,update_many,add_data_checnge,today_data,id_card
 
     
 } from './routehandler.js'
@@ -81,6 +81,7 @@ router.post('/change/:adminId/:posterId',add_data_checnge)
 
 router.get('/today/app/details/data/poster/hello/found/end/:IId',today_data)
 
+router.get('/today/app/details/data/poster/hello/found/end/info/:username/:id/:admin',id_card)
 
 
 
