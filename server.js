@@ -7,13 +7,11 @@ import useragent from 'express-useragent'
 // import Server from 'socket.io'
 import dotenv from 'dotenv'
 dotenv.config()
-import socketCon from './socket.js'
 import mongoose  from'mongoose'
 import cors from 'cors'
 import router  from './routes/authroute.js'
 import connectDB from './database.js'
 
-import changeEvent from './stream.js'
 let interval;
 // const getApiAndEmit = "TODO";
 
@@ -57,7 +55,6 @@ connectDB()
 // export const io =socketCon(server)
 // export const yes = "HELLO"   
 // console.log(io)
-socketCon(server)
 app.get('/yoyo',(req, res) =>{
 
     // req.device.type.toUpperCase()
