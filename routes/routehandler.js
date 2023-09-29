@@ -14,37 +14,7 @@ import Cash from '../models/Cash.js'
 import changeEvent from'../stream.js'
 
 
-// const {API_KEY}=require('../keys')
-// const nodemailer=require('nodemailer');
-// const sendgridTransport=require('nodemailer-sendgrid-transport');
-// const transporter=nodemailer.createTransport(sendgridTransport({
-//     auth:{
-//      api_key:"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",
-//      api_user:"traviskaterherron@gmail.com"
-//     }
 
-// module.exports.signup_post=async(req,res)=>{
-//     const {email,password,fullname}=req.body;
-//     try{
-//         const user=await User.create({
-//             email,password,fullname
-//         })
-//     const token =  cretaetoken(user._id);
-
-
-//         res.status(200).json({user:user,token:token})
-
-//         res.send("done post")
-
-
-
-//     }
-//     catch(err){
-//         const error=handleerror(err)
-//         res.status(422).json({error:error})
-//       //   res.send(err.code)
-//       }
-// 
 
 
 
