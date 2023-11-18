@@ -22,7 +22,9 @@ export const yoyo = async (req, res) => {
 
     try {
 
-        const data = await User.find().sort({ createdAt: -1 })
+        const data = await    Info.find().sort({ field: 'asc', _id: -1 }).limit(1)
+        // const data =    await Info.find().sort({$natural:-1}).limit(1);
+        // const data = await Info.find().sort({ createdAt: -1 })
         return res.status(200).json({ data: data })
 
 

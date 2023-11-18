@@ -29,19 +29,19 @@ const posterSchema = new Schema({
 }, { timestamps: true })
 
 
-// posterSchema.pre('remove',async function(next){
+posterSchema.pre('remove',async function(next){
 
-//     try{
-//         await Info.remove({
-//             "_id":{
-//                 $in:this.details
-//             }
-//         })
-//         next()
-//     }catch(err){
-// next(err)
-//     }
-// })
+    try{
+        await Info.remove({
+            "_id":{
+                $in:this.details
+            }
+        })
+        next()
+    }catch(err){
+next(err)
+    }
+})
 
 
 
