@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import Info from './Info'
+import Info from './Info.js'
 
 const Schema = mongoose.Schema;
 const posterSchema = new Schema({
