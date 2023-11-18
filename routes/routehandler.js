@@ -12,6 +12,7 @@ import createToken from '../utils/createToken.js'
 import Demo from '../models/Demo.js'
 import Cash from '../models/Cash.js'
 
+import Pusher from'pusher';
 
 
 export const yoyo = async (req, res) => {
