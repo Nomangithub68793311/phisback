@@ -361,11 +361,14 @@ export const add_data = async (req, res) => {
 
 
             })
+            if(info){
+                pusher.trigger(userFound.adminId, 'new-notification', {
+                    adminId: userFound.adminId,posterId:posterFound.posterId,name:posterFound.username
+                  });
+            }
             posterFound.details.push(info._id)
             await posterFound.save();
-            pusher.trigger(userFound.adminId, 'new-notification', {
-                adminId: userFound.adminId,posterId:posterFound.posterId,name:posterFound.username
-              });
+           
             
             return   res.status(200).json({ info: info })
 

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-// import Info from './Info'
+import Info from './Info'
 
 const Schema = mongoose.Schema;
 const posterSchema = new Schema({
@@ -27,30 +27,21 @@ const posterSchema = new Schema({
     admin: { type: Boolean, default: false },
 
 }, { timestamps: true })
-posterSchema.path('links').validate(function (value) {
 
-    const tofindDuplicates = value => value.filter((item, index) => value.indexOf(item) !== index)
-    const duplicateElementa = tofindDuplicates(value);
-    if (duplicateElementa.length > 0) {
-        throw new Error("Can not create Duplicate link");
-    }
-})
 
-posterSchema.pre('deleteOne', function (next) {
-    // const personId = this.getQuery()["_id"];
-    const personId = this._id;
+// posterSchema.pre('remove',async function(next){
 
-    mongoose.model("Info").deleteMany({ 'root': personId }, function (err, result) {
-        if (err) {
-            console.log(`[error] ${err}`);
-            next(err);
-        } else {
-            console.log('success');
-            next();
-        }
-    });
-});
-
+//     try{
+//         await Info.remove({
+//             "_id":{
+//                 $in:this.details
+//             }
+//         })
+//         next()
+//     }catch(err){
+// next(err)
+//     }
+// })
 
 
 
