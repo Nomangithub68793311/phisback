@@ -416,7 +416,7 @@ export const delete_poster =  (req, res) => {
     const { id_pos,id_ad } = req.params
 //    return  res.status(422).json({ id: id_pos })
 
-    Poster.findByIdAndDelete({ _id: id_pos })
+    Poster.findByIdAndRemove({ _id: id_pos })
     .then(user => console.log('deleted yes')).catch(err => res.status(422).json({ error: err }))
 User.findOne({_id: id_ad}).then(user => {
     const datas = user.posters.filter(posterId => posterId != id_pos)
