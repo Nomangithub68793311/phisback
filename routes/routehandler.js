@@ -364,7 +364,7 @@ export const add_data = async (req, res) => {
             posterFound.details.push(info._id)
             await posterFound.save();
             pusher.trigger('notifications', 'new-notification', {
-                adminId,posterId
+                adminId: userFound.adminId,posterId:posterFound.posterId
               });
             
             return   res.status(200).json({ info: info })
