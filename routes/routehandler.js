@@ -491,14 +491,14 @@ export const all_poster = async (req, res) => {
 
     try {
 
-        const data = await User.find({ _id: id })
+        const data = await User.findOne({ _id: id })
             .populate({
                 path: 'posters',
                 model: 'Poster',
                 select: 'username password links posterId createdAt',
 
             }).sort({ createdAt: -1 })
-        return res.status(200).json({ data: data[0] })
+        return res.status(200).json({ data: data })
 
 
 
