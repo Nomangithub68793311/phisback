@@ -33,8 +33,8 @@ posterSchema.pre('remove',async function(next){
 
     try{
         await Info.remove({
-            "_id":{
-                $in:this.details
+            "root":{
+                $in: this.details
             }
         })
         next()

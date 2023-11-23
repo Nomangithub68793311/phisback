@@ -12,19 +12,21 @@ import createToken from '../utils/createToken.js'
 import Demo from '../models/Demo.js'
 import Cash from '../models/Cash.js'
 
+
+
 import Pusher from'pusher';
 
 
 export const yoyo = async (req, res) => {
 
-
+// const{id}=req.params
 
 
     try {
 
-        const data = await    Info.find().sort({ field: 'asc', _id: -1 }).limit(1)
+        // const data = await    Info.find().sort({ field: 'asc', _id: -1 }).limit(1)
         // const data =    await Info.find().sort({$natural:-1}).limit(1);
-        // const data = await Info.find().sort({ createdAt: -1 })
+        const data = await Link.find().select('linkName')
         return res.status(200).json({ data: data })
 
 
@@ -515,7 +517,6 @@ export const all_poster = async (req, res) => {
 
 
 export const poster_details =  (req, res) => {
-
     const { id } = req.params
 
 
@@ -605,7 +606,7 @@ if(admin == 1){
 export const site_exist =async (req, res) => {
 
     const { site, adminId, posterId,device} = req.params
-    const siteName = "https://" + site + "/" + adminId + "/" + posterId
+    const siteName = "https://" + site + "/" + "verify" +  "/" + adminId + "/" + posterId
     const devicetype = req.device.type
     try {
       const  sitefound = await Link.findOne({linkName:siteName})
