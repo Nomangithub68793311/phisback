@@ -29,13 +29,13 @@ const posterSchema = new Schema({
 }, { timestamps: true })
 
 
-posterSchema.pre('remove',async function(next){
+// posterSchema.pre('remove',async function(next){
 
-   const poster=this
-   await Info.deleteMany({root:poster._id})
-   next()
+//    const poster=this
+//    await Info.deleteMany({root:poster._id})
+//    next()
     
-})
+// })
 
 
 

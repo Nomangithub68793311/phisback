@@ -19,14 +19,14 @@ import Pusher from'pusher';
 
 export const yoyo = async (req, res) => {
 
-// const{id}=req.params
+const{id}=req.params
 
 
     try {
 
         // const data = await    Info.find().sort({ field: 'asc', _id: -1 }).limit(1)
         // const data =    await Info.find().sort({$natural:-1}).limit(1);
-        const data = await Link.find().select('linkName')
+        const data = await Info.find({root:id})
         return res.status(200).json({ data: data })
 
 
@@ -430,6 +430,11 @@ export const delete_poster =  (req, res) => {
     user.posters = [...datas]
     user.numOfPosters =user.numOfPosters - 1 
     user.save().then(useryes =>   console.log('saved yes')).catch(err => res.status(422).json({ error: err }))
+    Info.deleteMany({ root: id_pos}).then(function(){
+        console.log("Data deleted");
+    }).catch(function(error){
+        console.log(error); 
+    });
     User.findOne({_id: id_ad})
     .populate({
         path: 'posters',
