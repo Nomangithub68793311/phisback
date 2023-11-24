@@ -309,14 +309,7 @@ export const poster_add = async (req, res) => {
             return res.status(400).json({ error: "User add limit reached" })
 
         }
-        links.map(async (item) => {
-            await Link.create({
-                linkName: item,
-                root:posterIdExists._id
-
-            })
-
-        })
+       
 
         const poster = await Poster.create({
             username, password, links, posterId,
@@ -328,6 +321,15 @@ export const poster_add = async (req, res) => {
         user.posters.push(poster._id)
         user.numOfPosters = user.numOfPosters + 1
         await user.save();
+
+        links.map(async (item) => {
+            await Link.create({
+                linkName: item,
+                root:poster._id
+
+            })
+
+        })
         return res.status(200).json({ status: "saved" })
 
     } catch (e) {
