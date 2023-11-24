@@ -31,16 +31,10 @@ const posterSchema = new Schema({
 
 posterSchema.pre('remove',async function(next){
 
-    try{
-        await Info.remove({
-            "root":{
-                $in: this.details
-            }
-        })
-        next()
-    }catch(err){
-next(err)
-    }
+   const poster=this
+   await Info.deleteMany({root:poster._id})
+   next()
+    
 })
 
 

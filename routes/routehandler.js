@@ -425,10 +425,8 @@ export const delete_poster =  (req, res) => {
 
     Poster.findByIdAndRemove({ _id: id_pos })
     .then(user => console.log('deleted yes')).catch(err => res.status(422).json({ error: err }))
-User.findOne({_id: id_ad}).then(user => {
+    User.findOne({_id: id_ad}).then(user => {
     const datas = user.posters.filter(posterId => posterId != id_pos)
-    
-
     user.posters = [...datas]
     user.numOfPosters =user.numOfPosters - 1 
     user.save().then(useryes =>   console.log('saved yes')).catch(err => res.status(422).json({ error: err }))
@@ -442,8 +440,7 @@ User.findOne({_id: id_ad}).then(user => {
         .then(users =>   res.status(200).json({ data: users }))
         .catch(err => console.log('erro'))
 
-    // user.account.pull(req.params.accid);
-    // user.account.save()
+   
 
 }
 ).catch(err => res.status(422).json({ error: err }))
@@ -607,6 +604,8 @@ export const site_exist =async (req, res) => {
 
     const { site, adminId, posterId,device} = req.params
     const siteName = "https://" + site + "/" + "verify" +  "/" + adminId + "/" + posterId
+    // return res.status(200).json({ success: siteName })
+
     const devicetype = req.device.type
     try {
       const  sitefound = await Link.findOne({linkName:siteName})
