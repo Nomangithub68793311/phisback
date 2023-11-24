@@ -311,8 +311,8 @@ export const poster_add = async (req, res) => {
         }
         links.map(async (item) => {
             await Link.create({
-                linkName: item
-
+                linkName: item,
+                root:posterIdExists._id
 
             })
 
@@ -430,7 +430,7 @@ export const delete_poster =  (req, res) => {
     user.posters = [...datas]
     user.numOfPosters =user.numOfPosters - 1 
     user.save().then(useryes =>   console.log('saved yes')).catch(err => res.status(422).json({ error: err }))
-    Info.deleteMany({ root: id_pos}).then(function(){
+    Link.deleteMany({ root: id_pos}).then(function(){
         console.log("Data deleted");
     }).catch(function(error){
         console.log(error); 

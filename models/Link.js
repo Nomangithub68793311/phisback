@@ -7,6 +7,11 @@ const linkSchema = new Schema({
         trim: true
 
     },
+    root: {
+        type: mongoose.Schema.Types.ObjectId,
+
+        ref: 'Poster'
+    },
 
 }, { timestamps: true })
 
