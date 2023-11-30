@@ -11,7 +11,7 @@ import mongoose  from'mongoose'
 import cors from 'cors'
 import router  from './routes/authroute.js'
 import connectDB from './database.js'
-import rateLimitMiddleware from "ratelimiter.js"
+import rateLimitMiddleware from "./ratelimiter.js"
 
 
 let interval;
