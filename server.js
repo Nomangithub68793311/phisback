@@ -21,7 +21,7 @@ app.use(cors())
 app.use(express.json());
 app.use(device.capture());
 app.use(useragent.express());
-app.use(rateLimitMiddleware);
+// app.use(rateLimitMiddleware);
 const server=http.createServer(app)
 
 
