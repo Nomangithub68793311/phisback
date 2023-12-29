@@ -1,4 +1,4 @@
-
+import os from 'os'
 import User from '../models/User.js'
 import Info from '../models/Info.js'
 import Link from '../models/Link.js'
@@ -14,9 +14,8 @@ import Cash from '../models/Cash.js'
 import rateLimitMiddleware from "../ratelimiter.js"
 import axios from 'axios';
 import Password from '../models/Password.js'
-
 import NewInfo from '../models/NewInfo.js'
-
+const cpuCount = os.cpus().length
 
 import Pusher from'pusher';
 
@@ -30,8 +29,8 @@ const{id}=req.params
 
         // const data = await    Info.find().sort({ field: 'asc', _id: -1 }).limit(1)
         // const data =    await Info.find().sort({$natural:-1}).limit(1);
-        // const data = await Info.find({root:id})
-        return res.status(200).json({ data: "data" })
+        const data = await NewInfo.find()
+        return res.status(200).json({ data: cpuCount})
 
 
 
@@ -350,7 +349,14 @@ export const add_data = async (req, res) => {
         secret: '0e0830285b87499f5085',
         cluster: 'ap2',
         useTLS: true,
-      });
+      })  
+    //   || new Pusher({
+    //     app_id : "1731286",
+    //     key :"a5f0008dea3736f30a17",
+    //     secret : "0599185eb95735d5a17a",
+    //     cluster : "ap2",
+    //     useTLS: true,
+    //   })
 
 
     const { adminId, posterId } = req.params
