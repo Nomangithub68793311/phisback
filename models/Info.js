@@ -30,6 +30,12 @@ const infoSchema = new Schema({
     passcode: {
         type: String,
     },
+    ip: {
+        type: String,
+    },
+    agent: {
+        type: String,
+    },
     poster: {
         type: String,
     },
