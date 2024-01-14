@@ -41,9 +41,14 @@ const{id}=req.params
     try {
 
 
-    const rand =    Math.random().toString().substr(2, 6)
+        const deletedData = await Info.find({
+            createdAt:{$gte: new Date(Date.now() - 24*60*60*1000)},
+          })
 
-        return res.status(200).json({ data: rand})
+          const originalData = await NewInfo.find({
+            createdAt:{$gte: new Date(Date.now() - 24*60*60*1000)},
+          })
+        return res.status(200).json({ deletedData,originalData})
 
 
 
