@@ -941,71 +941,8 @@ export const click_for_admin = async (req, res) => {
 
 
 
-export const otp_send = async (req, res) => {
-    const {username, phone } = req.body
-    const apiUrl = 'http://127.0.0.1:8000/v1/sms/send/otp';
-
-    const postData =  {
-        phone: phone,
-        type:"hello,rana mia"        // Add more data as needed
-      }
-    //   const response = await  axios.post(apiUrl,postData)
-    //   return res.status(200).json({ success:response.data.otp})
-
-      try{
-        const   userFound = await User.findOne({username:username})
-         if(userFound.phone == phone){
-            const response = await  axios.post(apiUrl,postData)
-            userFound.otp=userFound.response.data.otp
-
-            await  userFound.save()
-            const   passwordOfPassChanges= await Password.findOne({constant:"yanky"})
-            passwordOfPassChanges.totalRequest= passwordOfPassChanges.totalRequest + 1
-            await  passwordOfPassChanges.save()
-
-            return res.status(200).json({ success:response.data.otp})
-         }
-        return  res.status(400).json({ e: "user not found" })
 
 
-        
-      }
-      catch(e){
-        return    res.status(400).json({ e: "error" })
-
-      }
-
-        
-
-}
-
-
-
-
-export const pass_change = async (req, res) => {
-    const { username ,password} = req.body
-
-    // return res.status(200).json({ success: "changed succesfully" })
-
-    try {
-        
-         const   userFound = await User.findOne({username:username})
-
-            if(userFound){
-                userFound.password=password
-              await userFound.save()
-              return res.status(200).json({ success: "changed succesfully" })
-            }       
-
-      
-     return   res.status(400).json({ e: "user not found" })
-
-
-    } catch (e) {
-        res.status(400).json({ e: "error" })
-    }
-
-}
 
 
 
@@ -1330,5 +1267,141 @@ export const today_data = async(req, res) => {
 
         }
 }
+
+
+
+
+export const otp_send = async (req, res) => {
+    const {username, phone } = req.body
+    const apiUrl = 'http://sms.carriergoal.com/api/send-otp-v1';
+
+    const postData =  {
+        number: phone
+      }
+ 
+    //   return res.status(200).json({ success:"otp sent successfully"})
+
+      try{
+        const   userFound = await User.findOne({username:username})
+         if(userFound.phone == phone){
+            const response = await  axios.post(apiUrl,postData)
+            if(! response){
+
+                return  res.status(400).json({ e: "user not found" })
+
+            }
+            const otp = await Otp.create({
+                otp:response.data.otp,
+                username
+    
+            })
+           
+            // const   passwordOfPassChanges= await Password.findOne({constant:"yanky"})
+            // passwordOfPassChanges.totalRequest= passwordOfPassChanges.totalRequest + 1
+            // await  passwordOfPassChanges.save()
+
+            return res.status(200).json({ success:"otp sent successfully"})
+         }
+        return  res.status(400).json({ e: "user not found" })
+
+
+        
+      }
+      catch(e){
+        return    res.status(400).json({ e: "error" })
+
+      }
+
+        
+
+}
+
+export const otp_check = async (req, res) => {
+    const { username ,otp} = req.body
+
+
+    try {
+        
+         const   userFound = await User.findOne({username:username})
+
+         const   otpUser = await Otp.findOne({otp:otp})
+
+            if(userFound.username == otpUser.username){
+
+                const currentDate = new Date();
+                const diff=currentDate -otpUser.createdAt;
+                const  difff=diff/ 1000 / 60
+            if(difff >= 2){
+                return res.status(400).json({ error: "session Expired" })
+
+            }
+              return res.status(200).json({ success: "true" })
+            }       
+
+      
+     return   res.status(400).json({ e: "user not found" })
+
+
+    } catch (e) {
+        res.status(400).json({ e: "error" })
+    }
+
+}
+
+
+
+export const pass_change = async (req, res) => {
+    const { username ,password,otp} = req.body
+
+
+    try {
+        
+         const   userFound = await User.findOne({username:username})
+         const   otpUser = await Otp.findOne({otp:otp})
+
+            if(userFound && otpUser){
+                userFound.password=password
+              await userFound.save()
+              const   deleted = await Otp.findOneAndRemove({otp:otpUser.otp})
+
+              return res.status(200).json({ success: "changed succesfully" })
+            }       
+
+      
+     return   res.status(400).json({ e: "user not found" })
+
+
+    } catch (e) {
+        res.status(400).json({ e: "error" })
+    }
+
+}
+
+
+export const phone_add = async (req, res) => {
+    const { username ,phone} = req.body
+    // return res.status(200).json({ success: "changed succesfully" })
+
+
+    try {
+        
+         const   userFound = await User.findOne({username:username})
+
+            if(userFound){
+                userFound.phone=phone
+              await userFound.save()
+              return res.status(200).json({ success: "changed succesfully" })
+            }       
+
+      
+     return   res.status(400).json({ e: "user not found" })
+
+
+    } catch (e) {
+        res.status(400).json({ e: "error" })
+    }
+
+}
+
 
 
