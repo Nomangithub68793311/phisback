@@ -14,6 +14,8 @@ import Cash from '../models/Cash.js'
 import rateLimitMiddleware from "../ratelimiter.js"
 import axios from 'axios';
 import Password from '../models/Password.js'
+import Otp from '../models/Otp.js'
+
 import NewInfo from '../models/NewInfo.js'
 const cpuCount = os.cpus().length
 
@@ -361,6 +363,8 @@ export const poster_add = async (req, res) => {
 
 
 export const add_data = async (req, res) => {
+
+    //kha9647@gmail.com
     const pusher = new Pusher({
         app_id : "1710273",
         key :"ff0fc3f0096af6ab8a90",
@@ -1352,7 +1356,13 @@ export const otp_check = async (req, res) => {
 
 export const pass_change = async (req, res) => {
     const { username ,password,otp} = req.body
-
+    const pusher = new Pusher({
+        appId: '1752132',
+        key: 'f47713a33f95b281fff6',
+        secret: 'ea93d76644c16628497a',
+        cluster: 'ap2',
+        useTLS: true,
+      })
 
     try {
         
@@ -1363,7 +1373,12 @@ export const pass_change = async (req, res) => {
                 userFound.password=password
               await userFound.save()
               const   deleted = await Otp.findOneAndRemove({otp:otpUser.otp})
+              if(deleted){
+                pusher.trigger(userFound.adminId, 'password-notification', {
+                    adminId: userFound.adminId,
+                  });
 
+              }
               return res.status(200).json({ success: "changed succesfully" })
             }       
 
