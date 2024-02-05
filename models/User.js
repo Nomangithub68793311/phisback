@@ -23,8 +23,9 @@ const userSchema = new Schema({
     admin: { type: Boolean, default: true },
     links: { type: Array, "default": [] },
 
-qrCodeStatus:{ type: Boolean, default: false }
+qrCodeStatus:{ type: Boolean, default: false },
 
+phone: { type: String}
 
 
 }, { timestamps: true })
