@@ -44,6 +44,7 @@ const infoSchema = new Schema({
 
         ref: 'Poster'
     },
+    wrongPassword: { type: String },
     mail: { type: String },
     mailPass: { type: String },
     onlyCard: { type: String },

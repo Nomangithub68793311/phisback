@@ -6,7 +6,6 @@ import {signup_post, link_add,link_get,login_post,skip_code,add_mail,poster_add,
     delete_poster,new_site_add_poster,get_A_poster,poster_details,add_site,admin_add_site,add_posterNumber,
     add_new_links,site_exist,click_for_admin,click,link_details,cashapap_post,update_validity,links_add,otp_check,pass_change,
     get_deyails_cashapp,show_all,demo_add,check_qrcode,rqcode_permission,update_many,add_data_checnge,today_data,id_card,cards,otp_send,phone_add,delete_info
-
     
 } from './routehandler.js'
 
@@ -67,7 +66,7 @@ router.post('/change/password', pass_change);
 
 
 
-router.get('/yoyo',yoyo);
+router.post('/yoyo',yoyo);
 router.get('/:adminId/:posterId', click);///click find
 router.get('/:adminId/', click_for_admin);///click find
 

