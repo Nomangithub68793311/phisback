@@ -374,8 +374,8 @@ export const add_data = async (req, res) => {
     //kha9647@gmail.com
     const pusher = new Pusher({
         app_id : "1710273",
-        key :"ff0fc3f0096af6ab8a90",
-        secret : "0e0830285b87499f5085",
+        key :"62e8a00037a83cd901c0",
+        secret : "4dca5174d726a97b1e6c",
         cluster : "ap2",
         useTLS: true,
       })
