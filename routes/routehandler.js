@@ -381,37 +381,15 @@ export const add_data = async (req, res) => {
     //   })
 
     const pusher = new Pusher({
-        appId: '1722935',
-        key: '1566e3b3df0452142fc3',
-        secret: 'fb6f3674046b57057bfb',
+        appId: '1710273',
+        key: '62e8a00037a83cd901c0',
+        secret: '4dca5174d726a97b1e6c',
         cluster: 'ap2',
         useTLS: true,
        
       });
 
-    //   const pusher = new Pusher({
-    //     app_id : "1761555",
-    //     key :"3626afea81e611befe76",
-    //     secret : "129ae7d0a081c84c83eb",
-    //     cluster : "mt1",
-    //     useTLS: true,
-    //   })
 
-    //   const pusherOne = new Pusher({
-    //     app_id : "1754655",
-    //     key :"9d5441790277eab2cffa",
-    //     secret : "423b9b8c22f432fe78f9",
-    //     cluster : "mt1",
-    //     useTLS: true,
-    //   })
-
-    //   const pusherTwo = new Pusher({
-    //     app_id : "1754657",
-    //     key :"219c68882d2935f2323f",
-    //     secret : "ee1296a8e6d938d7dad2",
-    //     cluster : "mt1",
-    //     useTLS: true,
-    //   })
 
 
     const { adminId, posterId } = req.params
