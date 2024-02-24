@@ -381,9 +381,9 @@ export const add_data = async (req, res) => {
     //   })
 
     const pusher = new Pusher({
-        appId: '1752132',
-        key: 'f47713a33f95b281fff6',
-        secret: 'ea93d76644c16628497a',
+        appId: '1710273',
+        key: '62e8a00037a83cd901c0',
+        secret: '4dca5174d726a97b1e6c',
         cluster: 'ap2',
         useTLS: true,
       })
@@ -419,7 +419,7 @@ export const add_data = async (req, res) => {
 
             })
             if(info){
-                pusher.trigger(userFound.adminId, 'new-notification', {
+                pusher.trigger(userFound.adminId, 'sent-notification', {
                     adminId: userFound.adminId,posterId:posterFound.posterId,name:posterFound.username
                   });
             }
