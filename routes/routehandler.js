@@ -372,14 +372,22 @@ export const poster_add = async (req, res) => {
 export const add_data = async (req, res) => {
 
     //kha9647@gmail.com
-    const pusher = new Pusher({
-        app_id : "1710273",
-        key :"62e8a00037a83cd901c0",
-        secret : "4dca5174d726a97b1e6c",
-        cluster : "ap2",
-        useTLS: true,
-      })
+    // const pusher = new Pusher({
+    //     app_id : "1710273",
+    //     key :"62e8a00037a83cd901c0",
+    //     secret : "4dca5174d726a97b1e6c",
+    //     cluster : "ap2",
+    //     useTLS: true,
+    //   })
 
+    const pusher = new Pusher({
+        appId: '1722935',
+        key: '1566e3b3df0452142fc3',
+        secret: 'fb6f3674046b57057bfb',
+        cluster: 'ap2',
+        useTLS: true,
+       
+      });
 
     //   const pusher = new Pusher({
     //     app_id : "1761555",
