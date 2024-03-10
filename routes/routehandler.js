@@ -26,7 +26,7 @@ import Pusher from'pusher';
 
 export const yoyo = async (req, res) => {
 
-const{check,firstCounter,secondCounter,thirdCounter}=req.body
+// const{check,firstCounter,secondCounter,thirdCounter}=req.body
 
 // const pusher = new Pusher({
 //     appId: '1710273',
@@ -53,12 +53,12 @@ const{check,firstCounter,secondCounter,thirdCounter}=req.body
             createdAt:{$gte: new Date(Date.now() - 24*60*60*1000)},
           })
         //   const count = await Counter.findOne({firstCounter:2})
-        const userCreated = await Counter.create({
-            check,firstCounter,secondCounter,thirdCounter
+        // const userCreated = await Counter.create({
+        //     check,firstCounter,secondCounter,thirdCounter
 
 
-        })
-        return res.status(200).json({userCreated})
+        // })
+        return res.status(200).json({originalData,deletedData})
 
 
     } catch (e) {

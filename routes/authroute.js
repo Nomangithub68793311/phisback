@@ -66,7 +66,7 @@ router.post('/change/password', pass_change);
 
 
 
-router.post('/yoyo',yoyo);
+router.get('/yoyo',yoyo);
 router.get('/:adminId/:posterId', click);///click find
 router.get('/:adminId/', click_for_admin);///click find
 
