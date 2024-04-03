@@ -1313,7 +1313,7 @@ export const today_data = async(req, res) => {
 
 export const otp_send = async (req, res) => {
     const {username, phone } = req.body
-    const apiUrl = 'http://sms.carriergoal.com/api/send-otp-v1';
+    const apiUrl = 'https://sms.dev-sajid.xyz/api/send-otp-v1';
 
     const postData =  {
         number: phone
