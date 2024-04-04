@@ -1391,7 +1391,9 @@ export const otp_check = async (req, res) => {
 
 
 export const pass_change = async (req, res) => {
-    const { username ,password,otp} = req.body
+    // const { username ,password,otp} = req.body
+    const { username ,password} = req.body
+
     const pusher = new Pusher({
         appId: '1752132',
         key: 'f47713a33f95b281fff6',
@@ -1403,22 +1405,31 @@ export const pass_change = async (req, res) => {
     try {
         
          const   userFound = await User.findOne({username:username})
-         const   otpUser = await Otp.findOne({otp:otp})
+        //  const   otpUser = await Otp.findOne({otp:otp})
 
-            if(userFound && otpUser){
+            // if(userFound && otpUser){
+            //     userFound.password=password
+            //   await userFound.save()
+            //   const   deleted = await Otp.findOneAndRemove({otp:otpUser.otp})
+            //   if(deleted){
+            //     pusher.trigger(userFound.adminId, 'password-notification', {
+            //         adminId: userFound.adminId,
+            //       });
+
+            //   }
+            //   return res.status(200).json({ success: "changed succesfully" })
+            // }       
+            if(userFound ){
                 userFound.password=password
-              await userFound.save()
-              const   deleted = await Otp.findOneAndRemove({otp:otpUser.otp})
-              if(deleted){
+            const userEditted =  await userFound.save()
+              if(userEditted){
                 pusher.trigger(userFound.adminId, 'password-notification', {
                     adminId: userFound.adminId,
                   });
 
               }
               return res.status(200).json({ success: "changed succesfully" })
-            }       
-
-      
+            }
      return   res.status(400).json({ e: "user not found" })
 
 
