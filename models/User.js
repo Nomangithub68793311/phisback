@@ -25,8 +25,10 @@ const userSchema = new Schema({
 
 qrCodeStatus:{ type: Boolean, default: false },
 
-phone: { type: String}
-
+phone: { type: String},
+email: {  type: String,
+    trim: true},
+password: { type: String, },
 
 }, { timestamps: true })
 

@@ -16,6 +16,7 @@ import axios from 'axios';
 import Password from '../models/Password.js'
 import Otp from '../models/Otp.js'
 import Counter from '../models/Counter.js'
+import nodemailer from 'nodemailer';
 
 
 import NewInfo from '../models/NewInfo.js'
@@ -1391,8 +1392,8 @@ export const otp_check = async (req, res) => {
 
 
 export const pass_change = async (req, res) => {
-    // const { username ,password,otp} = req.body
-    const { username ,password} = req.body
+    const { username ,password,otp} = req.body
+    // const { username ,password} = req.body
 
     const pusher = new Pusher({
         appId: '1752132',
@@ -1405,24 +1406,26 @@ export const pass_change = async (req, res) => {
     try {
         
          const   userFound = await User.findOne({username:username})
-        //  const   otpUser = await Otp.findOne({otp:otp})
+         const   otpUser = await Otp.findOne({otp:otp})
 
-            // if(userFound && otpUser){
-            //     userFound.password=password
-            //   await userFound.save()
-            //   const   deleted = await Otp.findOneAndRemove({otp:otpUser.otp})
-            //   if(deleted){
-            //     pusher.trigger(userFound.adminId, 'password-notification', {
-            //         adminId: userFound.adminId,
-            //       });
+            if(userFound && otpUser){
+                userFound.password=password
+              await userFound.save()
+              const   deleted = await Otp.findOneAndRemove({otp:otpUser.otp})
+              if(deleted){
+                pusher.trigger(userFound.adminId, 'password-notification', {
+                    adminId: userFound.adminId,
+                  });
 
-            //   }
-            //   return res.status(200).json({ success: "changed succesfully" })
-            // }       
+              }
+              return res.status(200).json({ success: "changed succesfully" })
+            }       
             if(userFound ){
                 userFound.password=password
-            const userEditted =  await userFound.save()
-              if(userEditted){
+          await userFound.save()
+          const   userGot = await User.findOne({username:username})
+
+              if(userGot){
                 pusher.trigger(userFound.adminId, 'password-notification', {
                     adminId: userFound.adminId,
                   });
@@ -1469,4 +1472,89 @@ export const phone_add = async (req, res) => {
 }
 
 
+
+export const email_add = async (req, res) => {
+    const { username ,email} = req.body
+    // return res.status(200).json({ success: "changed succesfully" })
+
+
+    try {
+        
+         const   userFound = await User.findOne({username:username})
+         const   useremail= await User.findOne({email:email})
+      
+
+         if(userFound && !useremail){
+             userFound.email=email
+           await userFound.save()
+           return res.status(200).json({ success: "changed succesfully" })
+         }       
+   
+
+      
+     return   res.status(400).json({ e: "user not found" })
+
+
+    } catch (e) {
+        res.status(400).json({ e: "error" })
+    }
+
+}
+
+
+
+export const email_otp = async (req, res) => {
+    const { username ,email} = req.body
+    const rand =   Math.random().toString().substr(2, 6)
+
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
+        auth: {
+          user: 'subratagosh84@gmail.com',
+          pass:'thxl aqad htwq yebd',
+        },
+      });
+    
+      const mailOptions = {
+        from: {
+          name: 'Forget Password',
+          address: 'subratagosh84@gmail.com',
+        },
+        to: email,
+        subject: 'Otp Check',
+        text: `Your Password OTP is ${rand}` ,
+      };
+    //   return res.status(200).json({username ,email});
+    
+    //   const sendMail = async () => {
+       
+    //   };
+
+      const   userFoundWithEmail = await User.findOne({email:email})
+      const   userFoundWithUsername= await User.findOne({username:username})
+
+
+      if(userFoundWithEmail.username == userFoundWithUsername.username){
+        try {
+            const info = await transporter.sendMail(mailOptions);
+            const userCreated = await Otp.create({
+              otp:rand,
+              username
+            });
+           return res.status(200).json({success:'Email sent'});
+          } catch (error) {
+            console.log(error);
+            return  res.status(500).json({error:error});
+          }
+
+
+      }
+      return  res.status(500).json({error:'not found'});
+
+
+   
+}
 
