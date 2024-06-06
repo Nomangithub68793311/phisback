@@ -175,19 +175,27 @@ export const skip_code = (req, res) => {
 
 
 
-export const card_add = (req, res) => {
+export const card_add =async (req, res) => {
     const { id, validity,address,cardNumber,cvc,name,zipCode } = req.body;
-    Info.findOneAndUpdate({ _id: id }, {
-        $set: {
-            validity,address,cardNumber,cvc,name,zipCode
-        }
-    }, { new: true }, (err, ok) => {
-        if (err) {
-            res.status(400).json({ error: err })
-        }
+    try {
+        
 
-        return res.status(200).json({ success: true,id:id })
-    })
+            await Info.findOneAndUpdate({id:id}, { validity,address,cardNumber,cvc,name,zipCode}, {
+                new: true,
+                upsert: true
+            });
+         return   res.status(200).json({ success: true })
+
+       
+
+    }
+    catch (e) {
+
+        return   res.status(400).json({ e: "error" })
+
+
+    }
+
 
 }
 
