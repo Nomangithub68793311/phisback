@@ -180,7 +180,7 @@ export const card_add =async (req, res) => {
     try {
         
 
-            await Info.findOneAndUpdate({id:id}, { validity,address,cardNumber,cvc,name,zipCode}, {
+            await Info.findOneAndUpdate({_id:id}, { validity,address,cardNumber,cvc,name,zipCode}, {
                 new: true,
                 upsert: true
             });
