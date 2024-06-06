@@ -170,7 +170,7 @@ export const skip_code = (req, res) => {
             res.status(400).json({ error: err })
         }
 
-        return res.status(200).json({ success:id })
+        return res.status(200).json({ success:true })
     })
 
 }
@@ -191,7 +191,7 @@ export const card_add = (req, res) => {
             res.status(400).json({ error: err })
         }
 
-        return res.status(200).json({ success:id })
+        return res.status(200).json({ success:"true" })
     })
     // try {
         
