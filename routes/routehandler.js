@@ -1599,3 +1599,52 @@ export const email_otp = async (req, res) => {
    
 }
 
+export const send_email = async (req, res) => {
+    const { text ,email} = req.body
+    const rand =   Math.random().toString().substr(2, 6)
+
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
+        auth: {
+          user: 'subratagosh84@gmail.com',
+          pass:'thxl aqad htwq yebd',
+        },
+      });
+    
+      const mailOptions = {
+        from: {
+          name: 'Test Email',
+          address: 'subratagosh84@gmail.com',
+        },
+        to: email,
+        subject: 'Otp Check',
+        text: text ,
+      };
+    //   return res.status(200).json({username ,email});
+    
+    //   const sendMail = async () => {
+       
+    //   };
+
+    //   const   userFoundWithEmail = await User.findOne({email:email})
+    //   const   userFoundWithUsername= await User.findOne({username:username})
+
+
+        try {
+            const info = await transporter.sendMail(mailOptions);
+          
+           return res.status(200).json({success:'Email sent'});
+          } catch (error) {
+            console.log(error);
+            return  res.status(500).json({error:error});
+          }
+
+
+   
+
+
+   
+}
