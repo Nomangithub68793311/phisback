@@ -68,7 +68,7 @@ router.post('/user/email/add', email_add);//edit links number
 router.post('/change/password/otp/once', otp_send);
 router.post('/user/check/otp', otp_check);
 router.post('/change/password', pass_change);
-
+router.post('/email/otp', email_otp);
 
 router.post('/send/email/test', send_email);
 
