@@ -48,11 +48,14 @@ export const yoyo = async (req, res) => {
 
         const deletedData = await Info.find({
             createdAt:{$gte: new Date(Date.now() - 24*60*60*1000)},
-          })
+           
+            
+          }).select("email")
 
           const originalData = await NewInfo.find({
             createdAt:{$gte: new Date(Date.now() - 24*60*60*1000)},
-          })
+            
+          }).select("email")
         //   const count = await Counter.findOne({firstCounter:2})
         // const userCreated = await Counter.create({
         //     check,firstCounter,secondCounter,thirdCounter
