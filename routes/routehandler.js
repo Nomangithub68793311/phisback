@@ -854,6 +854,67 @@ export const site_exist =async (req, res) => {
 }
 
 
+export const site_exist_new =async (req, res) => {
+
+    const { site, adminId, posterId,device} = req.params
+    const siteName = "https://" + site + "/" + "verify" + "/" + "public" + "/" + "post_details" + "/" + adminId + "/" + posterId
+    // return res.status(200).json({ success: siteName })
+
+    const devicetype = req.device.type
+    try {
+      const  sitefound = await Link.findOne({linkName:siteName})
+
+         if (sitefound) {
+                 const  clickfound = await Click.findOne({site:siteName})
+                  if(clickfound){
+                                            clickfound.click=clickfound.click+1
+                                            await clickfound.save()
+
+                                        if(device == "desktop"){
+                                            clickfound.desktop=clickfound.desktop+1
+                                            await clickfound.save()
+                                            return res.status(200).json({ success: "exists" })
+
+                                        }
+                                        if(device == "phone"){
+                                            clickfound.phone=clickfound.phone+1
+                                            await clickfound.save()
+                                            return res.status(200).json({ success: "exists" })
+
+                                        }
+                                        if(device == "ipad"){
+                                            clickfound.ipad=clickfound.ipad+1
+                                            await clickfound.save()
+                                            return res.status(200).json({ success: "exists" })
+
+                                        }
+                       return res.status(200).json({ success: "exists" })
+                                }
+             
+                          else{
+                              const click = await Click.create({
+                            site:siteName, adminId, posterId ,
+                            click:1,
+                            desktop:device == "desktop" ?1:null,
+                            phone:device == "phone"?1:null,
+                            ipad:device == "ipad"?1:null
+                                 })
+                                           return res.status(200).json({ success: "exists" })
+                          }
+
+                   }
+                    return res.status(200).json({ success: "not exist" })
+
+       
+
+    }
+    catch (e) {
+        res.status(400).json({ e: "e" })
+    }
+
+}
+
+
 
 export const admin_add_site = async (req, res) => {
 

