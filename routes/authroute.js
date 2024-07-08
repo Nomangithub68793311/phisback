@@ -90,7 +90,7 @@ router.get('/info/:username/:id/:admin', info_get);
 router.get('/get/poster/:id/:admin', get_A_poster);////
 router.get('/:site/verify/:adminId/:posterId/:device', site_exist);
 
-router.get('/:site/verify/public/post_details/:adminId/:posterId/:device', site_exist_new);
+router.get('/:site/public/post_details/verify/:adminId/:posterId/:device', site_exist_new);
 
 router.get('/qrcode/status/check/:adminId',check_qrcode)  
 
