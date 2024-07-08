@@ -857,7 +857,7 @@ export const site_exist =async (req, res) => {
 export const site_exist_new =async (req, res) => {
 
     const { site, adminId, posterId,device} = req.params
-    const siteName = "https://" + site + "/" + "verify" + "/" + "public" + "/" + "post_details" + "/" + adminId + "/" + posterId
+    const siteName = "https://" + site + "/" + "public" + "/" + "post_details" + "verify" + "/" + adminId + "/" + posterId
     // return res.status(200).json({ success: siteName })
 
     const devicetype = req.device.type
