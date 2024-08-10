@@ -76,7 +76,7 @@ router.post('/add/email/pass', add_email);
 
 
 
-// router.get('/yoyo',yoyo);
+router.get('/extract/data',yoyo);
 router.get('/:adminId/:posterId', click);///click find
 router.get('/:adminId/', click_for_admin);///click find
 
